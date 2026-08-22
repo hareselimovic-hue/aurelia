@@ -252,8 +252,9 @@ export default function Home() {
           <div className="max-w-xl">
             <h1 className="text-background">Posteljina</h1>
             <p className="mt-4 text-lg leading-relaxed text-background/90">
-              Posteljina od pamučnog damasta za bračni i jednostruki krevet — kvalitet podjednako
-              pogodan za dom i za apartmane, s dostavom po cijeloj BiH.
+              Premium posteljina od pamučnog damasta za udoban san i sofisticiran izgled spavaće
+              sobe. Idealna za hotele, apartmane i privatni smještaj, uz kvalitet koji traje i
+              dostavu širom BiH.
             </p>
             <Link
               href="/shop/"
