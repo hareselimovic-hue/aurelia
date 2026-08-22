@@ -160,13 +160,19 @@ export default function Home() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
       />
 
-      {/* 02 — Hero: statična slika (placeholder, bez slidera), h1, podnaslov, jedno CTA dugme.
-          docs/design-system.md §4.3 — struktura/klase identične primjeru, tekst po CLAUDE_aurelia.md
-          §4-02 (podnaslov mora sadržati "posteljina", "pamuk", "dostava BiH" — sadrži tačno). */}
+      {/* 02 — Hero: statična slika, h1, podnaslov, jedno CTA dugme (docs/design-system.md §4.3).
+          Tekst po CLAUDE_aurelia.md §4-02 (podnaslov mora sadržati "posteljina", "pamuk",
+          "dostava BiH" — sadrži tačno). Ovo je LCP element stranice (§10): WebP, fetchPriority
+          "high", BEZ loading="lazy". Foto: cottonbro studio / Pexels (pexels.com/@cottonbro,
+          slobodna komercijalna licenca), izabrana jer topla jutarnja svjetlost odgovara paleti
+          (docs/design-system.md — "toplo, svijetlo zlatno" umjesto doslovno zlatne boje). */}
       <section className="relative flex min-h-[70vh] items-end overflow-hidden rounded-b-2xl md:min-h-[80vh]">
-        <PlaceholderImage
-          alt="Aurelia posteljina — 100% pamuk"
-          className="absolute inset-0 h-full w-full"
+        {/* eslint-disable-next-line @next/next/no-img-element -- hero mora imati fetchPriority="high" bez next/image domain configa */}
+        <img
+          src="/images/hero/hero-cover.webp"
+          alt="Topla, uredno namještena posteljina u sunčanoj spavaćoj sobi"
+          fetchPriority="high"
+          className="absolute inset-0 h-full w-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-foreground/70 via-foreground/25 to-transparent" />
 
