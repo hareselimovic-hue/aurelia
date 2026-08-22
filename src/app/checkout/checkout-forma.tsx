@@ -195,9 +195,13 @@ export function CheckoutForma({
               className={cn(
                 "flex items-start gap-3 rounded-lg border border-border bg-card p-4 transition-colors",
                 opcija.dostupno ? "cursor-pointer" : "cursor-not-allowed opacity-60",
+                // border-primary + bg-secondary za odabrano stanje — NE bg-accent (design-system.md
+                // §1: accent "koristi se suzdržano, nikad kao velika površina"; secondary je token
+                // namijenjen tačno ovakvim većim alt-pozadinama). Ispravljeno po eksternom dizajn
+                // review-u 23.08.2026.
                 opcija.dostupno &&
                   podaci.nacinPlacanja === opcija.vrijednost &&
-                  "border-primary bg-accent/40"
+                  "border-primary bg-secondary"
               )}
             >
               <input

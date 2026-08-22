@@ -77,10 +77,14 @@ export function Header() {
         {/* Lijeva grupa: logo + navigacija — drže se zajedno kao jedna cjelina umjesto da nav
             "pluta" u sredini (korisnički feedback 23.08.2026: header djeluje zbijeno/nesmisleno
             grupisan). */}
-        <div className="flex min-w-0 items-center gap-8">
-          {/* Logo — <img>, ne CSS background */}
+        <div className="flex min-w-0 items-center gap-10 lg:gap-14">
+          {/* Logo — <img>, ne CSS background. PNG sa providnom pozadinom (chroma-key na originalnoj
+              cream pozadini loga) umjesto ranije WebP verzije — WebP je imao vidljiv opaque kvadrat
+              koji je "isplivao" preko sadržaja pri skrolu zbog header-ovog backdrop-blur efekta
+              (korisnički feedback 23.08.2026). Razmak logo↔nav povećan (gap-8 → gap-10/14) po istom
+              feedbacku ("meni je preblizu logu"). */}
           <Link href="/" className="flex shrink-0 items-center">
-            <img src="/logo-header.webp" alt="Aurelia posteljina" className="h-9 w-auto md:h-10" />
+            <img src="/logo-header.png" alt="Aurelia posteljina" className="h-9 w-auto md:h-10" />
           </Link>
 
           <nav aria-label="Glavna navigacija" className="hidden md:block">

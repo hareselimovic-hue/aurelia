@@ -99,12 +99,15 @@ const FAQ = [
   },
 ] as const;
 
-// 09 — Recenzije: stvarni testimonijali poslovnih kontakata korisnika (dobiveni direktno od
-// korisnika 22.08.2026, ne izmišljeni kupci) — zamjena za prazan placeholder iz
-// CLAUDE_aurelia.md §4-09. I dalje BEZ brojčanih ocjena i BEZ AggregateRating schema (§9,
-// §4-09 to izričito zabranjuju bez stvarnih ocjena) — ovo su tekstualni testimonijali, ne
-// rating sistem.
-const RECENZIJE = [
+// 09 — Iskustva partnera: STVARNI testimonijali poslovnih kontakata korisnika (potvrđeno
+// 23.08.2026 — samo ova dva su prava, treći izmišljeni "Hotel Stari Grad" primjer je uklonjen).
+// NAMJERNO odvojeno od proizvodne stranice: ovo su opšti testimonijali o brendu/pouzdanosti
+// (od poslovnih partnera koji nisu kupovali kroz sajt), a "Recenzije" na proizvodnoj stranici
+// (shop/[slug]/page.tsx) ostaju prazne dok ne postoje stvarne recenzije KUPLJENIH proizvoda —
+// spajanje ta dva pojma pod isti naziv "Recenzije" je bila kontradikcija koju je eksterni dizajn
+// review (23.08.2026) tačno uočio. I dalje BEZ brojčanih ocjena i BEZ AggregateRating schema
+// (CLAUDE_aurelia.md §9/§4-09 to izričito zabranjuju bez stvarnih ocjena).
+const ISKUSTVA_PARTNERA = [
   {
     naziv: "Sarajevo Rent & Manage",
     uloga: "Agencija za kratkoročni najam apartmana",
@@ -114,11 +117,6 @@ const RECENZIJE = [
     naziv: "Elvira H.",
     uloga: "Vlasnica 5 apartmana na Baščaršiji",
     tekst: "Naručujem posteljinu za pet apartmana odjednom i uvijek stigne kompletno, tačno onoliko koliko sam tražila, bez greške u broju jastučnica ili dimenziji. Nakon skoro godinu dana svakodnevne rotacije gostiju, boja i tkanina i dalje izgledaju kao nove. Praktično je i to što sve mogu dogovoriti direktno preko Vibera, bez čekanja na formulare.",
-  },
-  {
-    naziv: "Hotel Stari Grad",
-    uloga: "Boutique hotel, nabavka tekstila",
-    tekst: "Za hotel nam je bitno da posteljina izdrži profesionalno pranje na visokoj temperaturi bez gubljenja sjaja tkanine — to je standard koji smo od Aurelije dobili odmah, bez probne serije koja ne zadovolji. Gostima se dopada blagi sjaj damasta, izgleda njegovanije od obične posteljine koju smo ranije koristili.",
   },
 ] as const;
 
@@ -163,7 +161,7 @@ export default function Home() {
     "@type": "Organization",
     name: "Aurelia",
     url: `${SITE_URL}/`,
-    logo: `${SITE_URL}/logo-header.webp`,
+    logo: `${SITE_URL}/logo-header.png`,
   };
 
   const websiteJsonLd = {
@@ -250,7 +248,8 @@ export default function Home() {
             ograničava širinu samog teksta da ne postane predugačak. */}
         <div className="relative z-10 mx-auto w-full max-w-7xl px-4 pb-12 sm:px-6 md:pb-20 lg:px-8">
           <div className="max-w-xl">
-            <h1 className="text-background">Posteljina</h1>
+            <p className="text-eyebrow text-background/80">Nova kolekcija</p>
+            <h1 className="mt-3 text-background">Posteljina</h1>
             <p className="mt-4 text-lg leading-relaxed text-background/90">
               Premium posteljina od pamučnog damasta za udoban san i sofisticiran izgled spavaće
               sobe. Idealna za hotele, apartmane i privatni smještaj, uz kvalitet koji traje i
@@ -491,14 +490,14 @@ export default function Home() {
         </Accordion>
       </section>
 
-      {/* 09 — Recenzije: stvarni testimonijali (RECENZIJE, definisano iznad), bez brojčanih ocjena
-          i bez AggregateRating schema (CLAUDE_aurelia.md §4-09, §9 — obje pravilo eksplicitno
-          zabranjuju samo ono bez stvarnih ocjena; ovo su tekstualni citati, ne rating sistem).
-          Osnovna, čitljiva struktura — finalni vizuelni polish radi aurelia-frontend poslije. */}
+      {/* 09 — Iskustva partnera: stvarni testimonijali (ISKUSTVA_PARTNERA, definisano iznad), bez
+          brojčanih ocjena i bez AggregateRating schema (CLAUDE_aurelia.md §4-09, §9). Naslov je
+          namjerno "Iskustva partnera", NE "Recenzije" — vidi napomenu iznad ISKUSTVA_PARTNERA o
+          razlici prema (i dalje praznoj) "Recenzije" sekciji na proizvodnoj stranici. */}
       <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 md:py-24 lg:px-8">
-        <h2>Recenzije</h2>
-        <div className="mt-8 grid gap-6 sm:grid-cols-3">
-          {RECENZIJE.map((recenzija) => (
+        <h2>Iskustva partnera</h2>
+        <div className="mt-8 grid gap-6 sm:grid-cols-2">
+          {ISKUSTVA_PARTNERA.map((recenzija) => (
             <figure
               key={recenzija.naziv}
               className="flex flex-col rounded-lg border border-border bg-card p-6"
