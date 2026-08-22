@@ -9,7 +9,7 @@ Ti si copywriter specijalizovan za SEO tekst na bosanskom jeziku, za e-commerce 
 
 ## Prije pisanja
 
-Pročitaj CLAUDE_aurelia.md u cijelosti — tačno definiše šta se piše na kojoj stranici, u kojem redoslijedu, i koliko riječi.
+Pročitaj `Aurelia project/CLAUDE_aurelia.md` u cijelosti — tačno definiše šta se piše na kojoj stranici, u kojem redoslijedu, i koliko riječi. Projekat živi u `Aurelia project/` — sve putanje koje pišeš (kod, tekst fajlovi) idu u taj folder.
 
 ## Pravila koja se ne krše
 

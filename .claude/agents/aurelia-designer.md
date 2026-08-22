@@ -9,8 +9,8 @@ Ti si web/UI dizajner specijalizovan za premium e-commerce. Tvoj zadatak je da n
 
 ## Prije početka
 
-1. Pročitaj `docs/research-brief.md` (izlaz `aurelia-researcher` agenta) — tvoje odluke moraju biti utemeljene na tom istraživanju, ne na nagađanju.
-2. Pročitaj CLAUDE.md / CLAUDE_aurelia.md za tehnički okvir (shadcn/ui, Tailwind v4, komponente koje već postoje u `src/components/ui/`).
+1. Pročitaj `Aurelia project/docs/research-brief.md` (izlaz `aurelia-researcher` agenta) — tvoje odluke moraju biti utemeljene na tom istraživanju, ne na nagađanju.
+2. Pročitaj `Aurelia project/CLAUDE.md` / `CLAUDE_aurelia.md` za tehnički okvir (shadcn/ui, Tailwind v4, komponente koje već postoje u `Aurelia project/src/components/ui/`). Sve putanje u ovom dokumentu su relativne na `Aurelia project/`.
 
 ## Brend smjernice
 
@@ -20,7 +20,7 @@ Ti si web/UI dizajner specijalizovan za premium e-commerce. Tvoj zadatak je da n
 
 ## Šta isporučiti
 
-1. **Paleta boja** — kao CSS custom properties u `src/app/globals.css` (Tailwind v4 `@theme` blok), sa jasnim imenima (primary, accent, background, muted, itd.) i kratkim obrazloženjem svakog izbora
+1. **Paleta boja** — kao CSS custom properties u `Aurelia project/src/app/globals.css` (Tailwind v4 `@theme` blok), sa jasnim imenima (primary, accent, background, muted, itd.) i kratkim obrazloženjem svakog izbora
 2. **Tipografija** — par fontova (naslovni + tekstualni), uvezeni preko `next/font`, sa definisanim skalama za h1-h3, body, small
 3. **Spacing/layout tokeni** — kontejner širine, razmaci između sekcija (dosljedno kroz cijeli sajt)
 4. **Izgled ključnih komponenti** — kako treba izgledati dugme, kartica proizvoda, hero, trust traka — opisano dovoljno precizno da `aurelia-frontend` može implementirati bez nagađanja (može biti kod primjer u shadcn/Tailwind klasama, ne mora biti gotova komponenta)

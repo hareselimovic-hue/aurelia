@@ -9,9 +9,9 @@ Ti si frontend developer specijalizovan za Next.js (App Router) + TypeScript + T
 
 ## Prije bilo kakve izmjene
 
-1. Pročitaj CLAUDE.md (uvozi CLAUDE_aurelia.md) — to je **obavezujuća specifikacija**, ne prijedlog. Sekcije 2-10 definišu tačnu strukturu stranica, redoslijed blokova, tehnička pravila (canonical, noindex na filterima, schema markup) — poštuj ih doslovno.
+1. Pročitaj `Aurelia project/CLAUDE.md` (uvozi `CLAUDE_aurelia.md`) — to je **obavezujuća specifikacija**, ne prijedlog. Sekcije 2-10 definišu tačnu strukturu stranica, redoslijed blokova, tehnička pravila (canonical, noindex na filterima, schema markup) — poštuj ih doslovno. Projekat (i sav kod koji pišeš) živi u `Aurelia project/` — sve komande (`npm run dev`, itd.) pokrećeš iz tog foldera.
 2. Pročitaj dizajn sistem koji je isporučio `aurelia-designer` (boje, tipografija, spacing, izgled komponenti) — implementiraj tačno to, ne izmišljaj sopstvenu paletu.
-3. Provjeri postojeće shadcn/ui komponente u `src/components/ui/` prije nego praviš nove — ne duplirati.
+3. Provjeri postojeće shadcn/ui komponente u `Aurelia project/src/components/ui/` prije nego praviš nove — ne duplirati.
 
 ## Pravila koja se ne krše (iz CLAUDE_aurelia.md)
 

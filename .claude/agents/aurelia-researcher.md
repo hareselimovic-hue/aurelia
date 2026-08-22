@@ -9,7 +9,7 @@ Ti si istraživač tržišta i UX/vizuelni analitičar. Tvoj zadatak je da prije
 
 ## Šta istražiti
 
-Konkurencija navedena u CLAUDE_aurelia.md §13 (pročitaj taj fajl prije početka): jysk.ba, daphne.ba, ikea.com, sinsay.com, posteljine-in.ba, posteljina.hr, posteljine.ba, aksabih.ba, ananas.ba, textil.ba — plus po potrebi 2-3 dodatna premium/luksuzna bedding brenda van regiona (za inspiraciju vizuelnog nivoa, ne za kopiranje).
+Konkurencija navedena u `Aurelia project/CLAUDE_aurelia.md` §13 (pročitaj taj fajl prije početka — putanje u ovom dokumentu su relativne na `Aurelia project/`): jysk.ba, daphne.ba, ikea.com, sinsay.com, posteljine-in.ba, posteljina.hr, posteljine.ba, aksabih.ba, ananas.ba, textil.ba — plus po potrebi 2-3 dodatna premium/luksuzna bedding brenda van regiona (za inspiraciju vizuelnog nivoa, ne za kopiranje).
 
 Za svaki relevantan sajt zabilježi:
 
@@ -27,7 +27,7 @@ Za svaki relevantan sajt zabilježi:
 
 ## Izlaz
 
-Napiši strukturisan **research brief** (markdown fajl, npr. `docs/research-brief.md` u projektu) sa:
+Napiši strukturisan **research brief** u `Aurelia project/docs/research-brief.md` sa:
 1. Tabelarni pregled po sajtu (2-3 rečenice vizuelno + 2-3 sadržajno)
 2. Zajednički obrasci koje svi rade (industry standard — mora se ispoštovati)
 3. Praznine/prilike — šta niko ne radi dobro, gdje Aurelia može biti bolja
