@@ -127,8 +127,10 @@ export const PROIZVODI: Proizvod[] = [
     materijal: "pamučni damast",
     dimenzije: ["Slifer 200x200 cm", "jastučnica 50x70 cm (2 kom)"],
     boja: BOJA_PRIVREMENA,
-    opisKratki: "", // TODO copy: aurelia-copywriter
-    opisDugi: "", // TODO copy: aurelia-copywriter
+    opisKratki:
+      "Bračni set posteljine od 100% pamučnog damasta sa suptilnim žakardnim uzorkom. Sadrži Slifer (navlaku za poplun) 200×200 cm i dvije jastučnice 50×70 cm — dovoljno za dvoje. Tkanina ima blagi prirodan sjaj i gustu strukturu koja ne gubi oblik ni nakon čestih pranja.",
+    opisDugi:
+      "Bračna linija posteljine od damasta pravljena je za parove kojima jedna posteljina treba pokriti cijeli krevet bez kompromisa u veličini. Slifer, odnosno navlaka za poplun, ima dimenzije 200×200 cm — dovoljno platna da se poplun ne izvlači na ivicama ni nakon nemirnije noći. Uz njega dolaze dvije jastučnice od 50×70 cm, po jedna za svaku stranu kreveta, iste teksture i uzorka kao Slifer, pa cijeli set izgleda usklađeno na krevetu, ne kao sastavljen iz dijelova.\n\nMaterijal je 100% pamučni damast — žakardno tkanje kod kojeg se uzorak utkiva direktno u nit, a ne štampa naknadno na površinu, zbog čega se ne gubi ni nakon dugogodišnje upotrebe i čestog pranja. Tkanina ima gustu strukturu i blagi, prirodan sjaj koji je vidljiviji na većoj površini Slifera nego na manjim komadima, pa bračni set posebno dobro pokazuje kvalitet tkanja. Podnosi pranje do 95°C, što ostavlja prostor i za povremenu dezinfekciju posteljine, na primjer poslije bolesti u domaćinstvu.",
     specifikacije: [
       { kljuc: "Materijal", vrijednost: "100% pamučni damast (žakardno tkanje)" },
       { kljuc: "Set sadrži", vrijednost: "Slifer + 2 jastučnice" },
@@ -152,8 +154,10 @@ export const PROIZVODI: Proizvod[] = [
     materijal: "pamuk",
     dimenzije: ["140x70 cm"],
     boja: BOJA_PRIVREMENA,
-    opisKratki: "", // TODO copy: aurelia-copywriter
-    opisDugi: "", // TODO copy: aurelia-copywriter
+    opisKratki:
+      "Veći peškir od 100% pamuka, dimenzija 140×70 cm — dovoljno platna da se omota oko tijela poslije tuširanja ili kupanja. Gusto tkanje dobro upija vlagu i brzo se suši, a nakon nekoliko pranja postaje još mekši na dodir.",
+    opisDugi:
+      "Peškir 140×70 cm je veći format iz naše pamučne linije, napravljen za upotrebu poslije tuširanja ili kupanja — dovoljno velik da se njime omota tijelo, ne samo obriše. Tkan je od 100% pamuka gušće strukture, što znači bolju upijenost vlage u odnosu na tanje, jeftinije peškire koji vlagu samo razmazuju po površini.\n\nPamučno vlakno u ovoj gramaturi drži oblik i poslije čestog pranja, pa se peškir ne razvlači niti gubi debljinu kroz vrijeme kao sintetičke ili mješovite tkanine. Jedan peškir ove veličine obično je dovoljan po osobi za tuširanje, dok manji format bolje pokriva pranje lica i ruku tokom dana. Preporučujemo sušenje na zraku radi dužeg vijeka trajanja tkanine, iako podnosi i mašinsko sušenje na nižoj temperaturi.",
     specifikacije: [
       { kljuc: "Materijal", vrijednost: "100% pamuk" },
       { kljuc: "Dimenzije", vrijednost: "140×70 cm" },
@@ -175,8 +179,10 @@ export const PROIZVODI: Proizvod[] = [
     materijal: "pamuk",
     dimenzije: ["85x45 cm"],
     boja: BOJA_PRIVREMENA,
-    opisKratki: "", // TODO copy: aurelia-copywriter
-    opisDugi: "", // TODO copy: aurelia-copywriter
+    opisKratki:
+      "Manji peškir od 100% pamuka, 85×45 cm, idealan za pranje lica i ruku ili uz umivaonik. Kompaktna veličina znači brže sušenje i lakše svakodnevno pranje. Ista gusta pamučna tkanina kao i veći peškir iz naše ponude, samo u praktičnijem formatu za čestu upotrebu.",
+    opisDugi:
+      "Peškir 85×45 cm je manji, praktičniji format namijenjen svakodnevnoj upotrebi uz umivaonik — za pranje lica, ruku ili kao dodatak većem peškiru za tijelo. Zbog manje površine suši se brže od velikih peškira, što je važno u kupatilima gdje visi na jednoj vješalici uz još nekoliko komada.\n\nIzrađen je od istog 100% pamuka gušće strukture kao i ostatak naše peškir linije, pa i pored manjih dimenzija zadržava dobru upijenost i mekoću na dodir. Kompaktna veličina ga čini pogodnim i za putovanja ili za držanje u kuhinji, ne samo u kupatilu. Kao i kod ostalih pamučnih artikala u ponudi, boja i tekstura se najbolje čuvaju pranjem na umjerenoj temperaturi, a povremeno pranje na višoj temperaturi koristi za temeljitije čišćenje.",
     specifikacije: [
       { kljuc: "Materijal", vrijednost: "100% pamuk" },
       { kljuc: "Dimenzije", vrijednost: "85×45 cm" },
@@ -198,8 +204,10 @@ export const PROIZVODI: Proizvod[] = [
     materijal: "pamuk",
     dimenzije: ["160x240 cm"],
     boja: BOJA_PRIVREMENA,
-    opisKratki: "", // TODO copy: aurelia-copywriter
-    opisDugi: "", // TODO copy: aurelia-copywriter
+    opisKratki:
+      "Čaršaf od 100% pamuka, 160×240 cm, za jednostruki krevet s dušekom do oko 150 cm širine. Klasičan ravni čaršaf bez gume — prostire se preko dušeka i pokriva ga sa svih strana. Gusto pamučno tkanje, prijatno na dodir i izdržljivo na česta pranja.",
+    opisDugi:
+      "Čaršaf 160×240 cm je klasičan, ravni čaršaf namijenjen jednostrukim krevetima s dušekom do otprilike 150 cm širine. Nema elastičan rub kao verzija na gumu — prostire se preko dušeka i pokriva ga sa dovoljno viška platna da se krajevi mogu uvući ispod dušeka po želji.\n\nTkan je od 100% pamuka, iste porodice materijala kao i ostatak naše čaršaf linije, tako da ravnomjerno upija vlagu tokom noći i ostaje prijatan na dodir u svim godišnjim dobima. Za razliku od gušće, sjajnije teksture pamučnog damasta koji koristimo za posteljinu, čaršaf ima glađu, laganiju površinu prilagođenu direktnom kontaktu s kožom. Podnosi česta pranja bez gubitka čvrstoće, a ravni krojevi poput ovog lakše se peglaju od varijanti na gumu jer nemaju šavove po uglovima.",
     specifikacije: [
       { kljuc: "Materijal", vrijednost: "100% pamuk" },
       { kljuc: "Dimenzije", vrijednost: "160×240 cm" },
@@ -223,8 +231,10 @@ export const PROIZVODI: Proizvod[] = [
     materijal: "pamuk",
     dimenzije: ["220x240 cm"],
     boja: BOJA_PRIVREMENA,
-    opisKratki: "", // TODO copy: aurelia-copywriter
-    opisDugi: "", // TODO copy: aurelia-copywriter
+    opisKratki:
+      "Čaršaf od 100% pamuka, 220×240 cm, za bračni krevet s dušekom do oko 200 cm širine. Ravni kroj bez gume, dovoljno platna za udoban preklop sa svih strana. Ista kvalitetna pamučna tkanina kao i ostali čaršafi u ponudi.",
+    opisDugi:
+      "Čaršaf 220×240 cm napravljen je za bračne krevete s dušekom širine do otprilike 200 cm — dovoljno platna da pokrije dušek sa svih strana i ostavi višak za udoban preklop, bez da krajevi jedva dohvate ivicu. Kao ravni čaršaf, bez elastičnog ruba, lakše ga je poravnati na dušecima nestandardnih dimenzija nego fiksnu varijantu na gumu.\n\nMaterijal je 100% pamuk, tkan gušće nego kod jeftinijih čaršafa, pa se manje gužva i duže zadržava svježinu tokom noći. Ako vam je važnije da se čaršaf ne pomjera dok spavate, u ponudi postoji i verzija iste dimenzije s elastičnim rubom — čaršaf na gumu za bračni krevet. Ova, ravna verzija je praktičnija za smjenu posteljine i lakše se pegla i skladišti jer nema oblikovane uglove.",
     specifikacije: [
       { kljuc: "Materijal", vrijednost: "100% pamuk" },
       { kljuc: "Dimenzije", vrijednost: "220×240 cm" },
@@ -250,8 +260,10 @@ export const PROIZVODI: Proizvod[] = [
     materijal: "pamuk",
     dimenzije: ["240x290 cm"],
     boja: BOJA_PRIVREMENA,
-    opisKratki: "", // TODO copy: aurelia-copywriter
-    opisDugi: "", // TODO copy: aurelia-copywriter
+    opisKratki:
+      "Čaršaf od 100% pamuka, veće, produžene dimenzije 240×290 cm — za bračne krevete i dušeke koji su duži ili širi od standarda. Ravni kroj, dovoljno platna za pokrivanje i preklop sa svih strana. Praktičan izbor kad standardna dimenzija od 220×240 cm nije dovoljno velika.",
+    opisDugi:
+      "Čaršaf 240×290 cm je naša najveća, produžena varijanta, namijenjena bračnim krevetima i dušecima koji su duži ili širi od standardne bračne mjere. Ako vam je dušek nestandardne veličine — na primjer produženi krevet ili deblji dušek kojem treba više viška platna za preklop — ovo je dimenzija koja to rješava bez stiskanja na uglovima.\n\nKao i ostali čaršafi u ponudi, tkan je od 100% pamuka, dovoljno guste strukture da izdrži redovno pranje i svakodnevnu upotrebu bez brzog habanja. Veća površina znači i više platna za uvlačenje ispod dušeka, što čaršaf drži urednijim tokom noći i pored toga što nema elastičan rub. Prije kupovine izmjerite dušek, ne samo krevet — širinu, dužinu i visinu (debljinu) dušeka — jer je upravo ta razlika između standardne bračne i produžene dimenzije razlog zašto ova veća varijanta postoji u ponudi.",
     specifikacije: [
       { kljuc: "Materijal", vrijednost: "100% pamuk" },
       { kljuc: "Dimenzije", vrijednost: "240×290 cm" },
@@ -273,8 +285,10 @@ export const PROIZVODI: Proizvod[] = [
     materijal: "pamuk",
     dimenzije: ["220x240 cm"],
     boja: BOJA_PRIVREMENA,
-    opisKratki: "", // TODO copy: aurelia-copywriter
-    opisDugi: "", // TODO copy: aurelia-copywriter
+    opisKratki:
+      "Čaršaf na gumu za bračni krevet, 220×240 cm, od 100% pamuka. Elastični rub oko cijelog oboda drži čaršaf zategnutim preko dušeka cijelu noć, bez pomjeranja i nabora. Praktičniji za svakodnevno namještanje kreveta od ravnog čaršafa.",
+    opisDugi:
+      "Čaršaf na gumu za bračni krevet rješava ono što je kod ravnih čaršafa najveća gnjavaža — pomjeranje tokom noći. Elastični rub našiven je oko cijelog oboda čaršafa, oblikovan da obuhvati uglove dušeka i drži platno zategnutim koliko god se okretali u snu.\n\nDimenzija 220×240 cm namijenjena je bračnim dušecima do oko 200 cm širine, a elastika daje dodatnih nekoliko centimetara prostora za deblje dušeke koje ravni čaršaf teže pokrije. Materijal je 100% pamuk, isti kao kod ostalih čaršafa u ponudi, pa nema razlike u udobnosti ili prozračnosti u odnosu na ravnu verziju — razlika je isključivo u kroju i praktičnosti namještanja. Zahvaljujući oblikovanim uglovima, stavljanje i skidanje čaršafa traje kraće nego kod ravnog čaršafa, što ovu varijantu čini praktičnim izborom za domaćinstva koja često mijenjaju posteljinu ili imaju djecu.",
     specifikacije: [
       { kljuc: "Materijal", vrijednost: "100% pamuk" },
       { kljuc: "Dimenzije", vrijednost: "220×240 cm" },

@@ -190,10 +190,51 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
         <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
           <div className="space-y-4">
             <h2>Šta se nalazi u ponudi</h2>
-            {/* TODO copy: aurelia-copywriter — marketinški tekst o asortimanu (dio 300-400 riječi
-                sekcije koju §5-05 traži, dijeljeno sa "Tabela dimenzija" ispod). Ne izmišljati
-                finalni ton/copy ovdje — čisto strukturno mjesto dok copywriter agent ne isporuči
-                tekst. */}
+            <p className="text-base leading-relaxed text-foreground">
+              Asortiman je namjerno uzak umjesto razvučen: pamučni damast za posteljinu, plus
+              čaršafi i peškiri od 100% pamuka za sve što ide uz nju. Nema ranforce ni saten
+              varijanti — fokus je na dvije provjerene vrste tkanja umjesto na dugačku listu
+              materijala koje je teško međusobno uporediti.
+            </p>
+            <p className="text-base leading-relaxed text-foreground">
+              Posteljina od damasta dolazi u dvije linije: uža,{" "}
+              <Link
+                href="/shop/posteljina-od-damasta-uska-linija/"
+                className="font-medium text-primary underline-offset-4 hover:underline"
+              >
+                Posteljina od damasta — uska linija (Slifer + 1 jastučnica)
+              </Link>{" "}
+              za jednostruki krevet, i bračna,{" "}
+              <Link
+                href="/shop/posteljina-od-damasta-bracna/"
+                className="font-medium text-primary underline-offset-4 hover:underline"
+              >
+                Posteljina od damasta — bračna (Slifer + 2 jastučnice)
+              </Link>
+              , sa dvije jastučnice za dvoje. Obje imaju žakardno tkanje sa suptilnim uzorkom i
+              blagim prirodnim sjajem, umjesto glatke, jednolične površine.
+            </p>
+            <p className="text-base leading-relaxed text-foreground">
+              Čaršafi pokrivaju raspon od užeg jednostrukog dušeka (
+              <Link href="/shop/carsaf-160x240/" className="font-medium text-primary underline-offset-4 hover:underline">
+                Čaršaf 160×240 cm
+              </Link>
+              ) do velikog bračnog dušeka (
+              <Link href="/shop/carsaf-220x240/" className="font-medium text-primary underline-offset-4 hover:underline">
+                Čaršaf 220×240 cm
+              </Link>
+              ), uključujući i čaršaf na gumu za one koji ne žele da im se čaršaf pomjera tokom
+              noći (
+              <Link
+                href="/shop/carsaf-na-gumu-bracni-220x240/"
+                className="font-medium text-primary underline-offset-4 hover:underline"
+              >
+                Čaršaf na gumu — bračni 220×240 cm
+              </Link>
+              ). Peškire nudimo u dvije veličine — manji za lice i ruke, veći za tijelo poslije
+              tuširanja — oba od gustog, upijajućeg pamuka. Ispod je tabela koja povezuje svaku
+              dimenziju iz ponude sa krevetom ili upotrebom za koju je namijenjena.
+            </p>
           </div>
 
           <div className="mt-12 space-y-4">

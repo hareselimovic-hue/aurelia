@@ -68,27 +68,33 @@ const KUPUJ_PO_VRSTI = [
 const FAQ = [
   {
     pitanje: "Koje dimenzije posteljine su prave za bračni krevet?",
-    odgovor: "Odgovor dolazi uskoro.",
+    odgovor:
+      "Za bračni krevet uzmite set sa Sliferom (navlakom za poplun) 200×200 cm i dvije jastučnice 50×70 cm — to je bračna linija naše posteljine od damasta. Ako birate i čaršaf, uz nju ide dimenzija 220×240 cm za dušek do oko 200 cm širine, a za veći ili produženi dušek 240×290 cm.",
   },
   {
     pitanje: "Koliki je rok dostave?",
-    odgovor: "Odgovor dolazi uskoro.",
+    odgovor:
+      "Šaljemo kurirskom službom na adresu širom Bosne i Hercegovine. Tačan rok isporuke i trošak dostave vidite prije potvrde narudžbe, kad unesete adresu — obično je riječ o svega nekoliko radnih dana od potvrde.",
   },
   {
     pitanje: "Od kojeg materijala je izrađena posteljina?",
-    odgovor: "Odgovor dolazi uskoro.",
+    odgovor:
+      "Posteljina je izrađena od 100% pamučnog damasta — žakardnog tkanja sa suptilnim utkanim uzorkom i blagim prirodnim sjajem. Čaršafi i peškiri su od 100% pamuka. Nigdje u ponudi nema sintetičkih primjesa poput mikrofibera ili poliestera.",
   },
   {
     pitanje: "Mogu li zamijeniti veličinu ako mi ne odgovara?",
-    odgovor: "Odgovor dolazi uskoro.",
+    odgovor:
+      "Da, u roku od 14 dana od prijema. Javite nam se telefonom ili preko Vibera, dogovorimo zamjenu za drugu dimenziju ili proizvod — artikal treba biti nekorišten i u originalnom pakovanju.",
   },
   {
     pitanje: "Koji su načini plaćanja?",
-    odgovor: "Odgovor dolazi uskoro.",
+    odgovor:
+      "Trenutno je dostupno plaćanje pouzećem (gotovinom kuriru pri preuzimanju) i uplatom na bankovni račun prije slanja. Plaćanje karticom putem pay-by-link linka je u pripremi i biće dostupno uskoro, čim se checkout stranica u potpunosti dovrši.",
   },
   {
     pitanje: "Da li se posteljina skuplja nakon pranja?",
-    odgovor: "Odgovor dolazi uskoro.",
+    odgovor:
+      "Pri pranju na preporučenoj temperaturi (40-60°C) skupljanje je minimalno, jer je pamučno vlakno prije šivanja obrađeno da zadrži dimenzije. Pranje na maksimalnih 95°C je moguće za dezinfekciju, ali ga ne treba raditi svaki put — na toj temperaturi je promjena dimenzija i habanje boje nešto izraženije.",
   },
 ] as const;
 
@@ -253,48 +259,109 @@ export default function Home() {
       </section>
 
       {/* 06 — Zašto kod nas: struktura po CLAUDE_aurelia.md §4-06 (rok i cijena dostave, postupak
-          zamjene, ko stoji iza shopa), copy je TODO dok aurelia-copywriter ne isporuči finalni tekst. */}
+          zamjene, ko stoji iza shopa). */}
       <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 md:py-24 lg:px-8">
         <h2>Zašto kod nas</h2>
         <div className="mt-8 grid gap-8 sm:grid-cols-3">
           <div>
             <h3>Rok i cijena dostave</h3>
-            {/* TODO copy: aurelia-copywriter */}
-            <p className="mt-2 text-muted-foreground">Tekst dolazi.</p>
+            <p className="mt-2 text-muted-foreground">
+              Šaljemo na adresu širom Bosne i Hercegovine putem kurirske službe. Tačan trošak
+              dostave i okvirni rok isporuke vidite prije potvrde narudžbe, prilikom unosa
+              adrese — bez skrivenih troškova koji iskrsnu tek na kraju.
+            </p>
           </div>
           <div>
             <h3>Postupak zamjene</h3>
-            {/* TODO copy: aurelia-copywriter */}
-            <p className="mt-2 text-muted-foreground">Tekst dolazi.</p>
+            <p className="mt-2 text-muted-foreground">
+              Ako veličina ili model ne odgovaraju, javite nam se telefonom ili na Viber u roku
+              od 14 dana od prijema. Dogovorimo zamjenu direktno s vama, bez formulara i
+              čekanja na potvrdu.
+            </p>
           </div>
           <div>
             <h3>Ko stoji iza shopa</h3>
-            {/* TODO copy: aurelia-copywriter */}
-            <p className="mt-2 text-muted-foreground">Tekst dolazi.</p>
+            <p className="mt-2 text-muted-foreground">
+              Aurelia je nov brend koji pažljivo bira materijal prije nego što artikal uđe u
+              ponudu. Nema call centra ni automatiziranih odgovora — pitanja o proizvodu ili
+              narudžbi rješavamo direktno, telefonom ili preko Vibera.
+            </p>
           </div>
         </div>
       </section>
 
-      {/* 07 — SEO tekst (400-600 riječi, CLAUDE_aurelia.md §4-07): struktura h2 + 3 h3 je postavljena,
-          finalni copy je TODO dok aurelia-copywriter ne napiše tekst (uputa iz aurelia-frontend
-          agenta: ne izmišljati finalni marketinški/SEO ton sam). */}
+      {/* 07 — SEO tekst (400-600 riječi, CLAUDE_aurelia.md §4-07): h2 + 3 h3, prilagođeno stvarnom
+          asortimanu (pamuk i pamučni damast, ne ranforce/saten — vidi napomenu na vrhu products.ts). */}
       <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 md:py-24 lg:px-8">
         <div className="max-w-3xl">
           <h2>Kako odabrati posteljinu</h2>
-          {/* TODO copy: aurelia-copywriter — uvodni pasus (400-600 riječi ukupno u bloku) */}
-          <p className="mt-4 text-muted-foreground">Tekst dolazi.</p>
+          <p className="mt-4 text-muted-foreground">
+            Dobra posteljina se svodi na tri odluke: materijal, dimenziju i način na koji je
+            planirate održavati. Kad su te tri stvari riješene, ostaje samo boja i lični ukus.
+            U nastavku objašnjavamo na šta obratiti pažnju prije kupovine, bilo da opremate
+            jednostruki krevet ili bračni krevet za dvoje.
+          </p>
 
-          <h3 className="mt-8">Materijali — pamuk, ranforce, saten</h3>
-          {/* TODO copy: aurelia-copywriter */}
-          <p className="mt-2 text-muted-foreground">Tekst dolazi.</p>
+          <h3 className="mt-8">Materijali — pamuk i pamučni damast</h3>
+          <p className="mt-2 text-muted-foreground">
+            U ponudi imamo dvije vrste pamučnog tkanja. Obični pamuk koristimo za čaršafe i
+            peškire — gust, izdržljiv i praktičan za svakodnevnu upotrebu. Za posteljinu
+            biramo pamučni damast: žakardno tkanje kod kojeg se uzorak utka direktno u
+            materijal, pa tkanina ima blagi prirodan sjaj i gušću, plemenitiju strukturu od
+            obične pamučne posteljine. Ako želite tkaninu koja izgleda njegovano i nakon
+            više pranja, damast je bolji izbor od tanje, glatke pamučne varijante; ako vam je
+            prioritet jednostavnost i cijena, obični pamuk (npr.{" "}
+            <Link href="/shop/carsaf-160x240/" className="text-primary underline-offset-4 hover:underline">
+              Čaršaf 160×240 cm
+            </Link>
+            ) je sasvim dovoljan.
+          </p>
 
-          <h3 className="mt-8">Dimenzije — 140x200, 160x200, 200x200</h3>
-          {/* TODO copy: aurelia-copywriter */}
-          <p className="mt-2 text-muted-foreground">Tekst dolazi.</p>
+          <h3 className="mt-8">Dimenzije — od jastučnice do bračnog seta</h3>
+          <p className="mt-2 text-muted-foreground">
+            Za jednostruki krevet uzimajte set s manjim Sliferom — naša{" "}
+            <Link
+              href="/shop/posteljina-od-damasta-uska-linija/"
+              className="text-primary underline-offset-4 hover:underline"
+            >
+              Posteljina od damasta — uska linija (Slifer + 1 jastučnica)
+            </Link>{" "}
+            pokriva navlaku za poplun 140×200 cm i jednu jastučnicu, tačno koliko treba za
+            jedan krevet. Za bračni krevet je veći Slifer 200×200 cm s dvije jastučnice —
+            takva je{" "}
+            <Link
+              href="/shop/posteljina-od-damasta-bracna/"
+              className="text-primary underline-offset-4 hover:underline"
+            >
+              Posteljina od damasta — bračna (Slifer + 2 jastučnice)
+            </Link>
+            . Kod čaršafa gledajte širinu dušeka, ne samo krevet: 160×240 cm pokriva uži,
+            jednostruki dušek, dok{" "}
+            <Link href="/shop/carsaf-220x240/" className="text-primary underline-offset-4 hover:underline">
+              Čaršaf 220×240 cm
+            </Link>{" "}
+            odgovara bračnom dušeku do oko 200 cm širine. Ako imate veći ili produženi dušek,
+            posegnite za čaršafom 240×290 cm. Za one kojima je najvažnije da se čaršaf ne pomjera
+            tokom noći, tu je{" "}
+            <Link
+              href="/shop/carsaf-na-gumu-bracni-220x240/"
+              className="text-primary underline-offset-4 hover:underline"
+            >
+              Čaršaf na gumu — bračni 220×240 cm
+            </Link>{" "}
+            — elastični rub ga drži zategnutog preko cijelog dušeka.
+          </p>
 
           <h3 className="mt-8">Održavanje i pranje</h3>
-          {/* TODO copy: aurelia-copywriter */}
-          <p className="mt-2 text-muted-foreground">Tekst dolazi.</p>
+          <p className="mt-2 text-muted-foreground">
+            I pamuk i pamučni damast podnose pranje na visokoj temperaturi (do 95°C), što je
+            korisno ako želite temeljitu dezinfekciju, na primjer poslije bolesti u kućanstvu.
+            Za svakodnevno održavanje boje i sjaja tkanine bolje je prati na 40-60°C — visoka
+            temperatura je opcija kad zatreba, ne obavezno pravilo. Prije prvog spavanja
+            preporučujemo jedno pranje, jer tkanina tada postane mekša. Sušenje na zraku čuva
+            vlakna duže nego mašinsko sušenje, a blago peglanje dok je posteljina još malo
+            vlažna vraća joj zategnut, uredan izgled.
+          </p>
         </div>
       </section>
 
