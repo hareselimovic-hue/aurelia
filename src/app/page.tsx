@@ -203,18 +203,24 @@ export default function Home() {
         />
         <div className="absolute inset-0 bg-gradient-to-t from-foreground/70 via-foreground/25 to-transparent" />
 
-        <div className="relative z-10 max-w-xl px-4 pb-12 sm:px-6 md:pb-20 lg:px-8">
-          <h1 className="text-background">Posteljina</h1>
-          <p className="mt-4 text-lg leading-relaxed text-background/90">
-            Posteljina od pamučnog damasta za bračni i jednostruki krevet — kvalitet podjednako
-            pogodan za dom i za apartmane, s dostavom po cijeloj BiH.
-          </p>
-          <Link
-            href="/shop/"
-            className="mt-6 inline-flex h-11 items-center rounded-lg bg-primary px-8 font-medium text-primary-foreground transition-colors hover:bg-primary/90"
-          >
-            Pogledaj ponudu
-          </Link>
+        {/* Ista mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 ljevica kao Header i sve sekcije ispod
+            (trust traka, kupuj po vrsti, grid...) — bez ovoga hero tekst nije poravnat sa
+            ostatkom stranice (korisnički feedback 22.08.2026). Unutrašnji max-w-xl i dalje
+            ograničava širinu samog teksta da ne postane predugačak. */}
+        <div className="relative z-10 mx-auto w-full max-w-7xl px-4 pb-12 sm:px-6 md:pb-20 lg:px-8">
+          <div className="max-w-xl">
+            <h1 className="text-background">Posteljina</h1>
+            <p className="mt-4 text-lg leading-relaxed text-background/90">
+              Posteljina od pamučnog damasta za bračni i jednostruki krevet — kvalitet podjednako
+              pogodan za dom i za apartmane, s dostavom po cijeloj BiH.
+            </p>
+            <Link
+              href="/shop/"
+              className="mt-6 inline-flex h-11 items-center rounded-lg bg-primary px-8 font-medium text-primary-foreground transition-colors hover:bg-[color-mix(in_oklch,var(--primary),var(--foreground)_18%)]"
+            >
+              Pogledaj ponudu
+            </Link>
+          </div>
         </div>
       </section>
 

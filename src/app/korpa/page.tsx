@@ -116,7 +116,7 @@ export default function KorpaPage() {
         </p>
         <Link
           href="/shop/"
-          className="mt-6 inline-flex h-11 items-center rounded-lg bg-primary px-8 font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+          className="mt-6 inline-flex h-11 items-center rounded-lg bg-primary px-8 font-medium text-primary-foreground transition-colors hover:bg-[color-mix(in_oklch,var(--primary),var(--foreground)_18%)]"
         >
           Pogledaj ponudu
         </Link>
@@ -144,7 +144,7 @@ export default function KorpaPage() {
 
           <Link
             href="/checkout/"
-            className="mt-6 flex h-11 w-full items-center justify-center rounded-lg bg-primary px-8 text-sm font-medium tracking-[0.02em] text-primary-foreground transition-colors hover:bg-primary/90"
+            className="mt-6 flex h-11 w-full items-center justify-center rounded-lg bg-primary px-8 text-sm font-medium tracking-[0.02em] text-primary-foreground transition-colors hover:bg-[color-mix(in_oklch,var(--primary),var(--foreground)_18%)]"
           >
             Nastavi na plaćanje
           </Link>

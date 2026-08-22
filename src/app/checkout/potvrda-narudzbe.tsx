@@ -16,7 +16,7 @@ export function PotvrdaNarudzbe({ brojNarudzbe }: { brojNarudzbe: string }) {
       </p>
       <Link
         href="/shop/"
-        className="mt-8 inline-flex h-11 items-center rounded-lg bg-primary px-8 font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+        className="mt-8 inline-flex h-11 items-center rounded-lg bg-primary px-8 font-medium text-primary-foreground transition-colors hover:bg-[color-mix(in_oklch,var(--primary),var(--foreground)_18%)]"
       >
         Nastavi kupovinu
       </Link>
