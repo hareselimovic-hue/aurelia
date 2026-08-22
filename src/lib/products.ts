@@ -198,6 +198,35 @@ export const PROIZVODI: Proizvod[] = [
     kategorije: ["peskiri"],
   },
   {
+    slug: "stopa-za-noge",
+    // NAPOMENA (korisnik, 22.08.2026): novi proizvod, dodan naknadno. Cijena i dimenzija NISU
+    // potvrđene od korisnika — postavljene su kao razumna procjena po uzoru na ostale pamučne
+    // artikle u ponudi (cijena između peškira 85×45 i 140×70; dimenzija standardna za stopu za
+    // noge/kupatilski otirač). PROVJERITI s korisnikom prije lansiranja.
+    naziv: "Stopa za noge 50×70 cm",
+    cijena: 5,
+    materijal: "pamuk",
+    dimenzije: ["50x70 cm"],
+    boja: BOJA_PRIVREMENA,
+    opisKratki:
+      "Mekana pamučna stopa za noge, 50×70 cm, za ispred kade, tuš kabine ili umivaonika. Gusto tkanje upija vodu s tabana i brzo se suši, a debljina daje ugodan, mekan oslonac na hladnom podu kupatila.",
+    opisDugi:
+      "Stopa za noge je praktičan dodatak kupatilu koji rješava mokar i hladan pod odmah poslije tuširanja ili kupanja — postavlja se ispred kade, tuš kabine ili umivaonika. Izrađena je od 100% pamuka, iste porodice materijala kao i peškiri u našoj ponudi, pa upija vlagu umjesto da je razmazuje po podu.\n\nGusto tkanje daje stopi dovoljno debljine da bude ugodna za bosu nogu, a istovremeno se brzo suši između upotreba, što je važno u manjim kupatilima bez dobre ventilacije. Dimenzija 50×70 cm pokriva prostor ispred većine kada i tuš kabina bez da zauzima previše poda. Pere se na isti način kao i ostali pamučni tekstil u ponudi — redovno pranje na umjerenoj temperaturi čuva mekoću i upijenost duže vrijeme.",
+    specifikacije: [
+      { kljuc: "Materijal", vrijednost: "100% pamuk" },
+      { kljuc: "Dimenzije", vrijednost: "50×70 cm" },
+    ],
+    slike: generisiSlike(
+      "pamuk",
+      ["peskiri", "stopa-za-noge"],
+      BOJA_PRIVREMENA,
+      "50x70 cm",
+      "/images/products/stopa-za-noge-1.webp"
+    ),
+    naStanju: true,
+    kategorije: ["peskiri", "stopa-za-noge"],
+  },
+  {
     slug: "carsaf-160x240",
     naziv: "Čaršaf 160×240 cm",
     cijena: 13,

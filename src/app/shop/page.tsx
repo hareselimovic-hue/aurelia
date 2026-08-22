@@ -96,7 +96,17 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
   const cijene = sviProizvodi.map((p) => p.cijena);
   const minCijena = Math.min(...cijene);
   const maxCijena = Math.max(...cijene);
-  const materijali = Array.from(new Set(sviProizvodi.map((p) => p.materijal)));
+  // Materijal SAMO za posteljinu (kategorija "posteljina"), ne za cijeli katalog — prije je ovo
+  // bio Set svih p.materijal vrijednosti iz cijelog kataloga, pa je rečenica ispod znala reći
+  // "posteljinu (materijal: pamučni damast, pamuk)" jer je "pamuk" dolazio od čaršafa/peškira.
+  // Ta greška je tačno ono na šta se korisnik žalio ("negdje se spominje damast, negdje pamuk
+  // 100%, ne znam vise ni sta je") — posteljina u ponudi je isključivo pamučni damast, popravljeno
+  // 22.08.2026 (aurelia-copywriter).
+  const materijaliPosteljine = Array.from(
+    new Set(
+      sviProizvodi.filter((p) => p.kategorije.includes("posteljina")).map((p) => p.materijal)
+    )
+  );
 
   const breadcrumbSchema = {
     "@context": "https://schema.org",
@@ -135,7 +145,7 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
         <h1>Posteljina — cijela ponuda</h1>
         <p className="mt-4 max-w-3xl text-lg leading-relaxed text-foreground">
           Aurelia trenutno nudi {brojArtikala} artikala: posteljinu (materijal:{" "}
-          {materijali.join(", ")}), peškire u dvije veličine i čaršafe u više dimenzija, uključujući
+          {materijaliPosteljine.join(", ")}), peškire u dvije veličine i čaršafe u više dimenzija, uključujući
           čaršaf na gumu. Cijene se kreću od {formatPrice(minCijena)} do {formatPrice(maxCijena)},
           zavisno od tipa i veličine seta. Ispod možete filtrirati ponudu po vrsti proizvoda,
           materijalu, dimenziji i cijeni, te je sortirati po cijeni ili redoslijedu dodavanja.
