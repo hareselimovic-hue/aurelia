@@ -13,7 +13,7 @@ import Link from "next/link";
 import { KarticaProizvoda } from "@/components/product/kartica-proizvoda";
 import { formatPrice } from "@/lib/format";
 import { getAllProducts } from "@/lib/products";
-import { FiltersDesktop, FiltersMobile, SortLinks } from "./filters";
+import { VrstaFilter } from "./filters";
 import {
   filtrirajProizvode,
   izracunajRobots,
@@ -147,113 +147,124 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
           Aurelia trenutno nudi {brojArtikala} artikala: posteljinu (materijal:{" "}
           {materijaliPosteljine.join(", ")}), peškire u dvije veličine i čaršafe u više dimenzija, uključujući
           čaršaf na gumu. Cijene se kreću od {formatPrice(minCijena)} do {formatPrice(maxCijena)},
-          zavisno od tipa i veličine seta. Ispod možete filtrirati ponudu po vrsti proizvoda,
-          materijalu, dimenziji i cijeni, te je sortirati po cijeni ili redoslijedu dodavanja.
+          zavisno od tipa i veličine seta. Ispod možete filtrirati ponudu po vrsti proizvoda.
         </p>
       </div>
 
-      {/* 03 — Filteri i sortiranje (§5-03) + 04 — Grid (§5-04) */}
+      {/* 03 — Filter (§5-03) pojednostavljen 23.08.2026 (korisnički feedback: "za ovako mali broj
+          proizvoda filter je suvišan... ostavi samo Posteljine, Peskiri, Čaršafi/Gume"). Puni
+          sidebar (materijal/dimenzija/boja/cijena) + sortiranje su uklonjeni iz vidljivog UI-a —
+          jedini vidljivi filter je "vrsta", prikazan kao red pill dugmadi iznad grida umjesto
+          sidebar-a s naslovom "Filteri"/"Očisti sve". Logika za ostale filtere i sortiranje ostaje
+          netaknuta u ./shop-filters.ts i ./filters.tsx (FiltersDesktop/FiltersMobile/SortLinks) —
+          i dalje ispravno radi ako neko ručno doda ?materijal=/?sort= u URL, samo više nema
+          kontrole za to u UI-u. Canonical (uvijek /shop/) i noindex za 2+ filtera/sort su netaknuti
+          u shop-filters.ts — sad se kroz UI nikad ne mogu okinuti jer postoji samo 1 vidljivi
+          filter, što je namjerno u skladu sa zadatkom. + 04 — Grid (§5-04). */}
       <div className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8 md:pb-24">
-        {/* Mobilni: drawer trigger + sortiranje iznad grida (sidebar je hidden ispod md:) */}
-        <div className="mb-4 flex items-center justify-between gap-4 md:hidden">
-          <FiltersMobile current={params} />
-          <SortLinks current={params} />
+        <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
+          <VrstaFilter current={params} />
+          <p className="text-sm text-muted-foreground">
+            {prikazani.length} {prikazani.length === 1 ? "artikal" : "artikala"}
+          </p>
         </div>
 
-        <div className="md:grid md:grid-cols-[240px_1fr] md:gap-10">
-          <FiltersDesktop current={params} />
-
-          <div>
-            <div className="mb-6 hidden items-center justify-between md:flex">
-              <p className="text-sm text-muted-foreground">
-                {prikazani.length} {prikazani.length === 1 ? "artikal" : "artikala"}
-              </p>
-              <SortLinks current={params} />
-            </div>
-
-            {prikazani.length > 0 ? (
-              // Grid: grid-cols-1 md:grid-cols-4 (dogovorena izmjena od 2 mobilne kolone iz
-              // CLAUDE_aurelia.md §5-04 — vidi napomenu u kartica-proizvoda.tsx).
-              <div className="grid grid-cols-1 gap-6 md:grid-cols-4 md:gap-8">
-                {prikazani.map((proizvod, indeks) => (
-                  <KarticaProizvoda key={proizvod.slug} proizvod={proizvod} prioritet={indeks < 8} />
-                ))}
-              </div>
-            ) : (
-              <p className="rounded-lg border border-dashed border-border p-8 text-center text-muted-foreground">
-                Nema proizvoda za odabranu kombinaciju filtera.{" "}
-                <Link
-                  href="/shop/"
-                  className="font-medium text-primary underline-offset-4 hover:underline"
-                >
-                  Ukloni filtere
-                </Link>
-                .
-              </p>
-            )}
+        {prikazani.length > 0 ? (
+          // Grid: grid-cols-1 md:grid-cols-4 (dogovorena izmjena od 2 mobilne kolone iz
+          // CLAUDE_aurelia.md §5-04 — vidi napomenu u kartica-proizvoda.tsx).
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-4 md:gap-8">
+            {prikazani.map((proizvod, indeks) => (
+              <KarticaProizvoda key={proizvod.slug} proizvod={proizvod} prioritet={indeks < 8} />
+            ))}
           </div>
-        </div>
+        ) : (
+          <p className="rounded-lg border border-dashed border-border p-8 text-center text-muted-foreground">
+            Nema proizvoda za odabranu vrstu.{" "}
+            <Link
+              href="/shop/"
+              className="font-medium text-primary underline-offset-4 hover:underline"
+            >
+              Ukloni filter
+            </Link>
+            .
+          </p>
+        )}
       </div>
 
-      {/* 05 — SEO tekst (§5-05), mora biti drugačiji od početne */}
+      {/* 05 — SEO tekst (§5-05), mora biti drugačiji od početne. Tekst je NETAKNUT — jedina izmjena
+          23.08.2026 (korisnički feedback: "ove sekcije ispod... si samo nabacao, nema strukture,
+          stoje onako napisane na sredini bez ikakvog smisla") je vizuelni tretman: svaki blok
+          ("Šta se nalazi u ponudi" i "Tabela dimenzija") sad je zasebna kartica (bg-card, ring-1
+          ring-border, radius) sa eyebrow labelom iznad h2, umjesto dvije gomile teksta poređane
+          jedna ispod druge u istoj traci bez granice. */}
       <section className="border-t border-border bg-muted/40 py-16 md:py-24">
-        <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
-          <div className="space-y-4">
-            <h2>Šta se nalazi u ponudi</h2>
-            <p className="text-base leading-relaxed text-foreground">
-              Asortiman je namjerno uzak umjesto razvučen: pamučni damast za posteljinu, plus
-              čaršafi i peškiri od 100% pamuka za sve što ide uz nju. Nema ranforce ni saten
-              varijanti — fokus je na dvije provjerene vrste tkanja umjesto na dugačku listu
-              materijala koje je teško međusobno uporediti.
-            </p>
-            <p className="text-base leading-relaxed text-foreground">
-              Posteljina od damasta dolazi u dvije linije: uža,{" "}
-              <Link
-                href="/shop/posteljina-od-damasta-uska-linija/"
-                className="font-medium text-primary underline-offset-4 hover:underline"
-              >
-                Posteljina od damasta — uska linija (Slifer + 1 jastučnica)
-              </Link>{" "}
-              za jednostruki krevet, i bračna,{" "}
-              <Link
-                href="/shop/posteljina-od-damasta-bracna/"
-                className="font-medium text-primary underline-offset-4 hover:underline"
-              >
-                Posteljina od damasta — bračna (Slifer + 2 jastučnice)
-              </Link>
-              , sa dvije jastučnice za dvoje. Obje imaju žakardno tkanje sa suptilnim uzorkom i
-              blagim prirodnim sjajem, umjesto glatke, jednolične površine.
-            </p>
-            <p className="text-base leading-relaxed text-foreground">
-              Čaršafi pokrivaju raspon od užeg jednostrukog dušeka (
-              <Link href="/shop/carsaf-160x240/" className="font-medium text-primary underline-offset-4 hover:underline">
-                Čaršaf 160×240 cm
-              </Link>
-              ) do velikog bračnog dušeka (
-              <Link href="/shop/carsaf-220x240/" className="font-medium text-primary underline-offset-4 hover:underline">
-                Čaršaf 220×240 cm
-              </Link>
-              ), uključujući i čaršaf na gumu za one koji ne žele da im se čaršaf pomjera tokom
-              noći (
-              <Link
-                href="/shop/carsaf-na-gumu-bracni-220x240/"
-                className="font-medium text-primary underline-offset-4 hover:underline"
-              >
-                Čaršaf na gumu — bračni 220×240 cm
-              </Link>
-              ). Peškire nudimo u dvije veličine — manji za lice i ruke, veći za tijelo poslije
-              tuširanja — oba od gustog, upijajućeg pamuka. Ispod je tabela koja povezuje svaku
-              dimenziju iz ponude sa krevetom ili upotrebom za koju je namijenjena.
-            </p>
+        <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+          <div className="rounded-xl bg-card p-6 ring-1 ring-border sm:p-8">
+            <p className="text-eyebrow text-primary">Asortiman</p>
+            <h2 className="mt-2">Šta se nalazi u ponudi</h2>
+            <div className="mt-4 max-w-3xl space-y-4">
+              <p className="text-base leading-relaxed text-foreground">
+                Asortiman je namjerno uzak umjesto razvučen: pamučni damast za posteljinu, plus
+                čaršafi i peškiri od 100% pamuka za sve što ide uz nju. Nema ranforce ni saten
+                varijanti — fokus je na dvije provjerene vrste tkanja umjesto na dugačku listu
+                materijala koje je teško međusobno uporediti.
+              </p>
+              <p className="text-base leading-relaxed text-foreground">
+                Posteljina od damasta dolazi u dvije linije: uža,{" "}
+                <Link
+                  href="/shop/posteljina-od-damasta-uska-linija/"
+                  className="font-medium text-primary underline-offset-4 hover:underline"
+                >
+                  Posteljina od damasta — uska linija (Slifer + 1 jastučnica)
+                </Link>{" "}
+                za jednostruki krevet, i bračna,{" "}
+                <Link
+                  href="/shop/posteljina-od-damasta-bracna/"
+                  className="font-medium text-primary underline-offset-4 hover:underline"
+                >
+                  Posteljina od damasta — bračna (Slifer + 2 jastučnice)
+                </Link>
+                , sa dvije jastučnice za dvoje. Obje imaju žakardno tkanje sa suptilnim uzorkom i
+                blagim prirodnim sjajem, umjesto glatke, jednolične površine.
+              </p>
+              <p className="text-base leading-relaxed text-foreground">
+                Čaršafi pokrivaju raspon od užeg jednostrukog dušeka (
+                <Link
+                  href="/shop/carsaf-160x240/"
+                  className="font-medium text-primary underline-offset-4 hover:underline"
+                >
+                  Čaršaf 160×240 cm
+                </Link>
+                ) do velikog bračnog dušeka (
+                <Link
+                  href="/shop/carsaf-220x240/"
+                  className="font-medium text-primary underline-offset-4 hover:underline"
+                >
+                  Čaršaf 220×240 cm
+                </Link>
+                ), uključujući i čaršaf na gumu za one koji ne žele da im se čaršaf pomjera tokom
+                noći (
+                <Link
+                  href="/shop/carsaf-na-gumu-bracni-220x240/"
+                  className="font-medium text-primary underline-offset-4 hover:underline"
+                >
+                  Čaršaf na gumu — bračni 220×240 cm
+                </Link>
+                ). Peškire nudimo u dvije veličine — manji za lice i ruke, veći za tijelo poslije
+                tuširanja — oba od gustog, upijajućeg pamuka. Ispod je tabela koja povezuje svaku
+                dimenziju iz ponude sa krevetom ili upotrebom za koju je namijenjena.
+              </p>
+            </div>
           </div>
 
-          <div className="mt-12 space-y-4">
-            <h2>Tabela dimenzija — koja veličina za koji krevet</h2>
-            <p className="text-base leading-relaxed text-foreground">
+          <div className="mt-8 rounded-xl bg-card p-6 ring-1 ring-border sm:p-8">
+            <p className="text-eyebrow text-primary">Vodič kroz dimenzije</p>
+            <h2 className="mt-2">Tabela dimenzija — koja veličina za koji krevet</h2>
+            <p className="mt-4 max-w-3xl text-base leading-relaxed text-foreground">
               Tabela ispod prikazuje dimenzije dostupne u trenutnoj ponudi i uz koji tip kreveta ili
               upotrebu obično odgovaraju.
             </p>
-            <div className="overflow-x-auto rounded-lg border border-border">
+            <div className="mt-6 overflow-x-auto rounded-lg border border-border">
               <table className="w-full border-collapse text-left text-sm">
                 <thead>
                   <tr className="border-b border-border bg-muted">

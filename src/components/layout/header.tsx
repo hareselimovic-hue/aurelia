@@ -73,34 +73,44 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/80">
-      <div className="mx-auto flex h-16 max-w-7xl items-center gap-4 px-4 sm:px-6 lg:px-8">
-        {/* Logo — <img>, ne CSS background */}
-        <Link href="/" className="flex shrink-0 items-center">
-          <img src="/logo.svg" alt="Aurelia posteljina" className="h-8 w-auto" />
-        </Link>
+      <div className="mx-auto flex h-16 max-w-7xl items-center gap-6 px-4 sm:px-6 lg:px-8">
+        {/* Lijeva grupa: logo + navigacija — drže se zajedno kao jedna cjelina umjesto da nav
+            "pluta" u sredini (korisnički feedback 23.08.2026: header djeluje zbijeno/nesmisleno
+            grupisan). */}
+        <div className="flex min-w-0 items-center gap-8">
+          {/* Logo — <img>, ne CSS background */}
+          <Link href="/" className="flex shrink-0 items-center">
+            <img src="/logo.svg" alt="Aurelia posteljina" className="h-8 w-auto" />
+          </Link>
 
-        <nav aria-label="Glavna navigacija" className="hidden md:block">
-          <ul className="flex items-center gap-6">
-            {NAVIGACIJA.map((stavka) => (
-              <li key={stavka.href}>
-                <Link
-                  href={stavka.href}
-                  className="text-sm font-medium text-foreground transition-colors hover:text-primary"
-                >
-                  {stavka.naziv}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </nav>
+          <nav aria-label="Glavna navigacija" className="hidden md:block">
+            <ul className="flex items-center gap-6">
+              {NAVIGACIJA.map((stavka) => (
+                <li key={stavka.href}>
+                  <Link
+                    href={stavka.href}
+                    className="text-sm font-medium text-foreground transition-colors hover:text-primary"
+                  >
+                    {stavka.naziv}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        </div>
 
-        <PretragaPolje className="relative hidden max-w-xs flex-1 md:block" />
+        {/* Desna grupa: pretraga + telefon + korpa (+ mobilni meni) — jedna vizuelna cjelina s
+            razumnim razmakom, umjesto telefona izolovanog sasvim desno (korisnički feedback:
+            "pretrazi... treba da bude pomjereno uz broj"). Pretraga suzena sa flex-1 na fiksnu
+            širinu da ne razvlači sredinu headera. */}
+        <div className="ml-auto flex shrink-0 items-center gap-2 sm:gap-3">
+          <PretragaPolje className="relative hidden w-40 lg:block xl:w-56" />
 
-        <div className="ml-auto flex items-center gap-1">
-          {/* Telefon na mobilnom kao tel: link (CLAUDE_aurelia.md §4-01) */}
+          {/* Telefon — ikona-only od mobilnog do lg (pokriva i md-lg razmak gdje prije nije bilo
+              telefona), puni tekst tek od lg naviše kad ima mjesta uz pretragu. */}
           <a
             href={telefonHref}
-            className="inline-flex size-10 items-center justify-center rounded-lg text-foreground transition-colors hover:bg-muted md:hidden"
+            className="inline-flex size-10 items-center justify-center rounded-lg text-foreground transition-colors hover:bg-muted lg:hidden"
             aria-label={`Pozovi ${TELEFON}`}
           >
             <Phone className="size-5" aria-hidden="true" />

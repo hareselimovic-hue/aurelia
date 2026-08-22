@@ -32,6 +32,57 @@ import {
   type ShopParams,
 } from "./shop-filters";
 
+/** Pill dugme za VrstaFilter — sekundarno/outline dugme iz docs/design-system.md §4.1, ali
+ * rounded-full (pill bedž radius iz §3) umjesto rounded-lg, i sa "aktivno" stanjem u primary boji
+ * (isti par kao primarno CTA dugme) da odabrana vrsta bude jasno vidljiva. */
+function pillKlasa(aktivno: boolean): string {
+  return `inline-flex h-10 shrink-0 items-center rounded-full border px-4 text-sm font-medium transition-colors ${
+    aktivno
+      ? "border-primary bg-primary text-primary-foreground"
+      : "border-border bg-background text-foreground hover:border-primary/40 hover:bg-muted"
+  }`;
+}
+
+/** Jedini vidljivi filter na shopu — "vrsta" (Posteljine/Peškiri/Čaršafi i gume), prikazan kao red
+ * pill dugmadi umjesto punog sidebar filtera (korisnički feedback 23.08.2026: "za ovako mali broj
+ * proizvoda filter je suvišan... ostavi samo Posteljine, Peskiri, Čaršafi/Gume"). Materijal,
+ * dimenzija, boja, cijena i sortiranje su uklonjeni iz vidljivog UI-a — logika za njih ostaje u
+ * shop-filters.ts i dalje ispravno radi ako neko ručno doda taj parametar u URL, samo se više ne
+ * prikazuje kontrola za njih (FiltersDesktop/FiltersMobile/SortLinks ispod ostaju definisani, ali
+ * ih shop/page.tsx više ne renderuje). */
+export function VrstaFilter({ current }: { current: ShopParams }) {
+  const aktivno = current.vrsta;
+
+  return (
+    <div
+      role="group"
+      aria-label="Filtriraj po vrsti proizvoda"
+      className="flex flex-wrap items-center gap-2"
+    >
+      <Link
+        href={hrefSaIzmjenom(current, "vrsta", undefined)}
+        aria-current={!aktivno ? "true" : undefined}
+        className={pillKlasa(!aktivno)}
+      >
+        Sve
+      </Link>
+      {VRSTA_OPCIJE.map((opcija) => {
+        const jeAktivno = aktivno === opcija.value;
+        return (
+          <Link
+            key={opcija.value}
+            href={hrefSaIzmjenom(current, "vrsta", jeAktivno ? undefined : opcija.value)}
+            aria-current={jeAktivno ? "true" : undefined}
+            className={pillKlasa(jeAktivno)}
+          >
+            {opcija.label}
+          </Link>
+        );
+      })}
+    </div>
+  );
+}
+
 function opcijaKlasa(aktivno: boolean): string {
   return `block rounded-md px-2 py-1.5 text-sm transition-colors ${
     aktivno

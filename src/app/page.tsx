@@ -7,7 +7,17 @@
 
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, Banknote, Leaf, RotateCcw, Truck } from "lucide-react";
+import {
+  ArrowRight,
+  Banknote,
+  Droplets,
+  Layers,
+  Leaf,
+  Ruler,
+  RotateCcw,
+  ShieldCheck,
+  Truck,
+} from "lucide-react";
 
 import {
   Accordion,
@@ -109,6 +119,37 @@ const RECENZIJE = [
     naziv: "Hotel Stari Grad",
     uloga: "Boutique hotel, nabavka tekstila",
     tekst: "Za hotel nam je bitno da posteljina izdrži profesionalno pranje na visokoj temperaturi bez gubljenja sjaja tkanine — to je standard koji smo od Aurelije dobili odmah, bez probne serije koja ne zadovolji. Gostima se dopada blagi sjaj damasta, izgleda njegovanije od obične posteljine koju smo ranije koristili.",
+  },
+] as const;
+
+// "Zašto kod nas" — ikonice po sadržaju svakog bloka (korisnički feedback 23.08.2026: sekcija
+// je bila 4 gola teksta bloka bez vizuelne izdvojenosti). Ikonice iz lucide-react, boja/pozadina
+// iz docs/design-system.md (accent kao pozadina malog "badge" kruga, primary kao boja ikonice —
+// isti par tokena kao "Novo" bedž na kartici proizvoda, §4.2).
+const ZASTO_KOD_NAS = [
+  {
+    naslov: "Rok i cijena dostave",
+    tekst:
+      "Šaljemo na adresu širom Bosne i Hercegovine putem kurirske službe. Tačan trošak dostave i okvirni rok isporuke vidite prije potvrde narudžbe, prilikom unosa adrese — bez skrivenih troškova koji iskrsnu tek na kraju.",
+    Ikonica: Truck,
+  },
+  {
+    naslov: "Postupak zamjene",
+    tekst:
+      "Ako veličina ili model ne odgovaraju, javite nam se telefonom ili na Viber u roku od 14 dana od prijema. Dogovorimo zamjenu direktno s vama, bez formulara i čekanja na potvrdu.",
+    Ikonica: RotateCcw,
+  },
+  {
+    naslov: "Kvalitet za učestalu upotrebu",
+    tekst:
+      "Materijal biramo i sa zahtjevnijom upotrebom na umu — apartmanima i iznajmljivanjem, gdje se posteljina mijenja i pere mnogo češće nego u prosječnom domaćinstvu. Ista tkanina i isti standard vrijede bez obzira da li opremate jedan krevet ili više jedinica odjednom.",
+    Ikonica: Droplets,
+  },
+  {
+    naslov: "Ko stoji iza shopa",
+    tekst:
+      "Aurelia je nov brend koji pažljivo bira materijal prije nego što artikal uđe u ponudu. Nema call centra ni automatiziranih odgovora — pitanja o proizvodu ili narudžbi rješavamo direktno, telefonom ili preko Vibera.",
+    Ikonica: ShieldCheck,
   },
 ] as const;
 
@@ -296,122 +337,135 @@ export default function Home() {
           zamjene, ko stoji iza shopa — dokument dozvoljava 3-4 bloka). Četvrti blok ("Kvalitet za
           učestalu upotrebu") dodan 22.08.2026 (aurelia-copywriter, zadatak "Naglasi premium
           kvalitet") — iskren, bez izmišljenih statistika, samo objašnjava zašto je materijal
-          biran i sa apartmanima/iznajmljivanjem na umu, ne samo kućnom upotrebom. Grid promijenjen
-          sa sm:grid-cols-3 na sm:grid-cols-2 lg:grid-cols-4 da prihvati 4 bloka bez neravnog
-          zadnjeg reda — finalni vizuelni polish radi aurelia-frontend. */}
+          biran i sa apartmanima/iznajmljivanjem na umu, ne samo kućnom upotrebom. Grid
+          sm:grid-cols-2 lg:grid-cols-4 primaju 4 bloka bez neravnog zadnjeg reda. Blokovi
+          pretvoreni u prave kartice 23.08.2026 (korisnički feedback: "samo je opisano, nema
+          kartica, nije izdvojeno") — bg-card + ring-1 ring-border + ikonica po bloku, isti
+          vizuelni jezik kao kartica proizvoda (docs/design-system.md §4.2). */}
       <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 md:py-24 lg:px-8">
         <h2>Zašto kod nas</h2>
-        <div className="mt-8 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-          <div>
-            <h3>Rok i cijena dostave</h3>
-            <p className="mt-2 text-muted-foreground">
-              Šaljemo na adresu širom Bosne i Hercegovine putem kurirske službe. Tačan trošak
-              dostave i okvirni rok isporuke vidite prije potvrde narudžbe, prilikom unosa
-              adrese — bez skrivenih troškova koji iskrsnu tek na kraju.
-            </p>
-          </div>
-          <div>
-            <h3>Postupak zamjene</h3>
-            <p className="mt-2 text-muted-foreground">
-              Ako veličina ili model ne odgovaraju, javite nam se telefonom ili na Viber u roku
-              od 14 dana od prijema. Dogovorimo zamjenu direktno s vama, bez formulara i
-              čekanja na potvrdu.
-            </p>
-          </div>
-          <div>
-            <h3>Kvalitet za učestalu upotrebu</h3>
-            <p className="mt-2 text-muted-foreground">
-              Materijal biramo i sa zahtjevnijom upotrebom na umu — apartmanima i
-              iznajmljivanjem, gdje se posteljina mijenja i pere mnogo češće nego u prosječnom
-              domaćinstvu. Ista tkanina i isti standard vrijede bez obzira da li opremate jedan
-              krevet ili više jedinica odjednom.
-            </p>
-          </div>
-          <div>
-            <h3>Ko stoji iza shopa</h3>
-            <p className="mt-2 text-muted-foreground">
-              Aurelia je nov brend koji pažljivo bira materijal prije nego što artikal uđe u
-              ponudu. Nema call centra ni automatiziranih odgovora — pitanja o proizvodu ili
-              narudžbi rješavamo direktno, telefonom ili preko Vibera.
-            </p>
-          </div>
+        <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {ZASTO_KOD_NAS.map(({ naslov, tekst, Ikonica }) => (
+            <div
+              key={naslov}
+              className="flex flex-col rounded-xl bg-card p-6 ring-1 ring-border"
+            >
+              <div className="flex size-10 items-center justify-center rounded-lg bg-accent text-primary">
+                <Ikonica className="size-5" aria-hidden="true" />
+              </div>
+              <h3 className="mt-4">{naslov}</h3>
+              <p className="mt-2 text-muted-foreground">{tekst}</p>
+            </div>
+          ))}
         </div>
       </section>
 
       {/* 07 — SEO tekst (400-600 riječi, CLAUDE_aurelia.md §4-07): h2 + 3 h3, prilagođeno stvarnom
-          asortimanu (pamuk i pamučni damast, ne ranforce/saten — vidi napomenu na vrhu products.ts). */}
-      <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 md:py-24 lg:px-8">
-        <div className="max-w-3xl">
-          <h2>Kako odabrati posteljinu</h2>
-          <p className="mt-4 text-muted-foreground">
-            Dobra posteljina se svodi na tri odluke: materijal, dimenziju i način na koji je
-            planirate održavati. Kad su te tri stvari riješene, ostaje samo boja i lični ukus.
-            U nastavku objašnjavamo na šta obratiti pažnju prije kupovine, bilo da opremate
-            jednostruki krevet ili bračni krevet za dvoje.
-          </p>
+          asortimanu (pamuk i pamučni damast, ne ranforce/saten — vidi napomenu na vrhu
+          products.ts). Tekst je NETAKNUT (isti paragrafi, isti linkovi) — jedina izmjena
+          23.08.2026 (korisnički feedback: "malo bolje vizuelno treba da izgleda", sekcija je
+          djelovala kao "gola Wikipedia stranica") je vizuelni tretman: puna bg-muted traka (isti
+          obrazac kao Trust traka, docs/design-system.md §4.4) + 3 h3 podsekcije prikazane kao
+          kartice/kolone na desktopu umjesto naslaganih paragrafa, sa ikonicom uz svaki h3
+          (materijal/dimenzija/održavanje). SEO tekst ostaje pravi HTML tekst u DOM-u, ne slika. */}
+      <section className="border-y border-border bg-muted">
+        <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 md:py-24 lg:px-8">
+          <div className="max-w-3xl">
+            <h2>Kako odabrati posteljinu</h2>
+            <p className="mt-4 text-muted-foreground">
+              Dobra posteljina se svodi na tri odluke: materijal, dimenziju i način na koji je
+              planirate održavati. Kad su te tri stvari riješene, ostaje samo boja i lični ukus.
+              U nastavku objašnjavamo na šta obratiti pažnju prije kupovine, bilo da opremate
+              jednostruki krevet ili bračni krevet za dvoje.
+            </p>
+          </div>
 
-          <h3 className="mt-8">Materijali — pamuk i pamučni damast</h3>
-          <p className="mt-2 text-muted-foreground">
-            U ponudi imamo dvije vrste pamučnog tkanja. Obični pamuk koristimo za čaršafe i
-            peškire — gust, izdržljiv i praktičan za svakodnevnu upotrebu. Za posteljinu
-            biramo pamučni damast: žakardno tkanje kod kojeg se uzorak utka direktno u
-            materijal, pa tkanina ima blagi prirodan sjaj i gušću, plemenitiju strukturu od
-            obične pamučne posteljine. Ako želite tkaninu koja izgleda njegovano i nakon
-            više pranja, damast je bolji izbor od tanje, glatke pamučne varijante; ako vam je
-            prioritet jednostavnost i cijena, obični pamuk (npr.{" "}
-            <Link href="/shop/carsaf-160x240/" className="text-primary underline-offset-4 hover:underline">
-              Čaršaf 160×240 cm
-            </Link>
-            ) je sasvim dovoljan.
-          </p>
+          <div className="mt-10 grid gap-6 md:grid-cols-3 md:gap-8">
+            <div className="rounded-xl bg-card p-6 ring-1 ring-border">
+              <div className="flex size-10 items-center justify-center rounded-lg bg-accent text-primary">
+                <Layers className="size-5" aria-hidden="true" />
+              </div>
+              <h3 className="mt-4">Materijali — pamuk i pamučni damast</h3>
+              <p className="mt-2 text-muted-foreground">
+                U ponudi imamo dvije vrste pamučnog tkanja. Obični pamuk koristimo za čaršafe i
+                peškire — gust, izdržljiv i praktičan za svakodnevnu upotrebu. Za posteljinu
+                biramo pamučni damast: žakardno tkanje kod kojeg se uzorak utka direktno u
+                materijal, pa tkanina ima blagi prirodan sjaj i gušću, plemenitiju strukturu od
+                obične pamučne posteljine. Ako želite tkaninu koja izgleda njegovano i nakon
+                više pranja, damast je bolji izbor od tanje, glatke pamučne varijante; ako vam
+                je prioritet jednostavnost i cijena, obični pamuk (npr.{" "}
+                <Link
+                  href="/shop/carsaf-160x240/"
+                  className="text-primary underline-offset-4 hover:underline"
+                >
+                  Čaršaf 160×240 cm
+                </Link>
+                ) je sasvim dovoljan.
+              </p>
+            </div>
 
-          <h3 className="mt-8">Dimenzije — od jastučnice do bračnog seta</h3>
-          <p className="mt-2 text-muted-foreground">
-            Za jednostruki krevet uzimajte set s manjim Sliferom — naša{" "}
-            <Link
-              href="/shop/posteljina-od-damasta-uska-linija/"
-              className="text-primary underline-offset-4 hover:underline"
-            >
-              Posteljina od damasta — uska linija (Slifer + 1 jastučnica)
-            </Link>{" "}
-            pokriva navlaku za poplun 140×200 cm i jednu jastučnicu, tačno koliko treba za
-            jedan krevet. Za bračni krevet je veći Slifer 200×200 cm s dvije jastučnice —
-            takva je{" "}
-            <Link
-              href="/shop/posteljina-od-damasta-bracna/"
-              className="text-primary underline-offset-4 hover:underline"
-            >
-              Posteljina od damasta — bračna (Slifer + 2 jastučnice)
-            </Link>
-            . Kod čaršafa gledajte širinu dušeka, ne samo krevet: 160×240 cm pokriva uži,
-            jednostruki dušek, dok{" "}
-            <Link href="/shop/carsaf-220x240/" className="text-primary underline-offset-4 hover:underline">
-              Čaršaf 220×240 cm
-            </Link>{" "}
-            odgovara bračnom dušeku do oko 200 cm širine. Ako imate veći ili produženi dušek,
-            posegnite za čaršafom 240×290 cm. Za one kojima je najvažnije da se čaršaf ne pomjera
-            tokom noći, tu je{" "}
-            <Link
-              href="/shop/carsaf-na-gumu-bracni-220x240/"
-              className="text-primary underline-offset-4 hover:underline"
-            >
-              Čaršaf na gumu — bračni 220×240 cm
-            </Link>{" "}
-            — elastični rub ga drži zategnutog preko cijelog dušeka.
-          </p>
+            <div className="rounded-xl bg-card p-6 ring-1 ring-border">
+              <div className="flex size-10 items-center justify-center rounded-lg bg-accent text-primary">
+                <Ruler className="size-5" aria-hidden="true" />
+              </div>
+              <h3 className="mt-4">Dimenzije — od jastučnice do bračnog seta</h3>
+              <p className="mt-2 text-muted-foreground">
+                Za jednostruki krevet uzimajte set s manjim Sliferom — naša{" "}
+                <Link
+                  href="/shop/posteljina-od-damasta-uska-linija/"
+                  className="text-primary underline-offset-4 hover:underline"
+                >
+                  Posteljina od damasta — uska linija (Slifer + 1 jastučnica)
+                </Link>{" "}
+                pokriva navlaku za poplun 140×200 cm i jednu jastučnicu, tačno koliko treba za
+                jedan krevet. Za bračni krevet je veći Slifer 200×200 cm s dvije jastučnice —
+                takva je{" "}
+                <Link
+                  href="/shop/posteljina-od-damasta-bracna/"
+                  className="text-primary underline-offset-4 hover:underline"
+                >
+                  Posteljina od damasta — bračna (Slifer + 2 jastučnice)
+                </Link>
+                . Kod čaršafa gledajte širinu dušeka, ne samo krevet: 160×240 cm pokriva uži,
+                jednostruki dušek, dok{" "}
+                <Link
+                  href="/shop/carsaf-220x240/"
+                  className="text-primary underline-offset-4 hover:underline"
+                >
+                  Čaršaf 220×240 cm
+                </Link>{" "}
+                odgovara bračnom dušeku do oko 200 cm širine. Ako imate veći ili produženi
+                dušek, posegnite za čaršafom 240×290 cm. Za one kojima je najvažnije da se
+                čaršaf ne pomjera tokom noći, tu je{" "}
+                <Link
+                  href="/shop/carsaf-na-gumu-bracni-220x240/"
+                  className="text-primary underline-offset-4 hover:underline"
+                >
+                  Čaršaf na gumu — bračni 220×240 cm
+                </Link>{" "}
+                — elastični rub ga drži zategnutog preko cijelog dušeka.
+              </p>
+            </div>
 
-          <h3 className="mt-8">Održavanje i pranje</h3>
-          <p className="mt-2 text-muted-foreground">
-            I pamuk i pamučni damast podnose pranje na visokoj temperaturi (do 95°C), što je
-            korisno ako želite temeljitu dezinfekciju, na primjer poslije bolesti u kućanstvu.
-            Za svakodnevno održavanje boje i sjaja tkanine bolje je prati na 40-60°C — visoka
-            temperatura je opcija kad zatreba, ne obavezno pravilo. Prije prvog spavanja
-            preporučujemo jedno pranje, jer tkanina tada postane mekša. Sušenje na zraku čuva
-            vlakna duže nego mašinsko sušenje, a blago peglanje dok je posteljina još malo
-            vlažna vraća joj zategnut, uredan izgled. Ta izdržljivost na česta pranja čini
-            damast praktičnim izborom i za vlasnike apartmana, ne samo za dom — tkanina ne
-            gubi oblik ni sjaj ni kad se mijenja između svakog gosta.
-          </p>
+            <div className="rounded-xl bg-card p-6 ring-1 ring-border">
+              <div className="flex size-10 items-center justify-center rounded-lg bg-accent text-primary">
+                <Droplets className="size-5" aria-hidden="true" />
+              </div>
+              <h3 className="mt-4">Održavanje i pranje</h3>
+              <p className="mt-2 text-muted-foreground">
+                I pamuk i pamučni damast podnose pranje na visokoj temperaturi (do 95°C), što
+                je korisno ako želite temeljitu dezinfekciju, na primjer poslije bolesti u
+                kućanstvu. Za svakodnevno održavanje boje i sjaja tkanine bolje je prati na
+                40-60°C — visoka temperatura je opcija kad zatreba, ne obavezno pravilo.
+                Prije prvog spavanja preporučujemo jedno pranje, jer tkanina tada postane
+                mekša. Sušenje na zraku čuva vlakna duže nego mašinsko sušenje, a blago
+                peglanje dok je posteljina još malo vlažna vraća joj zategnut, uredan izgled.
+                Ta izdržljivost na česta pranja čini damast praktičnim izborom i za vlasnike
+                apartmana, ne samo za dom — tkanina ne gubi oblik ni sjaj ni kad se mijenja
+                između svakog gosta.
+              </p>
+            </div>
+          </div>
         </div>
       </section>
 
