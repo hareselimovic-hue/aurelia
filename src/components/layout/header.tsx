@@ -80,7 +80,7 @@ export function Header() {
         <div className="flex min-w-0 items-center gap-8">
           {/* Logo — <img>, ne CSS background */}
           <Link href="/" className="flex shrink-0 items-center">
-            <img src="/logo.svg" alt="Aurelia posteljina" className="h-8 w-auto" />
+            <img src="/logo-header.webp" alt="Aurelia posteljina" className="h-9 w-auto md:h-10" />
           </Link>
 
           <nav aria-label="Glavna navigacija" className="hidden md:block">
