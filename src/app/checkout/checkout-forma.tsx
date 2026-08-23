@@ -15,6 +15,7 @@ import type { NacinPlacanja } from "@/app/api/narudzbe/types";
 
 export type FormaPodaci = {
   imePrezime: string;
+  email: string;
   telefon: string;
   adresa: string;
   grad: string;
@@ -24,12 +25,17 @@ export type FormaPodaci = {
 
 const PRAZNA_FORMA: FormaPodaci = {
   imePrezime: "",
+  email: "",
   telefon: "",
   adresa: "",
   grad: "",
   napomena: "",
   nacinPlacanja: "pouzece",
 };
+
+// Jednostavna provjera formata e-maila — dovoljna za klijentsku validaciju, server (route.ts)
+// radi svoju nezavisnu provjeru.
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 type NacinPlacanjaOpcija = {
   vrijednost: NacinPlacanja;
@@ -62,7 +68,7 @@ const NACINI_PLACANJA: NacinPlacanjaOpcija[] = [
   },
 ];
 
-type PoljeGreske = Partial<Record<"imePrezime" | "telefon" | "adresa" | "grad", string>>;
+type PoljeGreske = Partial<Record<"imePrezime" | "email" | "telefon" | "adresa" | "grad", string>>;
 
 export function CheckoutForma({
   onSubmit,
@@ -83,6 +89,11 @@ export function CheckoutForma({
   function validiraj(): boolean {
     const nove: PoljeGreske = {};
     if (!podaci.imePrezime.trim()) nove.imePrezime = "Unesite ime i prezime.";
+    if (!podaci.email.trim()) {
+      nove.email = "Unesite email adresu.";
+    } else if (!EMAIL_REGEX.test(podaci.email.trim())) {
+      nove.email = "Unesite ispravnu email adresu.";
+    }
     if (!podaci.telefon.trim()) nove.telefon = "Unesite broj telefona.";
     if (!podaci.adresa.trim()) nove.adresa = "Unesite adresu za dostavu.";
     if (!podaci.grad.trim()) nove.grad = "Unesite grad.";
@@ -115,6 +126,29 @@ export function CheckoutForma({
             {poljaGreske.imePrezime && (
               <p id="imePrezime-greska" className="text-sm text-destructive">
                 {poljaGreske.imePrezime}
+              </p>
+            )}
+          </div>
+
+          <div className="space-y-1.5 sm:col-span-2">
+            <Label htmlFor="email">Email *</Label>
+            <Input
+              id="email"
+              type="email"
+              autoComplete="email"
+              value={podaci.email}
+              onChange={(e) => izmijeni("email", e.target.value)}
+              aria-invalid={Boolean(poljaGreske.email)}
+              aria-describedby={poljaGreske.email ? "email-greska" : "email-napomena"}
+              className="h-11"
+            />
+            {poljaGreske.email ? (
+              <p id="email-greska" className="text-sm text-destructive">
+                {poljaGreske.email}
+              </p>
+            ) : (
+              <p id="email-napomena" className="text-sm text-muted-foreground">
+                Informacije o isporuci šaljemo na ovu adresu, pa je pažljivo provjerite.
               </p>
             )}
           </div>

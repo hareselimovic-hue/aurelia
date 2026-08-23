@@ -28,6 +28,7 @@ export default function CheckoutPage() {
     const payload: NarudzbaPayload = {
       kupac: {
         imePrezime: podaci.imePrezime.trim(),
+        email: podaci.email.trim(),
         telefon: podaci.telefon.trim(),
         adresa: podaci.adresa.trim(),
         grad: podaci.grad.trim(),

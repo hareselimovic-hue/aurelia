@@ -12,7 +12,8 @@ export function PotvrdaNarudzbe({ brojNarudzbe }: { brojNarudzbe: string }) {
       <h1 className="mt-4">Hvala na narudžbi!</h1>
       <p className="mt-3 text-base leading-relaxed text-foreground">
         Vaša narudžba je zaprimljena pod brojem <span className="font-semibold">#{brojNarudzbe}</span>.
-        Kontaktiraćemo vas telefonom radi potvrde narudžbe i dogovora oko dostave.
+        Kontaktiraćemo vas telefonom radi potvrde narudžbe, a informacije o isporuci stižu vam na
+        email koji ste unijeli.
       </p>
       <Link
         href="/shop/"

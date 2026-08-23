@@ -17,6 +17,7 @@ export type NarudzbaStavka = {
 
 export type NarudzbaKupac = {
   imePrezime: string;
+  email: string;
   telefon: string;
   adresa: string;
   grad: string;

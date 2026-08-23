@@ -386,7 +386,12 @@ export default function Home() {
                 <Layers className="size-5" aria-hidden="true" />
               </div>
               <h3 className="mt-4">Materijali — pamuk i pamučni damast</h3>
-              <p className="mt-2 text-muted-foreground">
+              {/* "Pročitaj više" — CSS-only proširenje (checkbox hack), BEZ JS-a koji ubacuje
+                  sadržaj na klik. Puni tekst je uvijek u DOM-u (isto pravilo kao FAQ accordion,
+                  CLAUDE_aurelia.md §4-08/§10) — samo se vizuelno skraćuje preko line-clamp dok se
+                  ne otvori. Korisnički feedback 23.08.2026: kartice previše dugog teksta odjednom. */}
+              <input type="checkbox" id="prosiri-materijali" className="peer sr-only" />
+              <p className="mt-2 line-clamp-4 text-muted-foreground peer-checked:line-clamp-none">
                 U ponudi imamo dvije vrste pamučnog tkanja. Obični pamuk koristimo za čaršafe i
                 peškire — gust, izdržljiv i praktičan za svakodnevnu upotrebu. Za posteljinu
                 biramo pamučni damast: žakardno tkanje kod kojeg se uzorak utka direktno u
@@ -402,6 +407,18 @@ export default function Home() {
                 </Link>
                 ) je sasvim dovoljan.
               </p>
+              <label
+                htmlFor="prosiri-materijali"
+                className="mt-2 inline-block cursor-pointer text-sm font-medium text-primary underline-offset-4 hover:underline peer-checked:hidden"
+              >
+                Pročitaj više
+              </label>
+              <label
+                htmlFor="prosiri-materijali"
+                className="mt-2 hidden cursor-pointer text-sm font-medium text-primary underline-offset-4 hover:underline peer-checked:inline-block"
+              >
+                Prikaži manje
+              </label>
             </div>
 
             <div className="rounded-xl bg-card p-6 ring-1 ring-border">
@@ -409,7 +426,8 @@ export default function Home() {
                 <Ruler className="size-5" aria-hidden="true" />
               </div>
               <h3 className="mt-4">Dimenzije — od jastučnice do bračnog seta</h3>
-              <p className="mt-2 text-muted-foreground">
+              <input type="checkbox" id="prosiri-dimenzije" className="peer sr-only" />
+              <p className="mt-2 line-clamp-4 text-muted-foreground peer-checked:line-clamp-none">
                 Za jednostruki krevet uzimajte set s manjim Sliferom — naša{" "}
                 <Link
                   href="/shop/posteljina-od-damasta-uska-linija/"
@@ -445,6 +463,18 @@ export default function Home() {
                 </Link>{" "}
                 — elastični rub ga drži zategnutog preko cijelog dušeka.
               </p>
+              <label
+                htmlFor="prosiri-dimenzije"
+                className="mt-2 inline-block cursor-pointer text-sm font-medium text-primary underline-offset-4 hover:underline peer-checked:hidden"
+              >
+                Pročitaj više
+              </label>
+              <label
+                htmlFor="prosiri-dimenzije"
+                className="mt-2 hidden cursor-pointer text-sm font-medium text-primary underline-offset-4 hover:underline peer-checked:inline-block"
+              >
+                Prikaži manje
+              </label>
             </div>
 
             <div className="rounded-xl bg-card p-6 ring-1 ring-border">
@@ -452,7 +482,8 @@ export default function Home() {
                 <Droplets className="size-5" aria-hidden="true" />
               </div>
               <h3 className="mt-4">Održavanje i pranje</h3>
-              <p className="mt-2 text-muted-foreground">
+              <input type="checkbox" id="prosiri-odrzavanje" className="peer sr-only" />
+              <p className="mt-2 line-clamp-4 text-muted-foreground peer-checked:line-clamp-none">
                 I pamuk i pamučni damast podnose pranje na visokoj temperaturi (do 95°C), što
                 je korisno ako želite temeljitu dezinfekciju, na primjer poslije bolesti u
                 kućanstvu. Za svakodnevno održavanje boje i sjaja tkanine bolje je prati na
@@ -464,6 +495,18 @@ export default function Home() {
                 apartmana, ne samo za dom — tkanina ne gubi oblik ni sjaj ni kad se mijenja
                 između svakog gosta.
               </p>
+              <label
+                htmlFor="prosiri-odrzavanje"
+                className="mt-2 inline-block cursor-pointer text-sm font-medium text-primary underline-offset-4 hover:underline peer-checked:hidden"
+              >
+                Pročitaj više
+              </label>
+              <label
+                htmlFor="prosiri-odrzavanje"
+                className="mt-2 hidden cursor-pointer text-sm font-medium text-primary underline-offset-4 hover:underline peer-checked:inline-block"
+              >
+                Prikaži manje
+              </label>
             </div>
           </div>
         </div>

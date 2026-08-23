@@ -2,11 +2,15 @@
 // odluči prava infrastruktura. Trenutno: validiramo payload i strukturisano ga ispisujemo u server
 // log (console.log), pa vraćamo { ok: true, brojNarudzbe }. Prije lansiranja treba povezati:
 //   1) Email obavještenje (npr. Resend — korisnik ga već koristi u drugom projektu) kupcu i/ili
-//      vlasniku prodavnice, i
+//      vlasniku prodavnice — OVO JE SAD BLOKIRAJUĆE, ne samo "lijepo imati": checkout forma
+//      (23.08.2026) eksplicitno obećava kupcu da će informacije o isporuci dobiti na email, pa
+//      taj email STVARNO mora biti poslan prije lansiranja, inače je obećanje na formi lažno.
 //   2) Bazu za trajno čuvanje narudžbi (Postgres/Prisma, isti obrazac kao Guestio projekat —
 //      vidi project_guestio.md u projektnoj memoriji) umjesto da narudžba postoji samo u server logu.
 // Dok ovo ne bude povezano, narudžbe se GUBE nakon restarta servera/deploya — korisnik je o ovome
 // eksplicitno obaviješten, ovo nije tihi mock koji glumi uspjeh.
+
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 import { NextResponse } from "next/server";
 
@@ -29,6 +33,8 @@ function validirajKupca(kupac: unknown): kupac is NarudzbaKupac {
   const k = kupac as Record<string, unknown>;
   return (
     jeNepraznString(k.imePrezime) &&
+    jeNepraznString(k.email) &&
+    EMAIL_REGEX.test((k.email as string).trim()) &&
     jeNepraznString(k.telefon) &&
     jeNepraznString(k.adresa) &&
     jeNepraznString(k.grad) &&
@@ -88,7 +94,7 @@ export async function POST(request: Request) {
     return NextResponse.json<NarudzbaOdgovor>(
       {
         ok: false,
-        greska: "Nedostaju obavezni podaci kupca (ime i prezime, telefon, adresa, grad).",
+        greska: "Nedostaju obavezni podaci kupca (ime i prezime, email, telefon, adresa, grad).",
       },
       { status: 400 }
     );
@@ -132,7 +138,7 @@ export async function POST(request: Request) {
     [
       `=== NOVA NARUDŽBA ${brojNarudzbe} ===`,
       `Vrijeme: ${new Date().toISOString()}`,
-      `Kupac: ${payload.kupac.imePrezime} | telefon: ${payload.kupac.telefon}`,
+      `Kupac: ${payload.kupac.imePrezime} | email: ${payload.kupac.email} | telefon: ${payload.kupac.telefon}`,
       `Adresa: ${payload.kupac.adresa}, ${payload.kupac.grad}`,
       payload.kupac.napomena ? `Napomena: ${payload.kupac.napomena}` : null,
       `Način plaćanja: ${payload.nacinPlacanja}`,
