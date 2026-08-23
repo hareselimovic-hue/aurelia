@@ -150,7 +150,11 @@ const ZASTO_KOD_NAS = [
 ] as const;
 
 export default function Home() {
-  const proizvodi = getAllProducts();
+  // Set proizvodi (bedz="Ušteda 15%") idu prvi u gridu — korisnički feedback 23.08.2026: bili su
+  // na kraju (pozicija 10-11/11), skoro nevidljivi, iako su najbolja ponuda za apartmane/hotele
+  // (pozicioniranje već postavljeno u hero-u). Stabilan sort (ES2019+) čuva redoslijed unutar
+  // svake grupe — products.ts se NE mijenja, ovo je samo prikaz na početnoj.
+  const proizvodi = [...getAllProducts()].sort((a, b) => Number(!a.bedz) - Number(!b.bedz));
 
   // JSON-LD — CLAUDE_aurelia.md §9: Organization, WebSite+SearchAction, ItemList (svi proizvodi),
   // FAQPage. Bez AggregateRating (nema stvarnih ocjena, §9/§4-09/pravilo iz aurelia-frontend agenta).
