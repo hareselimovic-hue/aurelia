@@ -1,0 +1,34 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Perzistencija narudžbi (CLAUDE.md TODO, 23.08.2026) — dok ovoga nije bilo, narudžbe su postojale
+// samo u server logu i u emailovima, sa gubitkom pri svakom redeployu. `stavke` ostaje Json (ne
+// zasebna tabela) jer se stavke nikad ne mijenjaju nezavisno od narudžbe — cijena/naziv u trenutku
+// kupovine mora ostati "zamrznut" čak i ako se proizvod kasnije preimenuje ili mu se promijeni cijena.
+model Narudzba {
+  id            String    @id @default(cuid())
+  brojNarudzbe  String    @unique
+  imePrezime    String
+  email         String
+  telefon       String
+  adresa        String
+  grad          String
+  napomena      String?
+  nacinPlacanja String
+  stavke        Json
+  ukupnaCijena  Decimal   @db.Decimal(10, 2)
+  // "nova" | "poslano" — plain string (ne Prisma enum) da ostane isti stil kao NacinPlacanja u
+  // src/app/api/narudzbe/types.ts (lowercase, bez posebnog mapiranja između TS i DB vrijednosti).
+  status        String    @default("nova")
+  createdAt     DateTime  @default(now())
+  poslanoAt     DateTime?
+
+  @@index([createdAt])
+}

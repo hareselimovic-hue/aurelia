@@ -4,6 +4,12 @@ const nextConfig: NextConfig = {
   // CLAUDE_aurelia.md §2: "trailing slash konzistentno kroz cijeli sajt" — svi interni linkovi
   // (nav, breadcrumb, canonical) već koriste trailing slash, pa Next.js mora i generisati/zahtijevati isto.
   trailingSlash: true,
+  // Prisma klijent ima dinamičke fs pozive (traži query engine binarni fajl) koje bundler ne može
+  // statički analizirati — bez ovoga Turbopack "prati" i pakuje CIJEL projekat (uključivo public/
+  // folder sa svim slikama) u svaku serverless funkciju koja uvozi Prisma, umjesto da tretira paket
+  // kao običnu Node.js zavisnost razrješenu u runtime-u (23.08.2026, upozorenje pri prvom buildu
+  // nakon dodavanja baze).
+  serverExternalPackages: ["@prisma/client"],
   // "standalone" izlaz — samodovoljan build (minimalan node_modules + server.js) namijenjen
   // pokretanju na pravom Node.js serveru (cPanel "Setup Node.js App" / Passenger, isto tako i
   // Railway/Docker). Bez ovoga bi trebao pun `next start` sa cijelim dev node_modules na serveru.

@@ -327,3 +327,65 @@ Način plaćanja: ${nacinPlacanjaNaziv}${narudzba.kupac.napomena ? `\nNapomena: 
     );
   }
 }
+
+/** "Paket poslan" — okida se ručno iz /admin/narudzbe kad vlasnik označi narudžbu kao poslanu. */
+export async function posaljiObavjestenjePoslano(
+  narudzba: Pick<NarudzbaZaEmail, "brojNarudzbe" | "kupac">
+): Promise<void> {
+  const resend = getResendKlijent();
+  if (!resend) {
+    console.error(
+      `RESEND_API_KEY nije postavljen — obavještenje o slanju za narudžbu ${narudzba.brojNarudzbe} NIJE poslano.`
+    );
+    return;
+  }
+
+  const sadrzaj = `
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;margin-bottom:8px;">
+      <tr>
+        <td>
+          <span style="display:inline-block;padding:4px 12px;background-color:${BOJA.granica};color:${BOJA.bronzaTamnija};font-family:Arial,Helvetica,sans-serif;font-size:11px;font-weight:bold;letter-spacing:0.5px;border-radius:20px;">
+            NARUDŽBA #${narudzba.brojNarudzbe}
+          </span>
+        </td>
+      </tr>
+    </table>
+    <h1 style="margin:16px 0 8px;font-family:Georgia,'Times New Roman',serif;font-weight:normal;font-size:24px;color:${BOJA.tekst};">
+      Vaš paket je poslan!
+    </h1>
+    <p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:1.7;color:${BOJA.tekstMuted};">
+      Narudžba #${narudzba.brojNarudzbe} je na putu do vas, na adresu: ${narudzba.kupac.adresa}, ${narudzba.kupac.grad}.
+    </p>
+    <p style="margin:28px 0 0;font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:1.6;color:${BOJA.tekstMuted};">
+      Pitanja o dostavi? Samo odgovorite direktno na ovaj email.
+    </p>
+  `;
+
+  const html = emailShell({
+    pretpregled: `Narudžba #${narudzba.brojNarudzbe} je poslana i na putu je do vas`,
+    naslov: `Vaš paket je poslan — #${narudzba.brojNarudzbe}`,
+    sadrzaj,
+  });
+
+  const text = `Vaš paket je poslan!
+
+Narudžba #${narudzba.brojNarudzbe} je na putu do vas, na adresu: ${narudzba.kupac.adresa}, ${narudzba.kupac.grad}.
+
+Pitanja o dostavi? Samo odgovorite direktno na ovaj email.`;
+
+  const { error } = await resend.emails.send({
+    from: OD_ADRESA,
+    to: narudzba.kupac.email,
+    replyTo: VLASNIK_EMAIL,
+    subject: `Vaš paket je poslan — narudžba #${narudzba.brojNarudzbe}`,
+    html,
+    text,
+  });
+
+  if (error) {
+    console.error(
+      `Slanje obavještenja o slanju za narudžbu ${narudzba.brojNarudzbe} nije uspjelo:`,
+      error
+    );
+  }
+}

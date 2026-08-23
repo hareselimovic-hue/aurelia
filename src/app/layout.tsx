@@ -3,8 +3,6 @@ import { DM_Sans, Fraunces, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
 import { CartProvider } from "@/lib/cart-context";
-import { Header } from "@/components/layout/header";
-import { Footer } from "@/components/layout/footer";
 
 // Tijelo teksta: topla, čitljiva humanistička grotesk — nosi UI, cijene, opise.
 const dmSans = DM_Sans({
@@ -37,17 +35,16 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
+  // Header/Footer NISU ovdje — žive u src/app/(prodavnica)/layout.tsx, koji obavija samo javne
+  // kupovne stranice. /admin (izvan te route grupe) dobija samo ovaj goli layout, bez sajt
+  // navigacije/pretrage/korpe koje na internom alatu za narudžbe nemaju smisla.
   return (
     <html
       lang="bs"
       className={`${dmSans.variable} ${fraunces.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <CartProvider>
-          <Header />
-          <main className="flex-1">{children}</main>
-          <Footer />
-        </CartProvider>
+        <CartProvider>{children}</CartProvider>
       </body>
     </html>
   );

@@ -43,3 +43,6 @@ aurelia-deploy.tar.gz
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# prisma (generisan klijent, regeneriše se preko "postinstall": "prisma generate")
+/src/generated/prisma

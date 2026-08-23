@@ -1,5 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 
+import { KOLACIC_IME, jeSesijaValidna } from "@/lib/admin-sesija";
+
 // CLAUDE_aurelia.md §10 (blokirajuće): "HTTPS na cijelom sajtu" i "Jedna verzija domene (www ili
 // bez), 301 na drugu". Riješeno na nivou aplikacije (middleware) umjesto Apache/.htaccess — server
 // (global.ba, Passenger iza Apache-a) ne mora imati dodatnu konfiguraciju, radi bez obzira na
@@ -13,7 +15,14 @@ import { NextResponse, type NextRequest } from "next/server";
 // bi checkout POST sa www.aurelia.ba (ili bilo koji edge-case http zahtjev) tiho izgubio cijelu
 // narudžbu umjesto da vrati grešku. Za SEO je 308 identičan 301 (obje "permanent redirect", Google
 // ih tretira isto), pa §10 zahtjev ostaje ispunjen.
-export function middleware(request: NextRequest) {
+// /admin/* je zaštićen HMAC-potpisanim kolačićem (src/lib/admin-sesija.ts) — jedina dijeljena
+// lozinka, bez pravih korisničkih naloga (jednovlasnička prodavnica). /admin/login/ i /api/admin/login/
+// su namjerno izuzeti ispod, inače se ne bi moglo ni doći do forme za prijavu.
+const ZASTICENE_STRANICE_PREFIX = "/admin";
+const ZASTICENE_API_PREFIX = "/api/admin";
+const JAVNE_ADMIN_RUTE = ["/admin/login", "/api/admin/login"];
+
+export async function middleware(request: NextRequest) {
   const url = request.nextUrl.clone();
   const forwardedProto = request.headers.get("x-forwarded-proto");
   const isHttp = forwardedProto === "http";
@@ -23,6 +32,23 @@ export function middleware(request: NextRequest) {
     url.protocol = "https:";
     url.hostname = isWww ? url.hostname.slice(4) : url.hostname;
     return NextResponse.redirect(url, 308);
+  }
+
+  const putanja = url.pathname;
+  const jeZasticenaStranica =
+    putanja.startsWith(ZASTICENE_STRANICE_PREFIX) || putanja.startsWith(ZASTICENE_API_PREFIX);
+  const jeJavnaAdminRuta = JAVNE_ADMIN_RUTE.some((ruta) => putanja.startsWith(ruta));
+
+  if (jeZasticenaStranica && !jeJavnaAdminRuta) {
+    const validna = await jeSesijaValidna(request.cookies.get(KOLACIC_IME)?.value);
+    if (!validna) {
+      if (putanja.startsWith(ZASTICENE_API_PREFIX)) {
+        return NextResponse.json({ ok: false, greska: "Niste prijavljeni." }, { status: 401 });
+      }
+      const loginUrl = request.nextUrl.clone();
+      loginUrl.pathname = "/admin/login/";
+      return NextResponse.redirect(loginUrl, 307);
+    }
   }
 
   return NextResponse.next();

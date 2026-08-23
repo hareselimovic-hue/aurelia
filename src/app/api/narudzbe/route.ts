@@ -1,19 +1,13 @@
-// TODO backend: ovo NIJE finalna perzistencija narudžbi — namjerno privremeno rješenje dok se ne
-// odluči prava infrastruktura. Trenutno: validiramo payload, pošaljemo email potvrdu kupcu +
-// obavještenje vlasniku (email.ts, Resend), i strukturisano ispišemo narudžbu u server log kao
-// jedini trag da je narudžba primljena. Prije lansiranja treba povezati:
-//   1) Bazu za trajno čuvanje narudžbi (Postgres/Prisma, isti obrazac kao Guestio projekat —
-//      vidi project_guestio.md u projektnoj memoriji) umjesto da narudžba postoji samo u server logu
-//      i u mailovima. Ako se mail izgubi (spam filter, greška u slanju), narudžba trenutno nema
-//      drugi trag.
-// Dok ovo ne bude povezano, narudžbe se GUBE nakon restarta servera/deploya osim traga u mailovima
-// — korisnik je o ovome eksplicitno obaviješten, ovo nije tihi mock koji glumi uspjeh.
+// Narudžba se trajno čuva u bazi (Prisma/Postgres, src/lib/prisma.ts) — vidi /admin/narudzbe za
+// pregled i status (nova/poslano). Server log ispod ostaje kao brzi uvid u deploy logove, baza je
+// izvor istine.
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 import { NextResponse } from "next/server";
 
 import { posaljiObavjestenjeVlasniku, posaljiPotvrduKupcu } from "./email";
+import { prisma } from "@/lib/prisma";
 import type {
   NacinPlacanja,
   NarudzbaKupac,
@@ -133,7 +127,22 @@ export async function POST(request: Request) {
 
   const brojNarudzbe = generisiBrojNarudzbe();
 
-  // Jedina "perzistencija" za sada — strukturisan, čitljiv log na serveru (vidi TODO backend gore).
+  await prisma.narudzba.create({
+    data: {
+      brojNarudzbe,
+      imePrezime: payload.kupac.imePrezime,
+      email: payload.kupac.email,
+      telefon: payload.kupac.telefon,
+      adresa: payload.kupac.adresa,
+      grad: payload.kupac.grad,
+      napomena: payload.kupac.napomena,
+      nacinPlacanja: payload.nacinPlacanja,
+      stavke: payload.stavke,
+      ukupnaCijena: payload.ukupnaCijena,
+    },
+  });
+
+  // Log ostaje kao brz uvid kroz Vercel deploy logove — baza (gore) je stvarni izvor istine.
   console.log(
     [
       `=== NOVA NARUDŽBA ${brojNarudzbe} ===`,
