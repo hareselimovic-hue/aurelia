@@ -35,10 +35,16 @@ export function KarticaProizvoda({
 
   const glavnaSlika = proizvod.slike[0];
   const jePlaceholder = !glavnaSlika || glavnaSlika.url === PLACEHOLDER_IMAGE;
-  // Predstavnik za meta liniju "materijal · dimenzija" i za dimenziju koja ide u korpu s jednim
-  // klikom na "Dodaj u korpu" — izbor konkretne dimenzije (kad ih ima više) radi se na
-  // proizvodnoj stranici, ne na kartici.
+  // Predstavnik za meta liniju "materijal · dimenzija" — čisto informativan prikaz, uvijek prva
+  // stavka (npr. za setove pokazuje anchor komad, "Slifer 140×200 cm (2×)").
   const dimenzija = proizvod.dimenzije[0] ?? "";
+  // ALI: šta se stvarno lijepi na korpu-stavku je druga stvar. Kad ima više dimenzija koje NISU
+  // pravi izbor (setovi/bundle proizvodi, dimenzijeSuIzbor nije true), ne šaljemo prvu stavku kao
+  // da je "izabrana" — u korpi bi ispod naziva pisalo samo npr. "Slifer 140×200 cm (2×)", što
+  // izgleda kao nepotpun/nasumičan izbor umjesto punog sadržaja seta (korisnički feedback
+  // 23.08.2026). Isto pravilo kao DodajUKorpu na proizvodnoj stranici (shop/[slug]/dodaj-u-korpu.tsx).
+  const jeBundleBezIzbora = proizvod.dimenzije.length > 1 && proizvod.dimenzijeSuIzbor !== true;
+  const dimenzijaZaKorpu = jeBundleBezIzbora ? undefined : dimenzija || undefined;
   const href = `/shop/${proizvod.slug}/`;
 
   return (
@@ -65,9 +71,14 @@ export function KarticaProizvoda({
         )}
         {/* Traka za "bedz" (npr. "Ušteda 15%" na set proizvodima, korisnik 23.08.2026) — gornji
             desni ugao (lijevi je rezervisan za "Nema na stanju"). Terracotta/--destructive boja po
-            design-system.md §1: "Sniženje (nova cijena/bedž)" je tačno namjena ovog tokena. */}
+            design-system.md §1: "Sniženje (nova cijena/bedž)" je tačno namjena ovog tokena.
+            NAPOMENA: namjerno NE koristi .text-eyebrow klasu — ona sama postavlja
+            text-muted-foreground boju koja pobjeđuje nad text-destructive-foreground (cascade
+            layer sudar), zbog čega je tekst bio skoro nevidljiv na terakota pozadini (korisnički
+            feedback 23.08.2026). Ovdje se ista tipografija (xs/semibold/tracking/uppercase)
+            ponavlja ručno, bez sukoba boje. */}
         {proizvod.bedz && (
-          <span className="absolute right-3 top-3 rounded-full bg-destructive px-2.5 py-1 text-eyebrow text-destructive-foreground">
+          <span className="absolute right-3 top-3 rounded-full bg-destructive px-2.5 py-1 text-xs font-semibold tracking-[0.14em] text-destructive-foreground uppercase">
             {proizvod.bedz}
           </span>
         )}
@@ -95,7 +106,7 @@ export function KarticaProizvoda({
 
         <button
           type="button"
-          onClick={() => addItem(proizvod, dimenzija || undefined, 1)}
+          onClick={() => addItem(proizvod, dimenzijaZaKorpu, 1)}
           disabled={!proizvod.naStanju}
           // h-11 (44px) umjesto h-10 (40px) — minimalni touch target za mobilne uređaje
           // (eksterni dizajn review 23.08.2026, ui-ux-pro-max touch-target pravilo).

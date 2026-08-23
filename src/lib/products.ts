@@ -30,6 +30,17 @@ export type Proizvod = {
   /** Kratak tekst za "traku"/bedž u uglu kartice, npr. "Ušteda 15%" (korisnik, 23.08.2026 — set
    *  proizvodi). Opciono, generičko polje — nije vezano samo za popuste. */
   bedz?: string;
+  /**
+   * Da li `dimenzije[]` predstavlja STVARAN izbor (kupac bira TAČNO JEDNU od ponuđenih veličina) —
+   * default `false`/undefined. Kad je false (ili nedefinisano), `dimenzije[]` se i dalje prikazuje
+   * na proizvodnoj stranici, ali kao INFORMATIVNA, neklikljiva lista (npr. komponente seta —
+   * "Slifer 200x200", "Jastučnica 50x70 (2 kom)", "Čaršaf na gumu 220x240"... — sve se dobija
+   * zajedno, biranje jedne stavke ne mijenja šta se kupuje). Postavi na `true` samo za proizvode
+   * gdje kupac stvarno bira jednu od više alternativnih veličina istog artikla (trenutno nijedan
+   * proizvod u katalogu ne treba ovo — korisnički feedback 23.08.2026: birač je bio klikljiv i za
+   * setove i za damast bračnu posteljinu iako izbor ništa nije mijenjao, što je zbunjivalo kupce).
+   */
+  dimenzijeSuIzbor?: boolean;
 };
 
 /**

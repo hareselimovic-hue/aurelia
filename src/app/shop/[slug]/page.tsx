@@ -193,9 +193,11 @@ export default async function ProizvodnaStranica({
           {/* Info kolona: h1 → cijena → dimenzija/dodaj u korpu → kratak opis */}
           <div>
             {/* "bedz" traka (npr. "Ušteda 15%" na set proizvodima) — ista boja/namjena kao na
-                KarticaProizvoda (design-system.md §1, --destructive za sniženje/bedž). */}
+                KarticaProizvoda (design-system.md §1, --destructive za sniženje/bedž). Namjerno
+                BEZ .text-eyebrow klase — vidi napomenu u kartica-proizvoda.tsx (sudar boja koji je
+                pravio tekst nečitljivim). */}
             {proizvod.bedz && (
-              <span className="mb-2 inline-block rounded-full bg-destructive px-2.5 py-1 text-eyebrow text-destructive-foreground">
+              <span className="mb-2 inline-block rounded-full bg-destructive px-2.5 py-1 text-xs font-semibold tracking-[0.14em] text-destructive-foreground uppercase">
                 {proizvod.bedz}
               </span>
             )}

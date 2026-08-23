@@ -17,20 +17,24 @@ export function DodajUKorpu({ proizvod }: { proizvod: Proizvod }) {
   const [dimenzija, setDimenzija] = useState(proizvod.dimenzije[0] ?? "");
   const [dodano, setDodano] = useState(false);
 
-  // Naši trenutni proizvodi uglavnom imaju samo jednu dimenziju, ali birač mora raditi i kad ih
-  // ima više (npr. buduci proizvodi sa 140x200 / 160x200 / 200x200 varijantama) — CLAUDE_aurelia.md
-  // §7: "izbor dimenzije (ako proizvod ima više dimenzija)".
   const imaViseDimenzija = proizvod.dimenzije.length > 1;
+  // Pravi birač (klikljiv, mijenja šta se dodaje u korpu) SAMO kad `dimenzijeSuIzbor` eksplicitno
+  // kaže da su ponuđene veličine alternative istog artikla — CLAUDE_aurelia.md §7: "izbor
+  // dimenzije (ako proizvod ima više dimenzija)". Kad `dimenzijeSuIzbor` nije postavljeno (npr. set
+  // proizvodi, damast bračna), lista je i dalje vidljiva ali NEKLIKLJIVA — to su komponente koje se
+  // dobijaju zajedno, ne alternative (korisnički feedback 23.08.2026: klikljiv birač je zbunjivao
+  // kupce jer izbor ništa nije mijenjao).
+  const izborAktivan = imaViseDimenzija && proizvod.dimenzijeSuIzbor === true;
 
   function handleDodaj() {
-    addItem(proizvod, dimenzija || undefined, 1);
+    addItem(proizvod, izborAktivan ? dimenzija || undefined : undefined, 1);
     setDodano(true);
     window.setTimeout(() => setDodano(false), 2000);
   }
 
   return (
     <div className="space-y-4">
-      {imaViseDimenzija && (
+      {izborAktivan && (
         <div>
           <p id="dimenzija-label" className="text-eyebrow text-foreground">
             Dimenzija
@@ -56,6 +60,24 @@ export function DodajUKorpu({ proizvod }: { proizvod: Proizvod }) {
               >
                 {d}
               </button>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {imaViseDimenzija && !izborAktivan && (
+        <div>
+          <p className="text-eyebrow text-foreground">Set sadrži</p>
+          {/* Neklikljive "chip" oznake — vizuelno slične biraču, ali bez button/radio semantike,
+              hover ili aktivnog stanja, jer nema šta da se bira (sve stavke idu zajedno). */}
+          <div className="mt-2 flex flex-wrap gap-2">
+            {proizvod.dimenzije.map((d) => (
+              <span
+                key={d}
+                className="h-10 rounded-lg border border-border bg-muted px-4 text-sm font-medium leading-10 text-foreground"
+              >
+                {d}
+              </span>
             ))}
           </div>
         </div>
