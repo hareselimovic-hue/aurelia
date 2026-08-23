@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { Check } from "lucide-react";
 
 import { PlaceholderImage } from "@/components/placeholder-image";
 import { formatPrice } from "@/lib/format";
@@ -90,18 +89,15 @@ export function KarticaProizvoda({
           <Link href={href}>{proizvod.naziv}</Link>
         </h3>
 
-        {/* Za setove: pun sadržaj vidljiv odmah na kartici, ne tek na proizvodnoj stranici
-            (korisnički feedback 23.08.2026 — "ne vidi se sta sadrzi dok ne udjemo"). Za obične
-            proizvode ostaje kratka meta linija materijal · dimenzija. */}
-        {jeBundleBezIzbora ? (
-          <ul className="space-y-0.5 text-xs text-muted-foreground">
-            {proizvod.dimenzije.map((stavka) => (
-              <li key={stavka} className="flex items-start gap-1.5">
-                <Check className="mt-0.5 size-3 shrink-0 text-primary" aria-hidden="true" />
-                <span>{stavka}</span>
-              </li>
-            ))}
-          </ul>
+        {/* Korisnički feedback 23.08.2026 (drugi krug): ako naziv proizvoda već opisuje sadržaj
+            (npr. "bračna (Slifer + 2 jastučnice)"), taksativna lista ispod je suvišna — dovoljna
+            je ista kratka meta linija kao kod jednostavnih proizvoda. Puna itemizacija (i dalje
+            potrebna, jer naziv "Puni set posteljine — ..." NE opisuje svih 5-6 komponenti) ostaje
+            SAMO za "puni set" proizvode (`bedz` je jedini pouzdan signal za njih), i to u istom
+            jednorednom "stavka · stavka · stavka" formatu kao meta linija — ne vertikalna
+            checklist, jer je previše produžavala karticu. */}
+        {proizvod.bedz ? (
+          <p className="text-xs text-muted-foreground">{proizvod.dimenzije.join(" · ")}</p>
         ) : (
           <p className="text-sm text-muted-foreground">
             {proizvod.materijal} · {dimenzija}
