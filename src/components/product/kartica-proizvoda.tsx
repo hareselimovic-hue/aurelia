@@ -121,7 +121,9 @@ export function KarticaProizvoda({
           disabled={!proizvod.naStanju}
           // h-11 (44px) umjesto h-10 (40px) — minimalni touch target za mobilne uređaje
           // (eksterni dizajn review 23.08.2026, ui-ux-pro-max touch-target pravilo).
-          className="mt-2 h-11 w-full rounded-lg border border-border bg-background text-sm font-medium text-foreground transition-colors hover:border-primary hover:bg-primary hover:text-primary-foreground disabled:pointer-events-none disabled:opacity-50"
+          // active: ponavlja hover: (23.08.2026, korisnički feedback: dodir na mobilnom nije davao
+          // nikakav vizuelni signal) — :hover se ne okida pouzdano na dodir, :active da.
+          className="mt-2 h-11 w-full rounded-lg border border-border bg-background text-sm font-medium text-foreground transition-colors hover:border-primary hover:bg-primary hover:text-primary-foreground active:border-primary active:bg-primary active:text-primary-foreground disabled:pointer-events-none disabled:opacity-50"
         >
           Dodaj u korpu
         </button>

@@ -55,7 +55,9 @@ export function DodajUKorpu({ proizvod }: { proizvod: Proizvod }) {
                   "h-10 rounded-lg border px-4 text-sm font-medium transition-colors",
                   dimenzija === d
                     ? "border-primary bg-primary text-primary-foreground"
-                    : "border-border bg-background text-foreground hover:border-primary/40 hover:bg-muted"
+                    : // active: ponavlja hover: (23.08.2026) — :hover ne okida na dodir, pa bez
+                      // ovoga dodirivanje neizabrane dimenzije na mobilnom ne pokazuje ništa.
+                      "border-border bg-background text-foreground hover:border-primary/40 hover:bg-muted active:border-primary/40 active:bg-muted"
                 )}
               >
                 {d}
