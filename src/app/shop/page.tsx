@@ -11,7 +11,6 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { KarticaProizvoda } from "@/components/product/kartica-proizvoda";
-import { formatPrice } from "@/lib/format";
 import { getAllProducts } from "@/lib/products";
 import { VrstaFilter } from "./filters";
 import {
@@ -92,22 +91,6 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
   const filtrirani = filtrirajProizvode(sviProizvodi, params);
   const prikazani = sortirajProizvode(filtrirani, params.sort);
 
-  const brojArtikala = sviProizvodi.length;
-  const cijene = sviProizvodi.map((p) => p.cijena);
-  const minCijena = Math.min(...cijene);
-  const maxCijena = Math.max(...cijene);
-  // Materijal SAMO za posteljinu (kategorija "posteljina"), ne za cijeli katalog — prije je ovo
-  // bio Set svih p.materijal vrijednosti iz cijelog kataloga, pa je rečenica ispod znala reći
-  // "posteljinu (materijal: pamučni damast, pamuk)" jer je "pamuk" dolazio od čaršafa/peškira.
-  // Ta greška je tačno ono na šta se korisnik žalio ("negdje se spominje damast, negdje pamuk
-  // 100%, ne znam vise ni sta je") — posteljina u ponudi je isključivo pamučni damast, popravljeno
-  // 22.08.2026 (aurelia-copywriter).
-  const materijaliPosteljine = Array.from(
-    new Set(
-      sviProizvodi.filter((p) => p.kategorije.includes("posteljina")).map((p) => p.materijal)
-    )
-  );
-
   const breadcrumbSchema = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -140,14 +123,17 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
         </nav>
       </div>
 
-      {/* 02 — Naslov i uvod (§5-02): <h1> + 60-100 riječi, broj artikala/raspon cijena/materijali */}
+      {/* 02 — Naslov i uvod (§5-02): <h1> + 60-100 riječi. Korisnik 23.08.2026: ne navoditi broj
+          artikala ni raspon cijena (brzo zastari, mijenja se sa svakim novim proizvodom/setom) —
+          fokus na kvalitetu, izdržljivost i premium poziciju za apartmane/hotele/privatnu upotrebu. */}
       <div className="mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-8 md:pb-12">
         <h1>Posteljina — cijela ponuda</h1>
         <p className="mt-4 max-w-3xl text-lg leading-relaxed text-foreground">
-          Aurelia trenutno nudi {brojArtikala} artikala: posteljinu (materijal:{" "}
-          {materijaliPosteljine.join(", ")}), peškire u dvije veličine i čaršafe u više dimenzija, uključujući
-          čaršaf na gumu. Cijene se kreću od {formatPrice(minCijena)} do {formatPrice(maxCijena)},
-          zavisno od tipa i veličine seta. Ispod možete filtrirati ponudu po vrsti proizvoda.
+          Svaki komad u Aurelia ponudi biramo prije svega po kvalitetu materijala i izdržljivosti —
+          posteljina, peškiri i čaršafi izrađeni su da izdrže svakodnevno pranje i korištenje bez
+          gubitka mekoće i sjaja. To nas čini pouzdanim izborom kako za privatna domaćinstva, tako i
+          za apartmane i hotele kojima je stalna kvaliteta ključna za goste. Ispod možete filtrirati
+          ponudu po vrsti proizvoda.
         </p>
       </div>
 

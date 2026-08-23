@@ -35,18 +35,11 @@ export function Footer() {
           <div>
             <p className="font-heading text-lg font-medium text-foreground">Aurelia</p>
             {/*
-              TODO: podaci o firmi (adresa, PIB/ID broj, kontakt) su placeholderi — korisnik još
-              nije poslao stvarne registracijske podatke. Ne izmišljati brojeve, samo zamijeniti
-              ovaj blok kad podaci stignu.
+              TODO: PIB/ID broj još nije poslan — ne izmišljati, dodati kad korisnik pošalje.
             */}
             <address className="mt-3 space-y-1 text-sm not-italic text-muted-foreground">
-              <p>Aurelia d.o.o.</p>
-              <p>Adresa uskoro — Bosna i Hercegovina</p>
-              <p>
-                <a href="tel:+38760000000" className="hover:text-primary">
-                  +387 60 000 000
-                </a>
-              </p>
+              <p>TB d.o.o.</p>
+              <p>Derviša Numića 4, Bosna i Hercegovina</p>
               <p>
                 <a href="mailto:info@aurelia.ba" className="hover:text-primary">
                   info@aurelia.ba

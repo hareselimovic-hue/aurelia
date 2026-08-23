@@ -4,10 +4,10 @@
 // "Logo (link na `/`) · navigacija · pretraga · korpa · telefon."
 // - Navigacija maksimalno 5 stavki
 // - Logo je <img> sa alt="[Brend] posteljina", NE CSS background
-// - Telefon na mobilnom kao tel: link
+// - Telefon zamijenjen emailom kao kontakt kanalom (korisnik, 23.08.2026)
 
 import Link from "next/link";
-import { Menu, Phone, Search, ShoppingBag } from "lucide-react";
+import { Mail, Menu, Search, ShoppingBag } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -29,8 +29,7 @@ const NAVIGACIJA = [
   { naziv: "Kontakt", href: "/kontakt/" },
 ];
 
-// TODO copy: aurelia-copywriter / korisnik — telefon je placeholder dok se ne potvrdi stvarni broj.
-const TELEFON = "+387 60 000 000";
+const EMAIL = "info@aurelia.ba";
 
 function KorpaIkonica() {
   const { totalCount } = useCart();
@@ -69,7 +68,7 @@ function PretragaPolje({ className }: { className?: string }) {
 }
 
 export function Header() {
-  const telefonHref = `tel:${TELEFON.replace(/\s/g, "")}`;
+  const emailHref = `mailto:${EMAIL}`;
 
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/80">
@@ -110,22 +109,22 @@ export function Header() {
         <div className="ml-auto flex shrink-0 items-center gap-2 sm:gap-3">
           <PretragaPolje className="relative hidden w-40 lg:block xl:w-56" />
 
-          {/* Telefon — ikona-only od mobilnog do lg (pokriva i md-lg razmak gdje prije nije bilo
-              telefona), puni tekst tek od lg naviše kad ima mjesta uz pretragu. */}
+          {/* Email — ikona-only od mobilnog do lg, puni tekst tek od lg naviše kad ima mjesta uz
+              pretragu (isti raspored kao ranije telefonsko dugme, samo zamijenjen kanal). */}
           <a
-            href={telefonHref}
+            href={emailHref}
             className="inline-flex size-10 items-center justify-center rounded-lg text-foreground transition-colors hover:bg-muted lg:hidden"
-            aria-label={`Pozovi ${TELEFON}`}
+            aria-label={`Pošaljite email na ${EMAIL}`}
           >
-            <Phone className="size-5" aria-hidden="true" />
+            <Mail className="size-5" aria-hidden="true" />
           </a>
 
           <a
-            href={telefonHref}
+            href={emailHref}
             className="hidden items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-foreground transition-colors hover:bg-muted lg:inline-flex"
           >
-            <Phone className="size-4" aria-hidden="true" />
-            {TELEFON}
+            <Mail className="size-4" aria-hidden="true" />
+            {EMAIL}
           </a>
 
           <KorpaIkonica />
@@ -165,11 +164,11 @@ export function Header() {
               <div className="mt-auto border-t border-border px-4 py-4">
                 <PretragaPolje className="relative mb-3" />
                 <a
-                  href={telefonHref}
+                  href={emailHref}
                   className="inline-flex items-center gap-2 text-sm font-medium text-primary"
                 >
-                  <Phone className="size-4" aria-hidden="true" />
-                  {TELEFON}
+                  <Mail className="size-4" aria-hidden="true" />
+                  {EMAIL}
                 </a>
               </div>
             </SheetContent>
