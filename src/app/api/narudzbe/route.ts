@@ -3,8 +3,10 @@
 // log (console.log), pa vraćamo { ok: true, brojNarudzbe }. Prije lansiranja treba povezati:
 //   1) Email obavještenje (npr. Resend — korisnik ga već koristi u drugom projektu) kupcu i/ili
 //      vlasniku prodavnice — OVO JE SAD BLOKIRAJUĆE, ne samo "lijepo imati": checkout forma
-//      (23.08.2026) eksplicitno obećava kupcu da će informacije o isporuci dobiti na email, pa
-//      taj email STVARNO mora biti poslan prije lansiranja, inače je obećanje na formi lažno.
+//      eksplicitno obećava kupcu da će i POTVRDU NARUDŽBE i informacije o isporuci dobiti na
+//      email — korisnik je 23.08.2026 eksplicitno rekao da NEMA telefonskog kontakta kao
+//      alternative, email je JEDINI kanal potvrde. Taj email STVARNO mora biti poslan prije
+//      lansiranja, inače je obećanje na formi lažno i kupac ostaje bez ikakve potvrde.
 //   2) Bazu za trajno čuvanje narudžbi (Postgres/Prisma, isti obrazac kao Guestio projekat —
 //      vidi project_guestio.md u projektnoj memoriji) umjesto da narudžba postoji samo u server logu.
 // Dok ovo ne bude povezano, narudžbe se GUBE nakon restarta servera/deploya — korisnik je o ovome
