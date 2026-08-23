@@ -88,7 +88,7 @@ export const PROIZVODI: Proizvod[] = [
   {
     slug: "posteljina-od-damasta-uska-linija",
     naziv: "Posteljina od damasta — uska linija (Slifer + 1 jastučnica)",
-    cijena: 18,
+    cijena: 34.9,
     materijal: "pamučni damast",
     dimenzije: ["140x200 cm"],
     boja: BOJA_PRIVREMENA,
@@ -119,11 +119,10 @@ export const PROIZVODI: Proizvod[] = [
   {
     slug: "posteljina-od-damasta-bracna",
     // NAPOMENA (korisnik, 22.08.2026): "čaršaf na gumu" je izbačen iz ovog seta — prodaje se
-    // zasebno kao svoj proizvod (vidi "carsaf-na-gumu-bracni-220x240" niže). Cijena od 55 KM je
-    // prenesena iz originalnog cjenovnika koji JE uključivao čaršaf na gumu — treba potvrditi s
-    // korisnikom da li se cijena mijenja sad kad set ima jedan komad manje.
+    // zasebno kao svoj proizvod (vidi "carsaf-na-gumu-bracni-220x240" niže). Finalna prodajna
+    // cijena (79,90 KM, korisnik 23.08.2026) potvrđena je nakon ove izmjene seta.
     naziv: "Posteljina od damasta — bračna (Slifer + 2 jastučnice)",
-    cijena: 55,
+    cijena: 79.9,
     materijal: "pamučni damast",
     dimenzije: ["Slifer 200x200 cm", "jastučnica 50x70 cm (2 kom)"],
     boja: BOJA_PRIVREMENA,
@@ -150,7 +149,7 @@ export const PROIZVODI: Proizvod[] = [
   {
     slug: "peskir-140x70",
     naziv: "Peškir 140×70 cm",
-    cijena: 7,
+    cijena: 12.99,
     materijal: "pamuk",
     dimenzije: ["140x70 cm"],
     boja: BOJA_PRIVREMENA,
@@ -175,7 +174,7 @@ export const PROIZVODI: Proizvod[] = [
   {
     slug: "peskir-85x45",
     naziv: "Peškir 85×45 cm",
-    cijena: 3,
+    cijena: 5.99,
     materijal: "pamuk",
     dimenzije: ["85x45 cm"],
     boja: BOJA_PRIVREMENA,
@@ -199,12 +198,10 @@ export const PROIZVODI: Proizvod[] = [
   },
   {
     slug: "stopa-za-noge",
-    // NAPOMENA (korisnik, 22.08.2026): novi proizvod, dodan naknadno. Cijena i dimenzija NISU
-    // potvrđene od korisnika — postavljene su kao razumna procjena po uzoru na ostale pamučne
-    // artikle u ponudi (cijena između peškira 85×45 i 140×70; dimenzija standardna za stopu za
-    // noge/kupatilski otirač). PROVJERITI s korisnikom prije lansiranja.
+    // NAPOMENA: dimenzija (50×70 cm) je i dalje procjena (korisnik nije potvrdio) — cijena je
+    // potvrđena (korisnik, 23.08.2026: nabavna 6 KM, prodajna 7,90 KM).
     naziv: "Stopa za noge 50×70 cm",
-    cijena: 5,
+    cijena: 7.9,
     materijal: "pamuk",
     dimenzije: ["50x70 cm"],
     boja: BOJA_PRIVREMENA,
@@ -229,7 +226,7 @@ export const PROIZVODI: Proizvod[] = [
   {
     slug: "carsaf-160x240",
     naziv: "Čaršaf 160×240 cm",
-    cijena: 13,
+    cijena: 20.9,
     materijal: "pamuk",
     dimenzije: ["160x240 cm"],
     boja: BOJA_PRIVREMENA,
@@ -256,7 +253,7 @@ export const PROIZVODI: Proizvod[] = [
   {
     slug: "carsaf-220x240",
     naziv: "Čaršaf 220×240 cm",
-    cijena: 15,
+    cijena: 24.9,
     materijal: "pamuk",
     dimenzije: ["220x240 cm"],
     boja: BOJA_PRIVREMENA,
@@ -285,7 +282,7 @@ export const PROIZVODI: Proizvod[] = [
     // dimenzija se ne poklapaju). Polje `dimenzije` niže nosi stvarno navedenu vrijednost (240×290);
     // naziv nije mijenjan dok korisnik ne potvrdi koja je od te dvije brojke tačna.
     naziv: "Čaršaf 240×260",
-    cijena: 19,
+    cijena: 27.9,
     materijal: "pamuk",
     dimenzije: ["240x290 cm"],
     boja: BOJA_PRIVREMENA,
@@ -310,7 +307,7 @@ export const PROIZVODI: Proizvod[] = [
   {
     slug: "carsaf-na-gumu-bracni-220x240",
     naziv: "Čaršaf na gumu — bračni 220×240 cm",
-    cijena: 14,
+    cijena: 18,
     materijal: "pamuk",
     dimenzije: ["220x240 cm"],
     boja: BOJA_PRIVREMENA,
