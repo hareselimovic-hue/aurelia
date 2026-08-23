@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { Check } from "lucide-react";
 
 import { PlaceholderImage } from "@/components/placeholder-image";
 import { formatPrice } from "@/lib/format";
@@ -89,9 +90,23 @@ export function KarticaProizvoda({
           <Link href={href}>{proizvod.naziv}</Link>
         </h3>
 
-        <p className="text-sm text-muted-foreground">
-          {proizvod.materijal} · {dimenzija}
-        </p>
+        {/* Za setove: pun sadržaj vidljiv odmah na kartici, ne tek na proizvodnoj stranici
+            (korisnički feedback 23.08.2026 — "ne vidi se sta sadrzi dok ne udjemo"). Za obične
+            proizvode ostaje kratka meta linija materijal · dimenzija. */}
+        {jeBundleBezIzbora ? (
+          <ul className="space-y-0.5 text-xs text-muted-foreground">
+            {proizvod.dimenzije.map((stavka) => (
+              <li key={stavka} className="flex items-start gap-1.5">
+                <Check className="mt-0.5 size-3 shrink-0 text-primary" aria-hidden="true" />
+                <span>{stavka}</span>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="text-sm text-muted-foreground">
+            {proizvod.materijal} · {dimenzija}
+          </p>
+        )}
 
         <div className="mt-1 flex items-baseline gap-2">
           <span className="font-sans text-lg font-semibold text-foreground">
