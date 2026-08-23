@@ -7,6 +7,12 @@ import { NextResponse, type NextRequest } from "next/server";
 //
 // x-forwarded-proto se koristi umjesto request.nextUrl.protocol jer Passenger/Apache terminira SSL
 // i prosljeđuje zahtjev interno kao obični HTTP — sam Next.js proces nikad ne vidi "https" direktno.
+//
+// 308 umjesto 301 (otkriveno 23.08.2026 pri testiranju /api/narudzbe): fetch() po specifikaciji
+// PRETVARA POST u GET i briše tijelo zahtjeva kad prati 301/302 redirect, ali ne i 308 — bez ovoga
+// bi checkout POST sa www.aurelia.ba (ili bilo koji edge-case http zahtjev) tiho izgubio cijelu
+// narudžbu umjesto da vrati grešku. Za SEO je 308 identičan 301 (obje "permanent redirect", Google
+// ih tretira isto), pa §10 zahtjev ostaje ispunjen.
 export function middleware(request: NextRequest) {
   const url = request.nextUrl.clone();
   const forwardedProto = request.headers.get("x-forwarded-proto");
@@ -16,7 +22,7 @@ export function middleware(request: NextRequest) {
   if (isHttp || isWww) {
     url.protocol = "https:";
     url.hostname = isWww ? url.hostname.slice(4) : url.hostname;
-    return NextResponse.redirect(url, 301);
+    return NextResponse.redirect(url, 308);
   }
 
   return NextResponse.next();
