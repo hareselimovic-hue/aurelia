@@ -36,6 +36,10 @@ yarn-error.log*
 # vercel
 .vercel
 
+# deployment paketi (cPanel zip deploy — vidi docs/deployment.md)
+aurelia-deploy.zip
+aurelia-deploy.tar.gz
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
