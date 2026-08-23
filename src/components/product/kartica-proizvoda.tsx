@@ -63,6 +63,14 @@ export function KarticaProizvoda({
             Nema na stanju
           </span>
         )}
+        {/* Traka za "bedz" (npr. "Ušteda 15%" na set proizvodima, korisnik 23.08.2026) — gornji
+            desni ugao (lijevi je rezervisan za "Nema na stanju"). Terracotta/--destructive boja po
+            design-system.md §1: "Sniženje (nova cijena/bedž)" je tačno namjena ovog tokena. */}
+        {proizvod.bedz && (
+          <span className="absolute right-3 top-3 rounded-full bg-destructive px-2.5 py-1 text-eyebrow text-destructive-foreground">
+            {proizvod.bedz}
+          </span>
+        )}
       </div>
 
       <div className="flex flex-col gap-1.5 p-4">
