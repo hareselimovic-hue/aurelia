@@ -163,7 +163,7 @@ export default function Home() {
     "@type": "Organization",
     name: "Aurelia",
     url: `${SITE_URL}/`,
-    logo: `${SITE_URL}/logo-header.png`,
+    logo: `${SITE_URL}/logo-header.webp`,
   };
 
   const websiteJsonLd = {
