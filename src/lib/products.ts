@@ -245,9 +245,9 @@ export const PROIZVODI: Proizvod[] = [
     dimenzije: ["160x240 cm"],
     boja: BOJA_PRIVREMENA,
     opisKratki:
-      "Čaršaf od 100% pamuka, 160×240 cm, za jednostruki krevet s dušekom do oko 150 cm širine. Klasičan ravni čaršaf bez gume — prostire se preko dušeka i pokriva ga sa svih strana. Gusto pamučno tkanje, prijatno na dodir i izdržljivo na česta pranja.",
+      "Čaršaf od 100% pamuka, 160×240 cm, za Single krevet s dušekom do oko 150 cm širine. Klasičan ravni čaršaf bez gume — prostire se preko dušeka i pokriva ga sa svih strana. Gusto pamučno tkanje, prijatno na dodir i izdržljivo na česta pranja.",
     opisDugi:
-      "Čaršaf 160×240 cm je klasičan, ravni čaršaf namijenjen jednostrukim krevetima s dušekom do otprilike 150 cm širine. Nema elastičan rub kao verzija na gumu — prostire se preko dušeka i pokriva ga sa dovoljno viška platna da se krajevi mogu uvući ispod dušeka po želji.\n\nTkan je od 100% pamuka, iste porodice materijala kao i ostatak naše čaršaf linije, tako da ravnomjerno upija vlagu tokom noći i ostaje prijatan na dodir u svim godišnjim dobima. Za razliku od gušće, sjajnije teksture pamučnog damasta koji koristimo za posteljinu, čaršaf ima glađu, laganiju površinu prilagođenu direktnom kontaktu s kožom. Podnosi česta pranja bez gubitka čvrstoće, a ravni krojevi poput ovog lakše se peglaju od varijanti na gumu jer nemaju šavove po uglovima.",
+      "Čaršaf 160×240 cm je klasičan, ravni čaršaf namijenjen Single krevetima s dušekom do otprilike 150 cm širine. Nema elastičan rub kao verzija na gumu — prostire se preko dušeka i pokriva ga sa dovoljno viška platna da se krajevi mogu uvući ispod dušeka po želji.\n\nTkan je od 100% pamuka, iste porodice materijala kao i ostatak naše čaršaf linije, tako da ravnomjerno upija vlagu tokom noći i ostaje prijatan na dodir u svim godišnjim dobima. Za razliku od gušće, sjajnije teksture pamučnog damasta koji koristimo za posteljinu, čaršaf ima glađu, laganiju površinu prilagođenu direktnom kontaktu s kožom. Podnosi česta pranja bez gubitka čvrstoće, a ravni krojevi poput ovog lakše se peglaju od varijanti na gumu jer nemaju šavove po uglovima.",
     specifikacije: [
       { kljuc: "Materijal", vrijednost: "100% pamuk" },
       { kljuc: "Dimenzije", vrijednost: "160×240 cm" },
@@ -345,12 +345,12 @@ export const PROIZVODI: Proizvod[] = [
     kategorije: ["carsafi"],
   },
   {
-    slug: "puni-set-posteljine-jednostruki",
+    slug: "puni-set-posteljine-single",
     // Set proizvod (korisnik, 23.08.2026): 2× uska linija posteljina + guma + 2× veliki peškir +
     // 2× mali peškir + stopa za noge. Cijena = zbir pojedinačnih cijena (133,66 KM po tada važećim
     // cijenama) uz 15% popusta = 113,61 KM. `cijenaStara` nosi zbir (postojeći mehanizam za
     // precrtanu cijenu, KarticaProizvoda već to renderuje), `bedz` nosi traku "Ušteda 15%".
-    naziv: "Puni set posteljine — jednostruki krevet",
+    naziv: "Puni set posteljine — Single krevet",
     cijena: 113.61,
     cijenaStara: 133.66,
     bedz: "Ušteda 15%",
@@ -364,9 +364,9 @@ export const PROIZVODI: Proizvod[] = [
     ],
     boja: BOJA_PRIVREMENA,
     opisKratki:
-      "Kompletan set za dva jednostruka kreveta po cijeni nižoj 15% od pojedinačne kupovine: 2 posteljine od damasta (Slifer + jastučnica), čaršaf na gumu, 2 velika i 2 mala peškira i stopa za noge. Sve što treba za opremanje kreveta i kupatila u jednoj narudžbi.",
+      "Kompletan set za dva Single kreveta po cijeni nižoj 15% od pojedinačne kupovine: 2 posteljine od damasta (Slifer + jastučnica), čaršaf na gumu, 2 velika i 2 mala peškira i stopa za noge. Sve što treba za opremanje kreveta i kupatila u jednoj narudžbi.",
     opisDugi:
-      "Ovaj set je sastavljen za sve koji odjednom opremaju dva jednostruka kreveta — bilo da je riječ o gostinjskoj sobi, apartmanu za iznajmljivanje ili jednostavno želji da se ne naručuje deset puta zaredom. Sadrži dvije posteljine od pamučnog damasta (svaka Slifer 140×200 cm + 1 jastučnica), jedan čaršaf na gumu 220×240 cm, dva velika peškira 140×70 cm, dva mala peškira 85×45 cm i jednu stopu za noge 50×70 cm.\n\nKupljeno pojedinačno, ovih devet komada koštalo bi 133,66 KM — u ovom setu je 113,61 KM, 15% jeftinije. Materijal je isti kao i kod pojedinačnih artikala: pamučni damast za posteljine, 100% pamuk za čaršaf, peškire i stopu, pa nema kompromisa u kvalitetu zarad cijene. Posebno je praktičan za vlasnike apartmana i kratkoročni najam — jedna narudžba pokriva kompletnu smjenu tekstila za dva kreveta i kupatilo, umjesto sastavljanja iz više zasebnih artikala.",
+      "Ovaj set je sastavljen za sve koji odjednom opremaju dva Single kreveta — bilo da je riječ o gostinjskoj sobi, apartmanu za iznajmljivanje ili jednostavno želji da se ne naručuje deset puta zaredom. Sadrži dvije posteljine od pamučnog damasta (svaka Slifer 140×200 cm + 1 jastučnica), jedan čaršaf na gumu 220×240 cm, dva velika peškira 140×70 cm, dva mala peškira 85×45 cm i jednu stopu za noge 50×70 cm.\n\nKupljeno pojedinačno, ovih devet komada koštalo bi 133,66 KM — u ovom setu je 113,61 KM, 15% jeftinije. Materijal je isti kao i kod pojedinačnih artikala: pamučni damast za posteljine, 100% pamuk za čaršaf, peškire i stopu, pa nema kompromisa u kvalitetu zarad cijene. Posebno je praktičan za vlasnike apartmana i kratkoročni najam — jedna narudžba pokriva kompletnu smjenu tekstila za dva kreveta i kupatilo, umjesto sastavljanja iz više zasebnih artikala.",
     specifikacije: [
       { kljuc: "Materijal", vrijednost: "100% pamučni damast + 100% pamuk (čaršaf/peškiri/stopa)" },
       {

@@ -42,12 +42,12 @@ const TABELA_DIMENZIJA: { dimenzija: string; vrsta: string; odgovaraZa: string }
   {
     dimenzija: "140×200 cm",
     vrsta: "Posteljina (Slifer, uska linija)",
-    odgovaraZa: "Jednostruki krevet",
+    odgovaraZa: "Single krevet",
   },
   {
     dimenzija: "160×240 cm",
     vrsta: "Čaršaf",
-    odgovaraZa: "Jednostruki krevet (dušek do ~150 cm širine)",
+    odgovaraZa: "Single krevet (dušek do ~150 cm širine)",
   },
   {
     dimenzija: "200×200 cm",
@@ -203,7 +203,7 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
                 >
                   Posteljina od damasta — uska linija (Slifer + 1 jastučnica)
                 </Link>{" "}
-                za jednostruki krevet, i bračna,{" "}
+                za Single krevet, i bračna,{" "}
                 <Link
                   href="/shop/posteljina-od-damasta-bracna/"
                   className="font-medium text-primary underline-offset-4 hover:underline"
@@ -214,7 +214,7 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
                 blagim prirodnim sjajem, umjesto glatke, jednolične površine.
               </p>
               <p className="text-base leading-relaxed text-foreground">
-                Čaršafi pokrivaju raspon od užeg jednostrukog dušeka (
+                Čaršafi pokrivaju raspon od užeg Single dušeka (
                 <Link
                   href="/shop/carsaf-160x240/"
                   className="font-medium text-primary underline-offset-4 hover:underline"

@@ -32,7 +32,7 @@ const SITE_URL = "https://aurelia.ba";
 export const metadata: Metadata = {
   title: "Posteljina — online prodaja posteljine | Aurelia.ba",
   description:
-    "Kvalitetna posteljina za bračni i jednostruki krevet. Dostava po cijeloj BiH, plaćanje pouzećem, zamjena u 14 dana.",
+    "Kvalitetna posteljina za bračni i Single krevet. Dostava po cijeloj BiH, plaćanje pouzećem, zamjena u 14 dana.",
   alternates: {
     canonical: `${SITE_URL}/`,
   },
@@ -378,7 +378,7 @@ export default function Home() {
               Dobra posteljina se svodi na tri odluke: materijal, dimenziju i način na koji je
               planirate održavati. Kad su te tri stvari riješene, ostaje samo boja i lični ukus.
               U nastavku objašnjavamo na šta obratiti pažnju prije kupovine, bilo da opremate
-              jednostruki krevet ili bračni krevet za dvoje.
+              Single krevet ili bračni krevet za dvoje.
             </p>
           </div>
 
@@ -434,7 +434,7 @@ export default function Home() {
               <h3 className="mt-4">Dimenzije — od jastučnice do bračnog seta</h3>
               <input type="checkbox" id="prosiri-dimenzije" className="peer sr-only" />
               <p className="mt-2 line-clamp-4 text-muted-foreground peer-checked:line-clamp-none">
-                Za jednostruki krevet uzimajte set s manjim Sliferom — naša{" "}
+                Za Single krevet uzimajte set s manjim Sliferom — naša{" "}
                 <Link
                   href="/shop/posteljina-od-damasta-uska-linija/"
                   className="text-primary underline-offset-4 hover:underline"
@@ -451,7 +451,7 @@ export default function Home() {
                   Posteljina od damasta — bračna (Slifer + 2 jastučnice)
                 </Link>
                 . Kod čaršafa gledajte širinu dušeka, ne samo krevet: 160×240 cm pokriva uži,
-                jednostruki dušek, dok{" "}
+                Single dušek, dok{" "}
                 <Link
                   href="/shop/carsaf-220x240/"
                   className="text-primary underline-offset-4 hover:underline"
