@@ -11,9 +11,7 @@ import {
   ArrowRight,
   Banknote,
   Droplets,
-  Layers,
   Leaf,
-  Ruler,
   RotateCcw,
   ShieldCheck,
   Truck,
@@ -382,9 +380,13 @@ export default function Home() {
 
           <div className="mt-10 grid gap-6 md:grid-cols-3 md:gap-8">
             <div className="rounded-xl bg-card p-6 ring-1 ring-border">
-              <div className="flex size-10 items-center justify-center rounded-lg bg-accent text-primary">
-                <Layers className="size-5" aria-hidden="true" />
-              </div>
+              {/* Veliki broj koraka umjesto ikonice u krugu — namjerno drugačije od "Zašto kod
+                  nas" kartica (koje i dalje koriste ikonicu) da se dvije uzastopne sekcije
+                  vizuelno razlikuju umjesto da djeluju kao ista kartica ponovljena dvaput
+                  (eksterni dizajn review 23.08.2026, opcija A). */}
+              <span className="font-heading text-4xl font-light text-primary/40" aria-hidden="true">
+                01
+              </span>
               <h3 className="mt-4">Materijali — pamuk i pamučni damast</h3>
               {/* "Pročitaj više" — CSS-only proširenje (checkbox hack), BEZ JS-a koji ubacuje
                   sadržaj na klik. Puni tekst je uvijek u DOM-u (isto pravilo kao FAQ accordion,
@@ -422,9 +424,9 @@ export default function Home() {
             </div>
 
             <div className="rounded-xl bg-card p-6 ring-1 ring-border">
-              <div className="flex size-10 items-center justify-center rounded-lg bg-accent text-primary">
-                <Ruler className="size-5" aria-hidden="true" />
-              </div>
+              <span className="font-heading text-4xl font-light text-primary/40" aria-hidden="true">
+                02
+              </span>
               <h3 className="mt-4">Dimenzije — od jastučnice do bračnog seta</h3>
               <input type="checkbox" id="prosiri-dimenzije" className="peer sr-only" />
               <p className="mt-2 line-clamp-4 text-muted-foreground peer-checked:line-clamp-none">
@@ -478,9 +480,9 @@ export default function Home() {
             </div>
 
             <div className="rounded-xl bg-card p-6 ring-1 ring-border">
-              <div className="flex size-10 items-center justify-center rounded-lg bg-accent text-primary">
-                <Droplets className="size-5" aria-hidden="true" />
-              </div>
+              <span className="font-heading text-4xl font-light text-primary/40" aria-hidden="true">
+                03
+              </span>
               <h3 className="mt-4">Održavanje i pranje</h3>
               <input type="checkbox" id="prosiri-odrzavanje" className="peer sr-only" />
               <p className="mt-2 line-clamp-4 text-muted-foreground peer-checked:line-clamp-none">
