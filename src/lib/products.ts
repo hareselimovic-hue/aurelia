@@ -327,7 +327,6 @@ export const PROIZVODI: Proizvod[] = [
       { kljuc: "Tip", vrijednost: "Čaršaf na gumu (bračni)" },
     ],
     slike: generisiSlike("pamuk", ["carsafi"], BOJA_PRIVREMENA, "220x240 cm", [
-      "/images/products/carsaf-na-gumu-1.webp",
       "/images/products/carsaf-na-gumu.webp",
     ]),
     naStanju: true,
@@ -371,7 +370,6 @@ export const PROIZVODI: Proizvod[] = [
       BOJA_PRIVREMENA,
       "140x200 cm",
       [
-        "/images/products/damast-uska-linija-1.webp",
         "/images/products/single-peskiri-na-krevetu.webp",
         "/images/products/single-1-hotel.webp",
       ]
@@ -416,7 +414,6 @@ export const PROIZVODI: Proizvod[] = [
       BOJA_PRIVREMENA,
       "200x200 cm",
       [
-        "/images/products/damast-bracna-1.webp",
         "/images/products/bracni-peskiri-na-krevetu.webp",
         "/images/products/bracna-1-hotel.webp",
       ]
