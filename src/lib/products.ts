@@ -78,23 +78,26 @@ function generisiAlt(
 
 /**
  * Generiše min. 4 slike po proizvodu ("min 4, prva je glavna" — CLAUDE_aurelia.md §3).
- * Ako je `glavnaSlika` proslijeđena (stvarna fotografija iz "slike aurelia" foldera, 22.08.2026),
- * ona zamjenjuje prvi placeholder — ostatak galerije (potrebne dodatne slike: detalj, u sobi,
- * pakovanje...) ostaje placeholder dok korisnik ne pošalje više fotografija po proizvodu.
+ * `stvarneSlike` (Claude Design projekat "Posteljina za web shop", 24.08.2026) popunjava prve
+ * pozicije galerije po redoslijedu — ostatak do `broj` ostaje placeholder dok ne stigne više
+ * fotografija po proizvodu.
  */
 function generisiSlike(
   materijal: Proizvod["materijal"],
   kategorije: string[],
   boja: string,
   dimenzija: string,
-  glavnaSlika?: string,
+  stvarneSlike: string[] = [],
   broj = 4
 ): { url: string; alt: string }[] {
   const alt = generisiAlt(materijal, kategorije, boja, dimenzija);
-  const slike = Array.from({ length: broj }, () => ({ url: PLACEHOLDER_IMAGE, alt }));
-  if (glavnaSlika) {
-    slike[0] = { url: glavnaSlika, alt };
-  }
+  const slike = Array.from({ length: Math.max(broj, stvarneSlike.length) }, () => ({
+    url: PLACEHOLDER_IMAGE,
+    alt,
+  }));
+  stvarneSlike.forEach((url, i) => {
+    slike[i] = { url, alt };
+  });
   return slike;
 }
 
@@ -125,7 +128,12 @@ export const PROIZVODI: Proizvod[] = [
       ["posteljina", "damast"],
       BOJA_PRIVREMENA,
       "140x200 cm",
-      "/images/products/damast-uska-linija-1.webp"
+      [
+        "/images/products/damast-uska-linija-1.webp",
+        "/images/products/single-1-hotel.webp",
+        "/images/products/single-2-stol.webp",
+        "/images/products/single-3-detalj.webp",
+      ]
     ),
     naStanju: true,
     kategorije: ["posteljina", "damast"],
@@ -155,7 +163,12 @@ export const PROIZVODI: Proizvod[] = [
       ["posteljina", "damast", "bracna"],
       BOJA_PRIVREMENA,
       "200x200 cm",
-      "/images/products/damast-bracna-1.webp"
+      [
+        "/images/products/damast-bracna-1.webp",
+        "/images/products/bracna-1-hotel.webp",
+        "/images/products/bracna-2-stol.webp",
+        "/images/products/bracna-3-detalj.webp",
+      ]
     ),
     naStanju: true,
     kategorije: ["posteljina", "damast", "bracna"],
@@ -175,13 +188,10 @@ export const PROIZVODI: Proizvod[] = [
       { kljuc: "Materijal", vrijednost: "100% pamuk" },
       { kljuc: "Dimenzije", vrijednost: "140×70 cm" },
     ],
-    slike: generisiSlike(
-      "pamuk",
-      ["peskiri"],
-      BOJA_PRIVREMENA,
-      "140x70 cm",
-      "/images/products/peskir-140x70-1.webp"
-    ),
+    slike: generisiSlike("pamuk", ["peskiri"], BOJA_PRIVREMENA, "140x70 cm", [
+      "/images/products/peskir-140x70-1.webp",
+      "/images/products/peskiri-veliki.webp",
+    ]),
     naStanju: true,
     kategorije: ["peskiri"],
   },
@@ -200,13 +210,10 @@ export const PROIZVODI: Proizvod[] = [
       { kljuc: "Materijal", vrijednost: "100% pamuk" },
       { kljuc: "Dimenzije", vrijednost: "85×45 cm" },
     ],
-    slike: generisiSlike(
-      "pamuk",
-      ["peskiri"],
-      BOJA_PRIVREMENA,
-      "85x45 cm",
-      "/images/products/peskir-85x45-1.webp"
-    ),
+    slike: generisiSlike("pamuk", ["peskiri"], BOJA_PRIVREMENA, "85x45 cm", [
+      "/images/products/peskir-85x45-1.webp",
+      "/images/products/peskiri-mali-85x45.webp",
+    ]),
     naStanju: true,
     kategorije: ["peskiri"],
   },
@@ -227,13 +234,9 @@ export const PROIZVODI: Proizvod[] = [
       { kljuc: "Materijal", vrijednost: "100% pamuk" },
       { kljuc: "Dimenzije", vrijednost: "50×70 cm" },
     ],
-    slike: generisiSlike(
-      "pamuk",
-      ["peskiri", "stopa-za-noge"],
-      BOJA_PRIVREMENA,
-      "50x70 cm",
-      "/images/products/stopa-za-noge-1.webp"
-    ),
+    slike: generisiSlike("pamuk", ["peskiri", "stopa-za-noge"], BOJA_PRIVREMENA, "50x70 cm", [
+      "/images/products/stopa-za-noge-1.webp",
+    ]),
     naStanju: true,
     kategorije: ["peskiri", "stopa-za-noge"],
   },
@@ -254,13 +257,10 @@ export const PROIZVODI: Proizvod[] = [
     ],
     // Ista opšta čaršaf fotografija dijeli se sa druga 2 "obična" čaršafa niže — imamo samo 1
     // generičku fotografiju za taj tip proizvoda dok korisnik ne pošalje snimke po dimenziji.
-    slike: generisiSlike(
-      "pamuk",
-      ["carsafi"],
-      BOJA_PRIVREMENA,
-      "160x240 cm",
-      "/images/products/carsaf-1.webp"
-    ),
+    slike: generisiSlike("pamuk", ["carsafi"], BOJA_PRIVREMENA, "160x240 cm", [
+      "/images/products/carsaf-1.webp",
+      "/images/products/carsaf-obicni.webp",
+    ]),
     naStanju: true,
     kategorije: ["carsafi"],
   },
@@ -279,13 +279,10 @@ export const PROIZVODI: Proizvod[] = [
       { kljuc: "Materijal", vrijednost: "100% pamuk" },
       { kljuc: "Dimenzije", vrijednost: "220×240 cm" },
     ],
-    slike: generisiSlike(
-      "pamuk",
-      ["carsafi"],
-      BOJA_PRIVREMENA,
-      "220x240 cm",
-      "/images/products/carsaf-1.webp"
-    ),
+    slike: generisiSlike("pamuk", ["carsafi"], BOJA_PRIVREMENA, "220x240 cm", [
+      "/images/products/carsaf-1.webp",
+      "/images/products/carsaf-obicni.webp",
+    ]),
     naStanju: true,
     kategorije: ["carsafi"],
   },
@@ -308,13 +305,10 @@ export const PROIZVODI: Proizvod[] = [
       { kljuc: "Materijal", vrijednost: "100% pamuk" },
       { kljuc: "Dimenzije", vrijednost: "240×290 cm" },
     ],
-    slike: generisiSlike(
-      "pamuk",
-      ["carsafi"],
-      BOJA_PRIVREMENA,
-      "240x290 cm",
-      "/images/products/carsaf-1.webp"
-    ),
+    slike: generisiSlike("pamuk", ["carsafi"], BOJA_PRIVREMENA, "240x290 cm", [
+      "/images/products/carsaf-1.webp",
+      "/images/products/carsaf-obicni.webp",
+    ]),
     naStanju: true,
     kategorije: ["carsafi"],
   },
@@ -334,13 +328,10 @@ export const PROIZVODI: Proizvod[] = [
       { kljuc: "Dimenzije", vrijednost: "220×240 cm" },
       { kljuc: "Tip", vrijednost: "Čaršaf na gumu (bračni)" },
     ],
-    slike: generisiSlike(
-      "pamuk",
-      ["carsafi"],
-      BOJA_PRIVREMENA,
-      "220x240 cm",
-      "/images/products/carsaf-na-gumu-1.webp"
-    ),
+    slike: generisiSlike("pamuk", ["carsafi"], BOJA_PRIVREMENA, "220x240 cm", [
+      "/images/products/carsaf-na-gumu-1.webp",
+      "/images/products/carsaf-na-gumu.webp",
+    ]),
     naStanju: true,
     kategorije: ["carsafi"],
   },
@@ -381,7 +372,11 @@ export const PROIZVODI: Proizvod[] = [
       ["posteljina", "damast", "set"],
       BOJA_PRIVREMENA,
       "140x200 cm",
-      "/images/products/damast-uska-linija-1.webp"
+      [
+        "/images/products/damast-uska-linija-1.webp",
+        "/images/products/single-peskiri-na-krevetu.webp",
+        "/images/products/single-1-hotel.webp",
+      ]
     ),
     naStanju: true,
     kategorije: ["posteljina", "damast", "set"],
@@ -422,7 +417,11 @@ export const PROIZVODI: Proizvod[] = [
       ["posteljina", "damast", "set", "bracna"],
       BOJA_PRIVREMENA,
       "200x200 cm",
-      "/images/products/damast-bracna-1.webp"
+      [
+        "/images/products/damast-bracna-1.webp",
+        "/images/products/bracni-peskiri-na-krevetu.webp",
+        "/images/products/bracna-1-hotel.webp",
+      ]
     ),
     naStanju: true,
     kategorije: ["posteljina", "damast", "set", "bracna"],
