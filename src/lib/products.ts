@@ -129,7 +129,6 @@ export const PROIZVODI: Proizvod[] = [
       BOJA_PRIVREMENA,
       "140x200 cm",
       [
-        "/images/products/damast-uska-linija-1.webp",
         "/images/products/single-1-hotel.webp",
         "/images/products/single-2-stol.webp",
         "/images/products/single-3-detalj.webp",
@@ -164,7 +163,6 @@ export const PROIZVODI: Proizvod[] = [
       BOJA_PRIVREMENA,
       "200x200 cm",
       [
-        "/images/products/damast-bracna-1.webp",
         "/images/products/bracna-1-hotel.webp",
         "/images/products/bracna-2-stol.webp",
         "/images/products/bracna-3-detalj.webp",
