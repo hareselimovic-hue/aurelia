@@ -46,7 +46,7 @@ const KUPUJ_PO_VRSTI = [
     naziv: "Posteljine",
     href: "/shop/?vrsta=posteljina",
     alt: "Posteljina od pamučnog damasta",
-    slika: "/images/products/damast-bracna-1.webp",
+    slika: "/images/products/bracna-1-hotel.webp",
   },
   {
     naziv: "Peškiri",
@@ -58,7 +58,7 @@ const KUPUJ_PO_VRSTI = [
     naziv: "Čaršafi i gume",
     href: "/shop/?vrsta=carsafi",
     alt: "Čaršafi i čaršafi na gumu",
-    slika: "/images/products/carsaf-na-gumu-1.webp",
+    slika: "/images/products/carsaf-na-gumu.webp",
   },
 ] as const;
 

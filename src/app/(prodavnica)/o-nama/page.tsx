@@ -55,7 +55,7 @@ export default function ONamaPage() {
         <div className="overflow-hidden rounded-2xl bg-muted">
           {/* eslint-disable-next-line @next/next/no-img-element -- lokalna slika, bez next/image domain configa */}
           <img
-            src="/images/products/damast-bracna-1.webp"
+            src="/images/products/bracna-1-hotel.webp"
             alt="Pamučna posteljina od damasta na bračnom krevetu"
             loading="lazy"
             className="h-full w-full object-cover"
