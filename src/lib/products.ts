@@ -189,6 +189,7 @@ export const PROIZVODI: Proizvod[] = [
     slike: generisiSlike("pamuk", ["peskiri"], BOJA_PRIVREMENA, "140x70 cm", [
       "/images/products/peskir-140x70-1.webp",
       "/images/products/peskiri-veliki.webp",
+      "/images/products/peskiri-closeup-krevet.webp",
     ]),
     naStanju: true,
     kategorije: ["peskiri"],
@@ -211,6 +212,7 @@ export const PROIZVODI: Proizvod[] = [
     slike: generisiSlike("pamuk", ["peskiri"], BOJA_PRIVREMENA, "85x45 cm", [
       "/images/products/peskir-85x45-1.webp",
       "/images/products/peskiri-mali-85x45.webp",
+      "/images/products/peskiri-mali-wc.webp",
     ]),
     naStanju: true,
     kategorije: ["peskiri"],
@@ -258,6 +260,8 @@ export const PROIZVODI: Proizvod[] = [
     slike: generisiSlike("pamuk", ["carsafi"], BOJA_PRIVREMENA, "160x240 cm", [
       "/images/products/carsaf-1.webp",
       "/images/products/carsaf-obicni.webp",
+      "/images/products/carsaf-obicni-pakovanje.webp",
+      "/images/products/plahta-detalj.webp",
     ]),
     naStanju: true,
     kategorije: ["carsafi"],
@@ -280,6 +284,8 @@ export const PROIZVODI: Proizvod[] = [
     slike: generisiSlike("pamuk", ["carsafi"], BOJA_PRIVREMENA, "220x240 cm", [
       "/images/products/carsaf-1.webp",
       "/images/products/carsaf-obicni.webp",
+      "/images/products/carsaf-obicni-pakovanje.webp",
+      "/images/products/plahta-detalj.webp",
     ]),
     naStanju: true,
     kategorije: ["carsafi"],
@@ -306,6 +312,8 @@ export const PROIZVODI: Proizvod[] = [
     slike: generisiSlike("pamuk", ["carsafi"], BOJA_PRIVREMENA, "240x290 cm", [
       "/images/products/carsaf-1.webp",
       "/images/products/carsaf-obicni.webp",
+      "/images/products/carsaf-obicni-pakovanje.webp",
+      "/images/products/plahta-detalj.webp",
     ]),
     naStanju: true,
     kategorije: ["carsafi"],
@@ -328,6 +336,8 @@ export const PROIZVODI: Proizvod[] = [
     ],
     slike: generisiSlike("pamuk", ["carsafi"], BOJA_PRIVREMENA, "220x240 cm", [
       "/images/products/carsaf-na-gumu.webp",
+      "/images/products/carsaf-na-gumu-detalj.webp",
+      "/images/products/carsaf-na-gumu-pakovanje.webp",
     ]),
     naStanju: true,
     kategorije: ["carsafi"],
