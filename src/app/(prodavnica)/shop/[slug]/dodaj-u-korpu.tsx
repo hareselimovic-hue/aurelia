@@ -15,7 +15,6 @@ import type { Proizvod } from "@/lib/products";
 export function DodajUKorpu({ proizvod }: { proizvod: Proizvod }) {
   const { addItem } = useCart();
   const [dimenzija, setDimenzija] = useState(proizvod.dimenzije[0] ?? "");
-  const [dodano, setDodano] = useState(false);
 
   const imaViseDimenzija = proizvod.dimenzije.length > 1;
   // Pravi birač (klikljiv, mijenja šta se dodaje u korpu) SAMO kad `dimenzijeSuIzbor` eksplicitno
@@ -26,10 +25,12 @@ export function DodajUKorpu({ proizvod }: { proizvod: Proizvod }) {
   // kupce jer izbor ništa nije mijenjao).
   const izborAktivan = imaViseDimenzija && proizvod.dimenzijeSuIzbor === true;
 
+  // Povratna informacija o dodavanju u korpu dolazi iz drawer panela (src/components/cart/
+  // korpa-drawer.tsx, otvara ga addItem u cart-context.tsx) — dugme namjerno NE mijenja tekst
+  // (korisnički feedback 27.08.2026: "vratiti na staro, bez da piše na istom buttonu dodano u
+  // korpu").
   function handleDodaj() {
     addItem(proizvod, izborAktivan ? dimenzija || undefined : undefined, 1);
-    setDodano(true);
-    window.setTimeout(() => setDodano(false), 2000);
   }
 
   return (
@@ -91,11 +92,8 @@ export function DodajUKorpu({ proizvod }: { proizvod: Proizvod }) {
         onClick={handleDodaj}
         className="h-11 w-full px-8 text-sm font-medium tracking-[0.02em] sm:w-auto"
       >
-        {proizvod.naStanju ? (dodano ? "Dodano u korpu" : "Dodaj u korpu") : "Nema na stanju"}
+        {proizvod.naStanju ? "Dodaj u korpu" : "Nema na stanju"}
       </Button>
-      <span aria-live="polite" className="sr-only">
-        {dodano ? "Proizvod je dodan u korpu." : ""}
-      </span>
     </div>
   );
 }

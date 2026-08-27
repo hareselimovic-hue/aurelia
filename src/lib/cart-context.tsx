@@ -5,11 +5,6 @@
 // context + localStorage)". Ovo je osnova za Header korpa-ikonicu i "Dodaj u korpu" dugme na
 // KarticaProizvoda — checkout stranica (pouzeće / bankovni transfer / pay-by-link TODO) gradi se
 // u kasnijem koraku, ovaj context samo drži stanje korpe.
-//
-// NAPOMENA za sljedeći korak (homepage/shop stranice): <CartProvider> još NIJE ukačen u
-// src/app/layout.tsx (namjerno — orkestrator je tražio da se layout.tsx ne dira u ovom koraku).
-// Kad se stranice grade, root layout treba omotati children sa <CartProvider>, npr.:
-//   <CartProvider><Header />{children}<Footer /></CartProvider>
 
 import {
   createContext,
@@ -20,10 +15,9 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import { useRouter } from "next/navigation";
-import { Toaster, toast } from "sonner";
 
 import type { Proizvod } from "@/lib/products";
+import { KorpaDrawer } from "@/components/cart/korpa-drawer";
 
 export type StavkaKorpe = {
   proizvod: Proizvod;
@@ -38,6 +32,8 @@ type CartContextValue = {
   updateQuantity: (slug: string, dimenzija: string | undefined, kolicina: number) => void;
   totalCount: number;
   totalPrice: number;
+  drawerOtvoren: boolean;
+  setDrawerOtvoren: (otvoren: boolean) => void;
 };
 
 const CartContext = createContext<CartContextValue | null>(null);
@@ -51,9 +47,12 @@ function stavkaKljuc(slug: string, dimenzija?: string): string {
 }
 
 export function CartProvider({ children }: { children: ReactNode }) {
-  const router = useRouter();
   const [items, setItems] = useState<StavkaKorpe[]>([]);
   const [hidratisano, setHidratisano] = useState(false);
+  // Otvara se automatski iz addItem (korisnički feedback 27.08.2026: umjesto toast notifikacije,
+  // slide-out panel zdesna sa sadržajem korpe i "Nastavi kupovinu"/"Nastavi plaćanje" dugmadima —
+  // vidi src/components/cart/korpa-drawer.tsx).
+  const [drawerOtvoren, setDrawerOtvoren] = useState(false);
 
   // Učitaj sačuvanu korpu nakon mount-a. `window` ne postoji tokom SSR-a, pa se ovo mora desiti
   // u efektu (klijent), ne u render tijelu — namjerno, uprkos "set-state-in-effect" dijagnostici
@@ -86,36 +85,27 @@ export function CartProvider({ children }: { children: ReactNode }) {
     }
   }, [items, hidratisano]);
 
-  const addItem = useCallback(
-    (proizvod: Proizvod, dimenzija?: string, kolicina = 1) => {
-      setItems((prev) => {
-        const kljuc = stavkaKljuc(proizvod.slug, dimenzija);
-        const postoji = prev.some(
-          (stavka) => stavkaKljuc(stavka.proizvod.slug, stavka.dimenzija) === kljuc
+  const addItem = useCallback((proizvod: Proizvod, dimenzija?: string, kolicina = 1) => {
+    setItems((prev) => {
+      const kljuc = stavkaKljuc(proizvod.slug, dimenzija);
+      const postoji = prev.some(
+        (stavka) => stavkaKljuc(stavka.proizvod.slug, stavka.dimenzija) === kljuc
+      );
+      if (postoji) {
+        return prev.map((stavka) =>
+          stavkaKljuc(stavka.proizvod.slug, stavka.dimenzija) === kljuc
+            ? { ...stavka, kolicina: stavka.kolicina + kolicina }
+            : stavka
         );
-        if (postoji) {
-          return prev.map((stavka) =>
-            stavkaKljuc(stavka.proizvod.slug, stavka.dimenzija) === kljuc
-              ? { ...stavka, kolicina: stavka.kolicina + kolicina }
-              : stavka
-          );
-        }
-        return [...prev, { proizvod, dimenzija, kolicina }];
-      });
+      }
+      return [...prev, { proizvod, dimenzija, kolicina }];
+    });
 
-      // Jedino mjesto koje okida "dodano u korpu" povratnu informaciju — i KarticaProizvoda i
-      // DodajUKorpu (proizvodna stranica) zovu ovu istu funkciju, pa toast pokriva oba mjesta bez
-      // dupliranja logike (korisnički feedback 27.08.2026: klik na dugme nije davao nikakvu
-      // vidljivu potvrdu osim promjene brojčice na ikonici korpe u headeru).
-      toast(`Dodano u korpu: ${proizvod.naziv}`, {
-        action: {
-          label: "Vidi korpu",
-          onClick: () => router.push("/korpa/"),
-        },
-      });
-    },
-    [router]
-  );
+    // Jedino mjesto koje okida "dodano u korpu" povratnu informaciju — i KarticaProizvoda i
+    // DodajUKorpu (proizvodna stranica) zovu ovu istu funkciju, pa drawer pokriva oba mjesta bez
+    // dupliranja logike.
+    setDrawerOtvoren(true);
+  }, []);
 
   const removeItem = useCallback((slug: string, dimenzija?: string) => {
     const kljuc = stavkaKljuc(slug, dimenzija);
@@ -154,29 +144,23 @@ export function CartProvider({ children }: { children: ReactNode }) {
   );
 
   const value = useMemo<CartContextValue>(
-    () => ({ items, addItem, removeItem, updateQuantity, totalCount, totalPrice }),
-    [items, addItem, removeItem, updateQuantity, totalCount, totalPrice]
+    () => ({
+      items,
+      addItem,
+      removeItem,
+      updateQuantity,
+      totalCount,
+      totalPrice,
+      drawerOtvoren,
+      setDrawerOtvoren,
+    }),
+    [items, addItem, removeItem, updateQuantity, totalCount, totalPrice, drawerOtvoren]
   );
 
   return (
     <CartContext.Provider value={value}>
       {children}
-      {/* Prati brend tokene iz globals.css (isti obrazac kao Button/Badge) umjesto sonner-ovog
-          default izgleda — vidi CSS custom properties koje sonner čita za temu. */}
-      <Toaster
-        position="bottom-right"
-        toastOptions={{
-          style: {
-            background: "var(--card)",
-            color: "var(--foreground)",
-            border: "1px solid var(--border)",
-          },
-          actionButtonStyle: {
-            background: "var(--primary)",
-            color: "var(--primary-foreground)",
-          },
-        }}
-      />
+      <KorpaDrawer />
     </CartContext.Provider>
   );
 }
