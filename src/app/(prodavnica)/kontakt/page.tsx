@@ -1,37 +1,22 @@
 // KONTAKT — CLAUDE_aurelia.md §2. Jednostavna kontakt-info stranica, bez forme za slanje poruke
-// (nije eksplicitno tražena). Podaci (telefon/email/adresa) su isti placeholderi kao u Footer-u
-// (src/components/layout/footer.tsx) — ne izmišljati stvarne registracijske podatke. Napomena o
-// Viberu/telefonu kao najbržem kanalu je konzistentna sa FAQ na početnoj (src/app/page.tsx,
-// odgovor na "Mogu li zamijeniti veličinu"). Header/Footer su globalni, ne ponavljaju se ovdje.
+// (nije eksplicitno tražena). Telefon uklonjen (korisnik, 27.08.2026) — bio je izmišljen
+// placeholder ("+387 60 000 000"), stvaran broj još nije potvrđen. Header/Footer su globalni, ne
+// ponavljaju se ovdje.
 
 import type { Metadata } from "next";
-import { Mail, MapPin, Phone } from "lucide-react";
+import { Mail, MapPin } from "lucide-react";
 
 const SITE_URL = "https://aurelia.ba";
 
 export const metadata: Metadata = {
   title: "Kontakt | Aurelia.ba",
-  description:
-    "Kontaktirajte Aurelia tim telefonom, Viberom ili emailom za pitanja o proizvodima, narudžbama i zamjenama.",
+  description: "Kontaktirajte Aurelia tim emailom za pitanja o proizvodima, narudžbama i zamjenama.",
   alternates: {
     canonical: `${SITE_URL}/kontakt/`,
   },
 };
 
-const TELEFON = "+387 60 000 000";
-const TELEFON_HREF = `tel:${TELEFON.replace(/\s/g, "")}`;
-
 const KONTAKT_KARTICE = [
-  {
-    naslov: "Telefon i Viber",
-    Ikonica: Phone,
-    sadrzaj: (
-      <a href={TELEFON_HREF} className="text-primary underline-offset-4 hover:underline">
-        {TELEFON}
-      </a>
-    ),
-    napomena: "Dostupni i preko Vibera na isti broj.",
-  },
   {
     naslov: "Email",
     Ikonica: Mail,
@@ -56,13 +41,13 @@ export default function KontaktPage() {
       <div className="max-w-3xl">
         <h1>Kontakt</h1>
         <p className="mt-6 text-lg leading-relaxed text-muted-foreground">
-          Imate pitanje o proizvodu, narudžbi ili dostavi? Javite nam se — rado ćemo odgovoriti.
-          Najbrže dobijate odgovor preko telefona ili Vibera, pogotovo kad je u pitanju zamjena
-          veličine ili nešto vezano za već poslanu narudžbu.
+          Imate pitanje o proizvodu, narudžbi ili dostavi? Javite nam se emailom — rado ćemo
+          odgovoriti, pogotovo kad je u pitanju zamjena veličine ili nešto vezano za već poslanu
+          narudžbu.
         </p>
       </div>
 
-      <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="mt-10 grid gap-6 sm:grid-cols-2">
         {KONTAKT_KARTICE.map(({ naslov, Ikonica, sadrzaj, napomena }) => (
           <div key={naslov} className="flex flex-col rounded-xl bg-card p-6 ring-1 ring-border">
             <div className="flex size-10 items-center justify-center rounded-lg bg-accent text-primary">
