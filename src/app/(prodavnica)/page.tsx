@@ -68,7 +68,7 @@ const FAQ = [
   {
     pitanje: "Koje dimenzije posteljine su prave za bračni krevet?",
     odgovor:
-      "Za bračni krevet uzmite set sa Sliferom (navlakom za poplun) 200×200 cm i dvije jastučnice 50×70 cm — to je bračna linija naše posteljine od damasta. Ako birate i čaršaf, uz nju ide dimenzija 220×240 cm za dušek do oko 200 cm širine, a za veći ili produženi dušek 240×290 cm.",
+      "Za bračni krevet uzmite set sa Sliferom (navlakom za poplun) 200×200 cm i dvije jastučnice 50×70 cm — to je bračna linija naše posteljine od damasta. Ako birate i čaršaf, uz nju ide dimenzija 220×240 cm za dušek do oko 200 cm širine, a za veći ili produženi dušek 240×260 cm.",
   },
   {
     pitanje: "Koliki je rok dostave?",
@@ -459,7 +459,7 @@ export default function Home() {
                   Čaršaf 220×240 cm
                 </Link>{" "}
                 odgovara bračnom dušeku do oko 200 cm širine. Ako imate veći ili produženi
-                dušek, posegnite za čaršafom 240×290 cm. Za one kojima je najvažnije da se
+                dušek, posegnite za čaršafom 240×260 cm. Za one kojima je najvažnije da se
                 čaršaf ne pomjera tokom noći, tu je{" "}
                 <Link
                   href="/shop/carsaf-na-gumu-bracni-220x240/"

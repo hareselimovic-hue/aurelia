@@ -246,7 +246,7 @@ export const PROIZVODI: Proizvod[] = [
     cijena: 20.9,
     materijal: "pamuk",
     dimenzije: ["160x240 cm"],
-    boja: BOJA_PRIVREMENA,
+    boja: "Bijela",
     opisKratki:
       "Čaršaf od 100% pamuka, 160×240 cm, za Single krevet s dušekom do oko 150 cm širine. Klasičan ravni čaršaf bez gume — prostire se preko dušeka i pokriva ga sa svih strana. Gusto pamučno tkanje, prijatno na dodir i izdržljivo na česta pranja.",
     opisDugi:
@@ -257,7 +257,7 @@ export const PROIZVODI: Proizvod[] = [
     ],
     // Ista opšta čaršaf fotografija dijeli se sa druga 2 "obična" čaršafa niže — imamo samo 1
     // generičku fotografiju za taj tip proizvoda dok korisnik ne pošalje snimke po dimenziji.
-    slike: generisiSlike("pamuk", ["carsafi"], BOJA_PRIVREMENA, "160x240 cm", [
+    slike: generisiSlike("pamuk", ["carsafi"], "Bijela", "160x240 cm", [
       "/images/products/carsaf-1.webp",
       "/images/products/carsaf-obicni.webp",
       "/images/products/carsaf-obicni-pakovanje.webp",
@@ -272,7 +272,7 @@ export const PROIZVODI: Proizvod[] = [
     cijena: 24.9,
     materijal: "pamuk",
     dimenzije: ["220x240 cm"],
-    boja: BOJA_PRIVREMENA,
+    boja: "Bijela",
     opisKratki:
       "Čaršaf od 100% pamuka, 220×240 cm, za bračni krevet s dušekom do oko 200 cm širine. Ravni kroj bez gume, dovoljno platna za udoban preklop sa svih strana. Ista kvalitetna pamučna tkanina kao i ostali čaršafi u ponudi.",
     opisDugi:
@@ -281,7 +281,7 @@ export const PROIZVODI: Proizvod[] = [
       { kljuc: "Materijal", vrijednost: "100% pamuk" },
       { kljuc: "Dimenzije", vrijednost: "220×240 cm" },
     ],
-    slike: generisiSlike("pamuk", ["carsafi"], BOJA_PRIVREMENA, "220x240 cm", [
+    slike: generisiSlike("pamuk", ["carsafi"], "Bijela", "220x240 cm", [
       "/images/products/carsaf-1.webp",
       "/images/products/carsaf-obicni.webp",
       "/images/products/carsaf-obicni-pakovanje.webp",
@@ -292,24 +292,22 @@ export const PROIZVODI: Proizvod[] = [
   },
   {
     slug: "carsaf-240x260",
-    // Naziv zadržava "240×260" iz izvora (docs/product-data-raw.md, red #7), iako je u istom redu
-    // navedena dimenzija 240×290 cm — očigledna nedosljednost u korisnikovom cjenovniku (naziv i
-    // dimenzija se ne poklapaju). Polje `dimenzije` niže nosi stvarno navedenu vrijednost (240×290);
-    // naziv nije mijenjan dok korisnik ne potvrdi koja je od te dvije brojke tačna.
+    // Naziv i dimenzija su ranije bili neusklađeni (docs/product-data-raw.md, red #7, ista greška
+    // u izvornom cjenovniku) — korisnik je 27.08.2026 potvrdio da je 240×260 tačna dimenzija.
     naziv: "Čaršaf 240×260",
     cijena: 27.9,
     materijal: "pamuk",
-    dimenzije: ["240x290 cm"],
-    boja: BOJA_PRIVREMENA,
+    dimenzije: ["240x260 cm"],
+    boja: "Bijela",
     opisKratki:
-      "Čaršaf od 100% pamuka, veće, produžene dimenzije 240×290 cm — za bračne krevete i dušeke koji su duži ili širi od standarda. Ravni kroj, dovoljno platna za pokrivanje i preklop sa svih strana. Praktičan izbor kad standardna dimenzija od 220×240 cm nije dovoljno velika.",
+      "Čaršaf od 100% pamuka, veće, produžene dimenzije 240×260 cm — za bračne krevete i dušeke koji su duži ili širi od standarda. Ravni kroj, dovoljno platna za pokrivanje i preklop sa svih strana. Praktičan izbor kad standardna dimenzija od 220×240 cm nije dovoljno velika.",
     opisDugi:
-      "Čaršaf 240×290 cm je naša najveća, produžena varijanta, namijenjena bračnim krevetima i dušecima koji su duži ili širi od standardne bračne mjere. Ako vam je dušek nestandardne veličine — na primjer produženi krevet ili deblji dušek kojem treba više viška platna za preklop — ovo je dimenzija koja to rješava bez stiskanja na uglovima.\n\nKao i ostali čaršafi u ponudi, tkan je od 100% pamuka, dovoljno guste strukture da izdrži redovno pranje i svakodnevnu upotrebu bez brzog habanja. Veća površina znači i više platna za uvlačenje ispod dušeka, što čaršaf drži urednijim tokom noći i pored toga što nema elastičan rub. Prije kupovine izmjerite dušek, ne samo krevet — širinu, dužinu i visinu (debljinu) dušeka — jer je upravo ta razlika između standardne bračne i produžene dimenzije razlog zašto ova veća varijanta postoji u ponudi.",
+      "Čaršaf 240×260 cm je naša najveća, produžena varijanta, namijenjena bračnim krevetima i dušecima koji su duži ili širi od standardne bračne mjere. Ako vam je dušek nestandardne veličine — na primjer produženi krevet ili deblji dušek kojem treba više viška platna za preklop — ovo je dimenzija koja to rješava bez stiskanja na uglovima.\n\nKao i ostali čaršafi u ponudi, tkan je od 100% pamuka, dovoljno guste strukture da izdrži redovno pranje i svakodnevnu upotrebu bez brzog habanja. Veća površina znači i više platna za uvlačenje ispod dušeka, što čaršaf drži urednijim tokom noći i pored toga što nema elastičan rub. Prije kupovine izmjerite dušek, ne samo krevet — širinu, dužinu i visinu (debljinu) dušeka — jer je upravo ta razlika između standardne bračne i produžene dimenzije razlog zašto ova veća varijanta postoji u ponudi.",
     specifikacije: [
       { kljuc: "Materijal", vrijednost: "100% pamuk" },
-      { kljuc: "Dimenzije", vrijednost: "240×290 cm" },
+      { kljuc: "Dimenzije", vrijednost: "240×260 cm" },
     ],
-    slike: generisiSlike("pamuk", ["carsafi"], BOJA_PRIVREMENA, "240x290 cm", [
+    slike: generisiSlike("pamuk", ["carsafi"], "Bijela", "240x260 cm", [
       "/images/products/carsaf-1.webp",
       "/images/products/carsaf-obicni.webp",
       "/images/products/carsaf-obicni-pakovanje.webp",
@@ -324,7 +322,7 @@ export const PROIZVODI: Proizvod[] = [
     cijena: 18,
     materijal: "pamuk",
     dimenzije: ["220x240 cm"],
-    boja: BOJA_PRIVREMENA,
+    boja: "Bijela",
     opisKratki:
       "Čaršaf na gumu za bračni krevet, 220×240 cm, od 100% pamuka. Elastični rub oko cijelog oboda drži čaršaf zategnutim preko dušeka cijelu noć, bez pomjeranja i nabora. Praktičniji za svakodnevno namještanje kreveta od ravnog čaršafa.",
     opisDugi:
@@ -334,7 +332,7 @@ export const PROIZVODI: Proizvod[] = [
       { kljuc: "Dimenzije", vrijednost: "220×240 cm" },
       { kljuc: "Tip", vrijednost: "Čaršaf na gumu (bračni)" },
     ],
-    slike: generisiSlike("pamuk", ["carsafi"], BOJA_PRIVREMENA, "220x240 cm", [
+    slike: generisiSlike("pamuk", ["carsafi"], "Bijela", "220x240 cm", [
       "/images/products/carsaf-na-gumu.webp",
       "/images/products/carsaf-na-gumu-detalj.webp",
       "/images/products/carsaf-na-gumu-pakovanje.webp",
@@ -344,35 +342,34 @@ export const PROIZVODI: Proizvod[] = [
   },
   {
     slug: "puni-set-posteljine-single",
-    // Set proizvod (korisnik, 23.08.2026): 2× uska linija posteljina + guma + 2× veliki peškir +
-    // 2× mali peškir + stopa za noge. Cijena = zbir pojedinačnih cijena (133,66 KM po tada važećim
-    // cijenama) uz 15% popusta = 113,61 KM. `cijenaStara` nosi zbir (postojeći mehanizam za
-    // precrtanu cijenu, KarticaProizvoda već to renderuje), `bedz` nosi traku "Ušteda 15%".
+    // Set proizvod (korisnik, 23.08.2026): 2× uska linija posteljina + 2× veliki peškir + 2× mali
+    // peškir + stopa za noge. Čaršaf na gumu UKLONJEN iz seta (korisnik, 27.08.2026). Cijena = zbir
+    // pojedinačnih cijena (115,66 KM) uz 15% popusta = 98,31 KM. `cijenaStara` nosi zbir (postojeći
+    // mehanizam za precrtanu cijenu, KarticaProizvoda već to renderuje), `bedz` nosi traku "Ušteda 15%".
     naziv: "Puni set posteljine — Single krevet",
-    cijena: 113.61,
-    cijenaStara: 133.66,
+    cijena: 98.31,
+    cijenaStara: 115.66,
     bedz: "Ušteda 15%",
     materijal: "pamučni damast",
     dimenzije: [
       "Slifer 140×200 cm (2×)",
-      "Čaršaf na gumu 220×240 cm",
       "Peškir 140×70 cm (2×)",
       "Peškir 85×45 cm (2×)",
       "Stopa za noge 50×70 cm",
     ],
     boja: BOJA_PRIVREMENA,
     opisKratki:
-      "Kompletan set za dva Single kreveta po cijeni nižoj 15% od pojedinačne kupovine: 2 posteljine od damasta (Slifer + jastučnica), čaršaf na gumu, 2 velika i 2 mala peškira i stopa za noge. Sve što treba za opremanje kreveta i kupatila u jednoj narudžbi.",
+      "Kompletan set za dva Single kreveta po cijeni nižoj 15% od pojedinačne kupovine: 2 posteljine od damasta (Slifer + jastučnica), 2 velika i 2 mala peškira i stopa za noge. Sve što treba za opremanje kreveta i kupatila u jednoj narudžbi.",
     opisDugi:
-      "Ovaj set je sastavljen za sve koji odjednom opremaju dva Single kreveta — bilo da je riječ o gostinjskoj sobi, apartmanu za iznajmljivanje ili jednostavno želji da se ne naručuje deset puta zaredom. Sadrži dvije posteljine od pamučnog damasta (svaka Slifer 140×200 cm + 1 jastučnica), jedan čaršaf na gumu 220×240 cm, dva velika peškira 140×70 cm, dva mala peškira 85×45 cm i jednu stopu za noge 50×70 cm.\n\nKupljeno pojedinačno, ovih devet komada koštalo bi 133,66 KM — u ovom setu je 113,61 KM, 15% jeftinije. Materijal je isti kao i kod pojedinačnih artikala: pamučni damast za posteljine, 100% pamuk za čaršaf, peškire i stopu, pa nema kompromisa u kvalitetu zarad cijene. Posebno je praktičan za vlasnike apartmana i kratkoročni najam — jedna narudžba pokriva kompletnu smjenu tekstila za dva kreveta i kupatilo, umjesto sastavljanja iz više zasebnih artikala.",
+      "Ovaj set je sastavljen za sve koji odjednom opremaju dva Single kreveta — bilo da je riječ o gostinjskoj sobi, apartmanu za iznajmljivanje ili jednostavno želji da se ne naručuje deset puta zaredom. Sadrži dvije posteljine od pamučnog damasta (svaka Slifer 140×200 cm + 1 jastučnica), dva velika peškira 140×70 cm, dva mala peškira 85×45 cm i jednu stopu za noge 50×70 cm.\n\nKupljeno pojedinačno, ovih osam komada koštalo bi 115,66 KM — u ovom setu je 98,31 KM, 15% jeftinije. Materijal je isti kao i kod pojedinačnih artikala: pamučni damast za posteljine, 100% pamuk za peškire i stopu, pa nema kompromisa u kvalitetu zarad cijene. Posebno je praktičan za vlasnike apartmana i kratkoročni najam — jedna narudžba pokriva kompletnu smjenu tekstila za dva kreveta i kupatilo, umjesto sastavljanja iz više zasebnih artikala.",
     specifikacije: [
-      { kljuc: "Materijal", vrijednost: "100% pamučni damast + 100% pamuk (čaršaf/peškiri/stopa)" },
+      { kljuc: "Materijal", vrijednost: "100% pamučni damast + 100% pamuk (peškiri/stopa)" },
       {
         kljuc: "Set sadrži",
         vrijednost:
-          "2× posteljina uska linija (Slifer 140×200 + jastučnica), čaršaf na gumu 220×240, 2× peškir 140×70, 2× peškir 85×45, stopa za noge 50×70",
+          "2× posteljina uska linija (Slifer 140×200 + jastučnica), 2× peškir 140×70, 2× peškir 85×45, stopa za noge 50×70",
       },
-      { kljuc: "Ušteda", vrijednost: "15% u odnosu na pojedinačnu kupovinu (133,66 → 113,61 KM)" },
+      { kljuc: "Ušteda", vrijednost: "15% u odnosu na pojedinačnu kupovinu (115,66 → 98,31 KM)" },
     ],
     slike: generisiSlike(
       "pamučni damast",

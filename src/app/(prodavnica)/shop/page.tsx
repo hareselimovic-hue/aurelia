@@ -60,7 +60,7 @@ const TABELA_DIMENZIJA: { dimenzija: string; vrsta: string; odgovaraZa: string }
     odgovaraZa: "Bračni krevet (dušek do ~200 cm širine)",
   },
   {
-    dimenzija: "240×290 cm",
+    dimenzija: "240×260 cm",
     vrsta: "Čaršaf",
     odgovaraZa: "Bračni krevet, veća/produžena varijanta",
   },
@@ -75,7 +75,7 @@ export async function generateMetadata({ searchParams }: ShopPageProps): Promise
     // Prilagođeno stvarnom asortimanu (products.ts): damast posteljina, peškiri, čaršafi — NE
     // ranforce/saten kako je pisalo u CLAUDE_aurelia.md §5 primjeru (ta linija još nije u ponudi).
     description:
-      "Pregledaj cijelu ponudu: posteljina od pamučnog damasta, peškiri i čaršafi od 100% pamuka. Dimenzije od 85×45 do 240×290 cm. Dostava po BiH.",
+      "Pregledaj cijelu ponudu: posteljina od pamučnog damasta, peškiri i čaršafi od 100% pamuka. Dimenzije od 85×45 do 240×260 cm. Dostava po BiH.",
     alternates: {
       // §5-03, blokirajuće pravilo: canonical UVIJEK pokazuje na čisti /shop/, bez obzira na
       // aktivne filtere ili sortiranje.
