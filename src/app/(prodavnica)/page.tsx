@@ -52,7 +52,7 @@ const KUPUJ_PO_VRSTI = [
     naziv: "Peškiri",
     href: "/shop/?vrsta=peskiri",
     alt: "Pamučni peškiri",
-    slika: "/images/products/peskir-140x70-1.webp",
+    slika: "/images/products/peskiri-veliki.webp",
   },
   {
     naziv: "Čaršafi i gume",
