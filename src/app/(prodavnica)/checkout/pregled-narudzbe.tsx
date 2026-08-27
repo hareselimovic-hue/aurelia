@@ -10,9 +10,12 @@ import { PLACEHOLDER_IMAGE } from "@/lib/products";
 export function PregledNarudzbe({
   items,
   totalPrice,
+  cijenaDostave,
 }: {
   items: StavkaKorpe[];
   totalPrice: number;
+  /** `null` = poštanski broj još nije unesen (src/lib/dostava.ts). */
+  cijenaDostave: number | null;
 }) {
   return (
     <div className="h-fit rounded-xl border border-border bg-card p-6">
@@ -56,9 +59,21 @@ export function PregledNarudzbe({
         })}
       </ul>
 
-      <div className="mt-6 flex items-center justify-between border-t border-border pt-4">
-        <span className="text-base font-medium text-foreground">Ukupno</span>
-        <span className="text-xl font-semibold text-foreground">{formatPrice(totalPrice)}</span>
+      <div className="mt-6 space-y-2 border-t border-border pt-4">
+        <div className="flex items-center justify-between text-sm">
+          <span className="text-muted-foreground">Dostava</span>
+          {cijenaDostave === null ? (
+            <span className="text-muted-foreground">Unesite poštanski broj</span>
+          ) : (
+            <span className="font-medium text-foreground">{formatPrice(cijenaDostave)}</span>
+          )}
+        </div>
+        <div className="flex items-center justify-between pt-2">
+          <span className="text-base font-medium text-foreground">Ukupno</span>
+          <span className="text-xl font-semibold text-foreground">
+            {formatPrice(totalPrice + (cijenaDostave ?? 0))}
+          </span>
+        </div>
       </div>
     </div>
   );

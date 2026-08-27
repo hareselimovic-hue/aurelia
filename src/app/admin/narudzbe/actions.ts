@@ -24,6 +24,7 @@ export async function oznaciPoslano(formData: FormData) {
       telefon: narudzba.telefon,
       adresa: narudzba.adresa,
       grad: narudzba.grad,
+      postanskiBroj: narudzba.postanskiBroj,
       napomena: narudzba.napomena ?? undefined,
     },
   });

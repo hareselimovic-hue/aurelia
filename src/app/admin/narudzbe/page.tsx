@@ -192,7 +192,7 @@ export default async function AdminNarudzbePage({ searchParams }: AdminNarudzbeP
                         {n.email} · {n.telefon}
                       </div>
                       <div className="text-xs text-muted-foreground">
-                        {n.adresa}, {n.grad}
+                        {n.adresa}, {n.postanskiBroj} {n.grad}
                       </div>
                     </td>
                     <td className="px-4 py-3 text-foreground">

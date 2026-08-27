@@ -8,18 +8,24 @@ import { useState } from "react";
 import Link from "next/link";
 
 import { useCart } from "@/lib/cart-context";
+import { izracunajDostavu } from "@/lib/dostava";
 import type { NarudzbaOdgovor, NarudzbaPayload } from "@/app/api/narudzbe/types";
-import { CheckoutForma, type FormaPodaci } from "./checkout-forma";
+import { CheckoutForma, PRAZNA_FORMA, type FormaPodaci } from "./checkout-forma";
 import { PregledNarudzbe } from "./pregled-narudzbe";
 import { PotvrdaNarudzbe } from "./potvrda-narudzbe";
 
 export default function CheckoutPage() {
   const { items, totalPrice, updateQuantity } = useCart();
+  const [podaci, setPodaci] = useState<FormaPodaci>(PRAZNA_FORMA);
   const [saljemo, setSaljemo] = useState(false);
   const [greska, setGreska] = useState<string | null>(null);
   const [potvrdjenaNarudzba, setPotvrdjenaNarudzba] = useState<{ brojNarudzbe: string } | null>(
     null
   );
+
+  // Cijena dostave se prikazuje uživo (PregledNarudzbe) dok kupac kuca poštanski broj — server
+  // (route.ts) je nezavisno preračunava iz iste vrijednosti, ovo je samo za prikaz prije slanja.
+  const cijenaDostave = izracunajDostavu(podaci.postanskiBroj);
 
   async function posaljiNarudzbu(podaci: FormaPodaci) {
     setGreska(null);
@@ -32,6 +38,7 @@ export default function CheckoutPage() {
         telefon: podaci.telefon.trim(),
         adresa: podaci.adresa.trim(),
         grad: podaci.grad.trim(),
+        postanskiBroj: podaci.postanskiBroj.trim(),
         napomena: podaci.napomena.trim() || undefined,
       },
       nacinPlacanja: podaci.nacinPlacanja,
@@ -101,8 +108,14 @@ export default function CheckoutPage() {
       <h1>Plaćanje</h1>
 
       <div className="mt-8 grid gap-8 lg:grid-cols-[1fr_360px]">
-        <CheckoutForma onSubmit={posaljiNarudzbu} saljemo={saljemo} greska={greska} />
-        <PregledNarudzbe items={items} totalPrice={totalPrice} />
+        <CheckoutForma
+          podaci={podaci}
+          onChange={setPodaci}
+          onSubmit={posaljiNarudzbu}
+          saljemo={saljemo}
+          greska={greska}
+        />
+        <PregledNarudzbe items={items} totalPrice={totalPrice} cijenaDostave={cijenaDostave} />
       </div>
     </div>
   );

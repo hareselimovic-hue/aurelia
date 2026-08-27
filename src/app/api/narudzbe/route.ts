@@ -8,6 +8,7 @@ import { NextResponse } from "next/server";
 
 import { posaljiObavjestenjeVlasniku, posaljiPotvrduKupcu } from "./email";
 import { prisma } from "@/lib/prisma";
+import { izracunajDostavu } from "@/lib/dostava";
 import type {
   NacinPlacanja,
   NarudzbaKupac,
@@ -32,6 +33,7 @@ function validirajKupca(kupac: unknown): kupac is NarudzbaKupac {
     jeNepraznString(k.telefon) &&
     jeNepraznString(k.adresa) &&
     jeNepraznString(k.grad) &&
+    jeNepraznString(k.postanskiBroj) &&
     (k.napomena === undefined || typeof k.napomena === "string")
   );
 }
@@ -88,7 +90,8 @@ export async function POST(request: Request) {
     return NextResponse.json<NarudzbaOdgovor>(
       {
         ok: false,
-        greska: "Nedostaju obavezni podaci kupca (ime i prezime, email, telefon, adresa, grad).",
+        greska:
+          "Nedostaju obavezni podaci kupca (ime i prezime, email, telefon, adresa, grad, poštanski broj).",
       },
       { status: 400 }
     );
@@ -127,6 +130,13 @@ export async function POST(request: Request) {
 
   const brojNarudzbe = generisiBrojNarudzbe();
 
+  // Cijena dostave se NEZAVISNO preračunava ovdje iz poštanskog broja (src/lib/dostava.ts) — server
+  // ne vjeruje nikakvoj cijeni dostave koju bi klijent mogao poslati. `payload.ukupnaCijena` je zbir
+  // SAMO stavki (bez dostave, vidi types.ts) — konačna, stvarna cijena za naplatu je taj zbir plus
+  // dostava, i to je ono što se čuva u bazi i šalje u mejlovima kao "ukupno".
+  const cijenaDostave = izracunajDostavu(payload.kupac.postanskiBroj) ?? 0;
+  const ukupnaCijenaSaDostavom = payload.ukupnaCijena + cijenaDostave;
+
   await prisma.narudzba.create({
     data: {
       brojNarudzbe,
@@ -135,10 +145,12 @@ export async function POST(request: Request) {
       telefon: payload.kupac.telefon,
       adresa: payload.kupac.adresa,
       grad: payload.kupac.grad,
+      postanskiBroj: payload.kupac.postanskiBroj,
       napomena: payload.kupac.napomena,
       nacinPlacanja: payload.nacinPlacanja,
       stavke: payload.stavke,
-      ukupnaCijena: payload.ukupnaCijena,
+      ukupnaCijena: ukupnaCijenaSaDostavom,
+      cijenaDostave,
     },
   });
 
@@ -148,7 +160,7 @@ export async function POST(request: Request) {
       `=== NOVA NARUDŽBA ${brojNarudzbe} ===`,
       `Vrijeme: ${new Date().toISOString()}`,
       `Kupac: ${payload.kupac.imePrezime} | email: ${payload.kupac.email} | telefon: ${payload.kupac.telefon}`,
-      `Adresa: ${payload.kupac.adresa}, ${payload.kupac.grad}`,
+      `Adresa: ${payload.kupac.adresa}, ${payload.kupac.grad} ${payload.kupac.postanskiBroj}`,
       payload.kupac.napomena ? `Napomena: ${payload.kupac.napomena}` : null,
       `Način plaćanja: ${payload.nacinPlacanja}`,
       "Stavke:",
@@ -156,7 +168,8 @@ export async function POST(request: Request) {
         (s) =>
           `  - ${s.naziv}${s.dimenzija ? ` (${s.dimenzija})` : ""} x${s.kolicina} @ ${s.cijenaPoKomadu} KM`
       ),
-      `Ukupno: ${payload.ukupnaCijena} KM`,
+      `Dostava: ${cijenaDostave} KM`,
+      `Ukupno: ${ukupnaCijenaSaDostavom} KM`,
       "===================================",
     ]
       .filter(Boolean)
@@ -168,7 +181,8 @@ export async function POST(request: Request) {
     kupac: payload.kupac,
     nacinPlacanja: payload.nacinPlacanja,
     stavke: payload.stavke,
-    ukupnaCijena: payload.ukupnaCijena,
+    cijenaDostave,
+    ukupnaCijena: ukupnaCijenaSaDostavom,
   };
 
   // Await prije response-a — na serverless platformi (Vercel) se funkcija zamrzava/gasi čim se

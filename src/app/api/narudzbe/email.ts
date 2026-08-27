@@ -48,6 +48,9 @@ type NarudzbaZaEmail = {
   kupac: NarudzbaKupac;
   nacinPlacanja: NacinPlacanja;
   stavke: NarudzbaStavka[];
+  // `ukupnaCijena` ovdje je već KONAČAN iznos (stavke + dostava, izračunato u route.ts) — dostava
+  // se prosljeđuje odvojeno samo da se prikaže kao svoj red u tabeli/tekstu maila.
+  cijenaDostave: number;
   ukupnaCijena: number;
 };
 
@@ -79,10 +82,18 @@ function stavkeTekst(stavke: NarudzbaStavka[]): string {
     .join("\n");
 }
 
-function stavkeTabela(stavke: NarudzbaStavka[], ukupnaCijena: number): string {
+function stavkeTabela(stavke: NarudzbaStavka[], cijenaDostave: number, ukupnaCijena: number): string {
   return `
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;">
       ${stavkeHtmlRedovi(stavke)}
+      <tr>
+        <td colspan="2" style="padding:12px 0 0;font-family:Arial,Helvetica,sans-serif;font-size:13px;color:${BOJA.tekstMuted};">
+          Dostava
+        </td>
+        <td align="right" style="padding:12px 0 0;font-family:Arial,Helvetica,sans-serif;font-size:14px;color:${BOJA.tekst};white-space:nowrap;">
+          ${cijenaDostave === 0 ? "Besplatno" : formatPrice(cijenaDostave)}
+        </td>
+      </tr>
       <tr>
         <td colspan="2" style="padding:16px 0 0;border-top:2px solid ${BOJA.bronza};font-family:Arial,Helvetica,sans-serif;font-size:14px;font-weight:bold;color:${BOJA.tekst};">
           Ukupno
@@ -202,11 +213,14 @@ export async function posaljiPotvrduKupcu(narudzba: NarudzbaZaEmail): Promise<vo
     <p style="margin:0 0 28px;font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:1.7;color:${BOJA.tekstMuted};">
       Narudžba je potvrđena. Informacije o isporuci šaljemo na ovu istu email adresu čim paket bude spreman za slanje.
     </p>
-    ${stavkeTabela(narudzba.stavke, narudzba.ukupnaCijena)}
+    ${stavkeTabela(narudzba.stavke, narudzba.cijenaDostave, narudzba.ukupnaCijena)}
     <div style="height:24px;line-height:24px;font-size:1px;">&nbsp;</div>
     ${infoKutija([
       { label: "Plaćanje", vrijednost: nacinPlacanjaNaziv },
-      { label: "Dostava na", vrijednost: `${narudzba.kupac.adresa}, ${narudzba.kupac.grad}` },
+      {
+        label: "Dostava na",
+        vrijednost: `${narudzba.kupac.adresa}, ${narudzba.kupac.postanskiBroj} ${narudzba.kupac.grad}`,
+      },
     ])}
     <p style="margin:28px 0 0;font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:1.6;color:${BOJA.tekstMuted};">
       Pitanja o narudžbi? Samo odgovorite direktno na ovaj email.
@@ -225,9 +239,10 @@ Vaša narudžba pod brojem #${narudzba.brojNarudzbe} je potvrđena. Informacije 
 
 ${stavkeTekst(narudzba.stavke)}
 
+Dostava: ${narudzba.cijenaDostave === 0 ? "Besplatno" : formatPrice(narudzba.cijenaDostave)}
 Ukupno: ${formatPrice(narudzba.ukupnaCijena)}
 Način plaćanja: ${nacinPlacanjaNaziv}
-Dostava na: ${narudzba.kupac.adresa}, ${narudzba.kupac.grad}
+Dostava na: ${narudzba.kupac.adresa}, ${narudzba.kupac.postanskiBroj} ${narudzba.kupac.grad}
 
 Pitanja? Odgovorite direktno na ovaj email ili nam pišite na info@aurelia.ba.`;
 
@@ -270,7 +285,7 @@ export async function posaljiObavjestenjeVlasniku(narudzba: NarudzbaZaEmail): Pr
     <h1 style="margin:16px 0 24px;font-family:Georgia,'Times New Roman',serif;font-weight:normal;font-size:24px;color:${BOJA.tekst};">
       #${narudzba.brojNarudzbe} — ${formatPrice(narudzba.ukupnaCijena)}
     </h1>
-    ${stavkeTabela(narudzba.stavke, narudzba.ukupnaCijena)}
+    ${stavkeTabela(narudzba.stavke, narudzba.cijenaDostave, narudzba.ukupnaCijena)}
     <div style="height:24px;line-height:24px;font-size:1px;">&nbsp;</div>
     ${infoKutija([
       { label: "Kupac", vrijednost: narudzba.kupac.imePrezime },
@@ -282,7 +297,10 @@ export async function posaljiObavjestenjeVlasniku(narudzba: NarudzbaZaEmail): Pr
         label: "Telefon",
         vrijednost: `<a href="tel:${narudzba.kupac.telefon.replace(/\s/g, "")}" style="color:${BOJA.bronzaTamnija};">${narudzba.kupac.telefon}</a>`,
       },
-      { label: "Adresa", vrijednost: `${narudzba.kupac.adresa}, ${narudzba.kupac.grad}` },
+      {
+        label: "Adresa",
+        vrijednost: `${narudzba.kupac.adresa}, ${narudzba.kupac.postanskiBroj} ${narudzba.kupac.grad}`,
+      },
       { label: "Plaćanje", vrijednost: nacinPlacanjaNaziv },
       ...(narudzba.kupac.napomena
         ? [{ label: "Napomena", vrijednost: narudzba.kupac.napomena }]
@@ -303,12 +321,13 @@ export async function posaljiObavjestenjeVlasniku(narudzba: NarudzbaZaEmail): Pr
 
 ${stavkeTekst(narudzba.stavke)}
 
+Dostava: ${narudzba.cijenaDostave === 0 ? "Besplatno" : formatPrice(narudzba.cijenaDostave)}
 Ukupno: ${formatPrice(narudzba.ukupnaCijena)}
 
 Kupac: ${narudzba.kupac.imePrezime}
 Email: ${narudzba.kupac.email}
 Telefon: ${narudzba.kupac.telefon}
-Adresa: ${narudzba.kupac.adresa}, ${narudzba.kupac.grad}
+Adresa: ${narudzba.kupac.adresa}, ${narudzba.kupac.postanskiBroj} ${narudzba.kupac.grad}
 Način plaćanja: ${nacinPlacanjaNaziv}${narudzba.kupac.napomena ? `\nNapomena: ${narudzba.kupac.napomena}` : ""}`;
 
   const { error } = await resend.emails.send({
@@ -354,7 +373,7 @@ export async function posaljiObavjestenjePoslano(
       Vaš paket je poslan!
     </h1>
     <p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:1.7;color:${BOJA.tekstMuted};">
-      Narudžba #${narudzba.brojNarudzbe} je na putu do vas, na adresu: ${narudzba.kupac.adresa}, ${narudzba.kupac.grad}.
+      Narudžba #${narudzba.brojNarudzbe} je na putu do vas, na adresu: ${narudzba.kupac.adresa}, ${narudzba.kupac.postanskiBroj} ${narudzba.kupac.grad}.
     </p>
     <p style="margin:28px 0 0;font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:1.6;color:${BOJA.tekstMuted};">
       Pitanja o dostavi? Samo odgovorite direktno na ovaj email.
@@ -369,7 +388,7 @@ export async function posaljiObavjestenjePoslano(
 
   const text = `Vaš paket je poslan!
 
-Narudžba #${narudzba.brojNarudzbe} je na putu do vas, na adresu: ${narudzba.kupac.adresa}, ${narudzba.kupac.grad}.
+Narudžba #${narudzba.brojNarudzbe} je na putu do vas, na adresu: ${narudzba.kupac.adresa}, ${narudzba.kupac.postanskiBroj} ${narudzba.kupac.grad}.
 
 Pitanja o dostavi? Samo odgovorite direktno na ovaj email.`;
 

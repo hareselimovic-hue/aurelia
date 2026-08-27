@@ -3,6 +3,10 @@
 // Forma za podatke kupca + izbor načina plaćanja. Odvojena od page.tsx da orkestrator (submit,
 // slanje na API, potvrda) ostane čitljiv. Validacija je isključivo klijentska (required polja) —
 // server (src/app/api/narudzbe/route.ts) radi svoju nezavisnu validaciju, ovo ne zamjenjuje nju.
+//
+// `podaci`/`onChange` dolaze odozgo (page.tsx) umjesto lokalnog useState — poštanski broj mora biti
+// vidljiv i u PregledNarudzbe (sused, ne roditelj/dijete ove komponente) da prikaže cijenu dostave
+// uživo dok kupac kuca (korisnik, 27.08.2026), pa cijela forma dijeli stanje odozgo.
 
 import { useState, type FormEvent } from "react";
 
@@ -19,16 +23,18 @@ export type FormaPodaci = {
   telefon: string;
   adresa: string;
   grad: string;
+  postanskiBroj: string;
   napomena: string;
   nacinPlacanja: NacinPlacanja;
 };
 
-const PRAZNA_FORMA: FormaPodaci = {
+export const PRAZNA_FORMA: FormaPodaci = {
   imePrezime: "",
   email: "",
   telefon: "",
   adresa: "",
   grad: "",
+  postanskiBroj: "",
   napomena: "",
   nacinPlacanja: "pouzece",
 };
@@ -68,22 +74,27 @@ const NACINI_PLACANJA: NacinPlacanjaOpcija[] = [
   },
 ];
 
-type PoljeGreske = Partial<Record<"imePrezime" | "email" | "telefon" | "adresa" | "grad", string>>;
+type PoljeGreske = Partial<
+  Record<"imePrezime" | "email" | "telefon" | "adresa" | "grad" | "postanskiBroj", string>
+>;
 
 export function CheckoutForma({
+  podaci,
+  onChange,
   onSubmit,
   saljemo,
   greska,
 }: {
+  podaci: FormaPodaci;
+  onChange: (podaci: FormaPodaci) => void;
   onSubmit: (podaci: FormaPodaci) => void;
   saljemo: boolean;
   greska: string | null;
 }) {
-  const [podaci, setPodaci] = useState<FormaPodaci>(PRAZNA_FORMA);
   const [poljaGreske, setPoljaGreske] = useState<PoljeGreske>({});
 
   function izmijeni<K extends keyof FormaPodaci>(polje: K, vrijednost: FormaPodaci[K]) {
-    setPodaci((prev) => ({ ...prev, [polje]: vrijednost }));
+    onChange({ ...podaci, [polje]: vrijednost });
   }
 
   function validiraj(): boolean {
@@ -97,6 +108,7 @@ export function CheckoutForma({
     if (!podaci.telefon.trim()) nove.telefon = "Unesite broj telefona.";
     if (!podaci.adresa.trim()) nove.adresa = "Unesite adresu za dostavu.";
     if (!podaci.grad.trim()) nove.grad = "Unesite grad.";
+    if (!podaci.postanskiBroj.trim()) nove.postanskiBroj = "Unesite poštanski broj.";
     setPoljaGreske(nove);
     return Object.keys(nove).length === 0;
   }
@@ -186,6 +198,31 @@ export function CheckoutForma({
             {poljaGreske.grad && (
               <p id="grad-greska" className="text-sm text-destructive">
                 {poljaGreske.grad}
+              </p>
+            )}
+          </div>
+
+          <div className="space-y-1.5">
+            <Label htmlFor="postanskiBroj">Poštanski broj *</Label>
+            <Input
+              id="postanskiBroj"
+              inputMode="numeric"
+              autoComplete="postal-code"
+              value={podaci.postanskiBroj}
+              onChange={(e) => izmijeni("postanskiBroj", e.target.value)}
+              aria-invalid={Boolean(poljaGreske.postanskiBroj)}
+              aria-describedby={
+                poljaGreske.postanskiBroj ? "postanskiBroj-greska" : "postanskiBroj-napomena"
+              }
+              className="h-11"
+            />
+            {poljaGreske.postanskiBroj ? (
+              <p id="postanskiBroj-greska" className="text-sm text-destructive">
+                {poljaGreske.postanskiBroj}
+              </p>
+            ) : (
+              <p id="postanskiBroj-napomena" className="text-sm text-muted-foreground">
+                Određuje cijenu dostave — vidi pregled narudžbe.
               </p>
             )}
           </div>

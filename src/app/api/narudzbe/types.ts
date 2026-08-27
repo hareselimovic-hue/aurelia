@@ -21,6 +21,7 @@ export type NarudzbaKupac = {
   telefon: string;
   adresa: string;
   grad: string;
+  postanskiBroj: string;
   napomena?: string;
 };
 
@@ -28,6 +29,8 @@ export type NarudzbaPayload = {
   kupac: NarudzbaKupac;
   nacinPlacanja: NacinPlacanja;
   stavke: NarudzbaStavka[];
+  // Zbir stavki BEZ dostave — server nezavisno preračunava cijenu dostave iz postanskiBroj
+  // (src/lib/dostava.ts) i sam je dodaje, ne vjeruje klijentu za taj dio (vidi route.ts).
   ukupnaCijena: number;
 };
 
