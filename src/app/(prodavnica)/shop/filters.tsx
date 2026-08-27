@@ -43,15 +43,36 @@ function pillKlasa(aktivno: boolean): string {
   }`;
 }
 
+/** Peškiri i čaršafi imaju prave, zasebno indeksirane kategorijske stranice (/shop/peskiri/,
+ * /shop/carsafi/ — vidi memoriju "project-aurelia-shop-kategorije") umjesto `?vrsta=` filtera, pa
+ * njihove pilule uvijek vode na tu rutu, bez obzira na trenutne query parametre. "Posteljina" nema
+ * zasebnu stranicu (CLAUDE_aurelia.md §2 — kanibalizirala bi početnu, koja već drži taj keyword),
+ * pa ta pilula i dalje koristi `?vrsta=posteljina` filter na /shop/ kao i ranije. */
+function vrstaHref(opcijaValue: string, jeAktivno: boolean, current: ShopParams): string {
+  if (opcijaValue === "peskiri") return "/shop/peskiri/";
+  if (opcijaValue === "carsafi") return "/shop/carsafi/";
+  return hrefSaIzmjenom(current, "vrsta", jeAktivno ? undefined : opcijaValue);
+}
+
 /** Jedini vidljivi filter na shopu — "vrsta" (Posteljine/Peškiri/Čaršafi i gume), prikazan kao red
  * pill dugmadi umjesto punog sidebar filtera (korisnički feedback 23.08.2026: "za ovako mali broj
  * proizvoda filter je suvišan... ostavi samo Posteljine, Peskiri, Čaršafi/Gume"). Materijal,
  * dimenzija, boja, cijena i sortiranje su uklonjeni iz vidljivog UI-a — logika za njih ostaje u
  * shop-filters.ts i dalje ispravno radi ako neko ručno doda taj parametar u URL, samo se više ne
  * prikazuje kontrola za njih (FiltersDesktop/FiltersMobile/SortLinks ispod ostaju definisani, ali
- * ih shop/page.tsx više ne renderuje). */
-export function VrstaFilter({ current }: { current: ShopParams }) {
-  const aktivno = current.vrsta;
+ * ih shop/page.tsx više ne renderuje).
+ *
+ * Komponenta se renderuje i na /shop/ (gdje `current.vrsta` dolazi iz URL-a) i na
+ * /shop/peskiri/ i /shop/carsafi/ (gdje nema query parametra pa se aktivna vrsta prosljeđuje
+ * eksplicitno preko `aktivnaVrsta`, jer te stranice nisu filter na /shop/ nego zasebne rute). */
+export function VrstaFilter({
+  current,
+  aktivnaVrsta,
+}: {
+  current: ShopParams;
+  aktivnaVrsta?: string;
+}) {
+  const aktivno = aktivnaVrsta ?? current.vrsta;
 
   return (
     <div
@@ -71,7 +92,7 @@ export function VrstaFilter({ current }: { current: ShopParams }) {
         return (
           <Link
             key={opcija.value}
-            href={hrefSaIzmjenom(current, "vrsta", jeAktivno ? undefined : opcija.value)}
+            href={vrstaHref(opcija.value, jeAktivno, current)}
             aria-current={jeAktivno ? "true" : undefined}
             className={pillKlasa(jeAktivno)}
           >

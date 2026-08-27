@@ -50,13 +50,13 @@ const KUPUJ_PO_VRSTI = [
   },
   {
     naziv: "Peškiri",
-    href: "/shop/?vrsta=peskiri",
+    href: "/shop/peskiri/",
     alt: "Pamučni peškiri",
     slika: "/images/products/peskiri-veliki.webp",
   },
   {
     naziv: "Čaršafi i gume",
-    href: "/shop/?vrsta=carsafi",
+    href: "/shop/carsafi/",
     alt: "Čaršafi i čaršafi na gumu",
     slika: "/images/products/carsaf-na-gumu.webp",
   },

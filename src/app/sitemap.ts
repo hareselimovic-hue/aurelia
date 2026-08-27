@@ -18,6 +18,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const staticneRute = [
     "",
     "shop",
+    "shop/peskiri",
+    "shop/carsafi",
     "o-nama",
     "kontakt",
     "dostava-i-placanje",

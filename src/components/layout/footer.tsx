@@ -6,11 +6,15 @@
 
 import Link from "next/link";
 
+// Ranije "?kategorija=" nije bio prepoznat query parametar (shop-filters.ts koristi "vrsta"),
+// pa filter tiho nije radio ništa. Peškiri i čaršafi sad imaju prave kategorijske stranice
+// (vidi memoriju "project-aurelia-shop-kategorije") — posteljina i dalje nema svoju stranicu
+// (CLAUDE_aurelia.md §2, kanibalizacija početne), zato ostaje ?vrsta= filter na /shop/.
 const KATEGORIJE = [
   { naziv: "Cijela ponuda", href: "/shop/" },
-  { naziv: "Posteljina od damasta", href: "/shop/?kategorija=posteljina" },
-  { naziv: "Peškiri", href: "/shop/?kategorija=peskiri" },
-  { naziv: "Čaršafi", href: "/shop/?kategorija=carsafi" },
+  { naziv: "Posteljina od damasta", href: "/shop/?vrsta=posteljina" },
+  { naziv: "Peškiri", href: "/shop/peskiri/" },
+  { naziv: "Čaršafi", href: "/shop/carsafi/" },
 ];
 
 const PRAVNE_STRANICE = [
