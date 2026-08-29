@@ -22,6 +22,22 @@ const ZASTICENE_STRANICE_PREFIX = "/admin";
 const ZASTICENE_API_PREFIX = "/api/admin";
 const JAVNE_ADMIN_RUTE = ["/admin/login", "/api/admin/login"];
 
+// Stari filter-URL-ovi sa /shop/ (SEO odluka 29.08.2026) — ?vrsta=/?kategorija= su možda već
+// indeksirani, pa se preusmjeravaju umjesto da vrate 404/duplikat sadržaja. Peškiri i čaršafi
+// imaju prave kategorijske stranice; posteljina nema svoju stranicu/filter (/shop/ je sama po
+// sebi već fokusirana na posteljinu — H1 "Posteljina od pamučnog damasta"), pa ide na čist /shop/.
+//
+// Rađeno ovdje umjesto kroz next.config.ts `redirects()` jer Next.js kod config-level redirekcija
+// automatski prenosi OSTATAK query stringa na destinaciju (dokumentovano ponašanje: "any query
+// values provided in the request will be passed through to the redirect destination"), što bi
+// ostavilo npr. "/shop/peskiri/?vrsta=peskiri" umjesto čistog URL-a. Ovdje se URL gradi ručno pa
+// nema tog problema.
+const SHOP_REDIREKCIJE: Record<string, string> = {
+  posteljina: "/shop/",
+  peskiri: "/shop/peskiri/",
+  carsafi: "/shop/carsafi/",
+};
+
 export async function middleware(request: NextRequest) {
   const url = request.nextUrl.clone();
   const forwardedProto = request.headers.get("x-forwarded-proto");
@@ -35,6 +51,18 @@ export async function middleware(request: NextRequest) {
   }
 
   const putanja = url.pathname;
+
+  if (putanja === "/shop/") {
+    const vrijednost = url.searchParams.get("vrsta") ?? url.searchParams.get("kategorija");
+    const odrediste = vrijednost ? SHOP_REDIREKCIJE[vrijednost] : undefined;
+    if (odrediste) {
+      const noviUrl = request.nextUrl.clone();
+      noviUrl.pathname = odrediste;
+      noviUrl.search = "";
+      return NextResponse.redirect(noviUrl, 308);
+    }
+  }
+
   const jeZasticenaStranica =
     putanja.startsWith(ZASTICENE_STRANICE_PREFIX) || putanja.startsWith(ZASTICENE_API_PREFIX);
   const jeJavnaAdminRuta = JAVNE_ADMIN_RUTE.some((ruta) => putanja.startsWith(ruta));

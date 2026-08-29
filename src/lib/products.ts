@@ -171,6 +171,99 @@ export const PROIZVODI: Proizvod[] = [
     naStanju: true,
     kategorije: ["posteljina", "damast", "bracna"],
   },
+  // Redoslijed: "puni set" bundlovi namjerno pomjereni ovdje, odmah iza pojedinačne posteljine
+  // (SEO odluka 29.08.2026) — /shop/ default "novo" prikaz je prirodni redoslijed niza, a setovi
+  // su potencijalno najbolje narudžbe (veća vrijednost korpe), pa ne smiju biti zadnji u prikazu.
+  // Homepage grid ionako već sortira po bedžu ("Ušteda 15%") pa se ovim premještanjem ništa ne
+  // kvari tamo — samo se ispravlja redoslijed na /shop/ gdje se koristi sirovi redoslijed niza.
+  {
+    slug: "puni-set-posteljine-single",
+    // Set proizvod (korisnik, 23.08.2026): 2× uska linija posteljina + 2× veliki peškir + 2× mali
+    // peškir + stopa za noge. Čaršaf na gumu UKLONJEN iz seta (korisnik, 27.08.2026). Cijena = zbir
+    // pojedinačnih cijena (115,66 KM) uz 15% popusta = 98,31 KM. `cijenaStara` nosi zbir (postojeći
+    // mehanizam za precrtanu cijenu, KarticaProizvoda već to renderuje), `bedz` nosi traku "Ušteda 15%".
+    naziv: "Puni set posteljine — Single krevet",
+    cijena: 98.31,
+    cijenaStara: 115.66,
+    bedz: "Ušteda 15%",
+    materijal: "pamučni damast",
+    dimenzije: [
+      "Slifer 140×200 cm (2×)",
+      "Peškir 140×70 cm (2×)",
+      "Peškir 85×45 cm (2×)",
+      "Stopa za noge 50×70 cm",
+    ],
+    boja: BOJA_PRIVREMENA,
+    opisKratki:
+      "Kompletan set za dva Single kreveta po cijeni nižoj 15% od pojedinačne kupovine: 2 posteljine od damasta (Slifer + jastučnica), 2 velika i 2 mala peškira i stopa za noge. Sve što treba za opremanje kreveta i kupatila u jednoj narudžbi.",
+    opisDugi:
+      "Ovaj set je sastavljen za sve koji odjednom opremaju dva Single kreveta — bilo da je riječ o gostinjskoj sobi, apartmanu za iznajmljivanje ili jednostavno želji da se ne naručuje deset puta zaredom. Sadrži dvije posteljine od pamučnog damasta (svaka Slifer 140×200 cm + 1 jastučnica), dva velika peškira 140×70 cm, dva mala peškira 85×45 cm i jednu stopu za noge 50×70 cm.\n\nKupljeno pojedinačno, ovih osam komada koštalo bi 115,66 KM — u ovom setu je 98,31 KM, 15% jeftinije. Materijal je isti kao i kod pojedinačnih artikala: pamučni damast za posteljine, 100% pamuk za peškire i stopu, pa nema kompromisa u kvalitetu zarad cijene. Posebno je praktičan za vlasnike apartmana i kratkoročni najam — jedna narudžba pokriva kompletnu smjenu tekstila za dva kreveta i kupatilo, umjesto sastavljanja iz više zasebnih artikala.",
+    specifikacije: [
+      { kljuc: "Materijal", vrijednost: "100% pamučni damast + 100% pamuk (peškiri/stopa)" },
+      {
+        kljuc: "Set sadrži",
+        vrijednost:
+          "2× posteljina uska linija (Slifer 140×200 + jastučnica), 2× peškir 140×70, 2× peškir 85×45, stopa za noge 50×70",
+      },
+      { kljuc: "Ušteda", vrijednost: "15% u odnosu na pojedinačnu kupovinu (115,66 → 98,31 KM)" },
+    ],
+    slike: generisiSlike(
+      "pamučni damast",
+      ["posteljina", "damast", "set"],
+      BOJA_PRIVREMENA,
+      "140x200 cm",
+      [
+        "/images/products/single-peskiri-na-krevetu.webp",
+        "/images/products/single-1-hotel.webp",
+      ]
+    ),
+    naStanju: true,
+    kategorije: ["posteljina", "damast", "set"],
+  },
+  {
+    slug: "puni-set-posteljine-bracni",
+    // Set proizvod (korisnik, 23.08.2026): bračna posteljina + guma + 2× veliki peškir + 2× mali
+    // peškir + stopa za noge. Zbir pojedinačnih cijena 143,76 KM, 15% popusta = 122,20 KM.
+    naziv: "Puni set posteljine — bračni krevet",
+    cijena: 122.2,
+    cijenaStara: 143.76,
+    bedz: "Ušteda 15%",
+    materijal: "pamučni damast",
+    dimenzije: [
+      "Slifer 200×200 cm",
+      "Jastučnica 50×70 cm (2 kom)",
+      "Čaršaf na gumu 220×240 cm",
+      "Peškir 140×70 cm (2×)",
+      "Peškir 85×45 cm (2×)",
+      "Stopa za noge 50×70 cm",
+    ],
+    boja: BOJA_PRIVREMENA,
+    opisKratki:
+      "Kompletan set za bračni krevet po cijeni nižoj 15% od pojedinačne kupovine: bračna posteljina od damasta (Slifer + 2 jastučnice), čaršaf na gumu, 2 velika i 2 mala peškira i stopa za noge. Jedna narudžba za cijelu spavaću sobu i kupatilo.",
+    opisDugi:
+      "Set je sastavljen za bračni krevet i kupatilo uz njega, bez potrebe da se svaki komad naručuje posebno. Sadrži bračnu posteljinu od pamučnog damasta (Slifer 200×200 cm + 2 jastučnice 50×70 cm), čaršaf na gumu 220×240 cm koji drži dušek prekriven cijelu noć, dva velika peškira 140×70 cm, dva mala peškira 85×45 cm i jednu stopu za noge 50×70 cm.\n\nPojedinačno, ovih sedam komada koštalo bi 143,76 KM — u setu je 122,20 KM, 15% jeftinije. Isti materijal kao i zasebni artikli: pamučni damast za posteljinu, 100% pamuk za ostatak seta. Ovakav set je posebno koristan vlasnicima apartmana i kratkoročnog najma koji opremaju bračnu spavaću sobu odjednom — pokriva krevet, čaršaf i kupatilski tekstil u jednoj narudžbi, spreman za useljenje ili prvog gosta.",
+    specifikacije: [
+      { kljuc: "Materijal", vrijednost: "100% pamučni damast + 100% pamuk (čaršaf/peškiri/stopa)" },
+      {
+        kljuc: "Set sadrži",
+        vrijednost:
+          "Posteljina bračna (Slifer 200×200 + 2 jastučnice), čaršaf na gumu 220×240, 2× peškir 140×70, 2× peškir 85×45, stopa za noge 50×70",
+      },
+      { kljuc: "Ušteda", vrijednost: "15% u odnosu na pojedinačnu kupovinu (143,76 → 122,20 KM)" },
+    ],
+    slike: generisiSlike(
+      "pamučni damast",
+      ["posteljina", "damast", "set", "bracna"],
+      BOJA_PRIVREMENA,
+      "200x200 cm",
+      [
+        "/images/products/bracni-peskiri-na-krevetu.webp",
+        "/images/products/bracna-1-hotel.webp",
+      ]
+    ),
+    naStanju: true,
+    kategorije: ["posteljina", "damast", "set", "bracna"],
+  },
   {
     slug: "peskir-140x70",
     naziv: "Peškir 140×70 cm",
@@ -337,94 +430,6 @@ export const PROIZVODI: Proizvod[] = [
     ]),
     naStanju: true,
     kategorije: ["carsafi"],
-  },
-  {
-    slug: "puni-set-posteljine-single",
-    // Set proizvod (korisnik, 23.08.2026): 2× uska linija posteljina + 2× veliki peškir + 2× mali
-    // peškir + stopa za noge. Čaršaf na gumu UKLONJEN iz seta (korisnik, 27.08.2026). Cijena = zbir
-    // pojedinačnih cijena (115,66 KM) uz 15% popusta = 98,31 KM. `cijenaStara` nosi zbir (postojeći
-    // mehanizam za precrtanu cijenu, KarticaProizvoda već to renderuje), `bedz` nosi traku "Ušteda 15%".
-    naziv: "Puni set posteljine — Single krevet",
-    cijena: 98.31,
-    cijenaStara: 115.66,
-    bedz: "Ušteda 15%",
-    materijal: "pamučni damast",
-    dimenzije: [
-      "Slifer 140×200 cm (2×)",
-      "Peškir 140×70 cm (2×)",
-      "Peškir 85×45 cm (2×)",
-      "Stopa za noge 50×70 cm",
-    ],
-    boja: BOJA_PRIVREMENA,
-    opisKratki:
-      "Kompletan set za dva Single kreveta po cijeni nižoj 15% od pojedinačne kupovine: 2 posteljine od damasta (Slifer + jastučnica), 2 velika i 2 mala peškira i stopa za noge. Sve što treba za opremanje kreveta i kupatila u jednoj narudžbi.",
-    opisDugi:
-      "Ovaj set je sastavljen za sve koji odjednom opremaju dva Single kreveta — bilo da je riječ o gostinjskoj sobi, apartmanu za iznajmljivanje ili jednostavno želji da se ne naručuje deset puta zaredom. Sadrži dvije posteljine od pamučnog damasta (svaka Slifer 140×200 cm + 1 jastučnica), dva velika peškira 140×70 cm, dva mala peškira 85×45 cm i jednu stopu za noge 50×70 cm.\n\nKupljeno pojedinačno, ovih osam komada koštalo bi 115,66 KM — u ovom setu je 98,31 KM, 15% jeftinije. Materijal je isti kao i kod pojedinačnih artikala: pamučni damast za posteljine, 100% pamuk za peškire i stopu, pa nema kompromisa u kvalitetu zarad cijene. Posebno je praktičan za vlasnike apartmana i kratkoročni najam — jedna narudžba pokriva kompletnu smjenu tekstila za dva kreveta i kupatilo, umjesto sastavljanja iz više zasebnih artikala.",
-    specifikacije: [
-      { kljuc: "Materijal", vrijednost: "100% pamučni damast + 100% pamuk (peškiri/stopa)" },
-      {
-        kljuc: "Set sadrži",
-        vrijednost:
-          "2× posteljina uska linija (Slifer 140×200 + jastučnica), 2× peškir 140×70, 2× peškir 85×45, stopa za noge 50×70",
-      },
-      { kljuc: "Ušteda", vrijednost: "15% u odnosu na pojedinačnu kupovinu (115,66 → 98,31 KM)" },
-    ],
-    slike: generisiSlike(
-      "pamučni damast",
-      ["posteljina", "damast", "set"],
-      BOJA_PRIVREMENA,
-      "140x200 cm",
-      [
-        "/images/products/single-peskiri-na-krevetu.webp",
-        "/images/products/single-1-hotel.webp",
-      ]
-    ),
-    naStanju: true,
-    kategorije: ["posteljina", "damast", "set"],
-  },
-  {
-    slug: "puni-set-posteljine-bracni",
-    // Set proizvod (korisnik, 23.08.2026): bračna posteljina + guma + 2× veliki peškir + 2× mali
-    // peškir + stopa za noge. Zbir pojedinačnih cijena 143,76 KM, 15% popusta = 122,20 KM.
-    naziv: "Puni set posteljine — bračni krevet",
-    cijena: 122.2,
-    cijenaStara: 143.76,
-    bedz: "Ušteda 15%",
-    materijal: "pamučni damast",
-    dimenzije: [
-      "Slifer 200×200 cm",
-      "Jastučnica 50×70 cm (2 kom)",
-      "Čaršaf na gumu 220×240 cm",
-      "Peškir 140×70 cm (2×)",
-      "Peškir 85×45 cm (2×)",
-      "Stopa za noge 50×70 cm",
-    ],
-    boja: BOJA_PRIVREMENA,
-    opisKratki:
-      "Kompletan set za bračni krevet po cijeni nižoj 15% od pojedinačne kupovine: bračna posteljina od damasta (Slifer + 2 jastučnice), čaršaf na gumu, 2 velika i 2 mala peškira i stopa za noge. Jedna narudžba za cijelu spavaću sobu i kupatilo.",
-    opisDugi:
-      "Set je sastavljen za bračni krevet i kupatilo uz njega, bez potrebe da se svaki komad naručuje posebno. Sadrži bračnu posteljinu od pamučnog damasta (Slifer 200×200 cm + 2 jastučnice 50×70 cm), čaršaf na gumu 220×240 cm koji drži dušek prekriven cijelu noć, dva velika peškira 140×70 cm, dva mala peškira 85×45 cm i jednu stopu za noge 50×70 cm.\n\nPojedinačno, ovih sedam komada koštalo bi 143,76 KM — u setu je 122,20 KM, 15% jeftinije. Isti materijal kao i zasebni artikli: pamučni damast za posteljinu, 100% pamuk za ostatak seta. Ovakav set je posebno koristan vlasnicima apartmana i kratkoročnog najma koji opremaju bračnu spavaću sobu odjednom — pokriva krevet, čaršaf i kupatilski tekstil u jednoj narudžbi, spreman za useljenje ili prvog gosta.",
-    specifikacije: [
-      { kljuc: "Materijal", vrijednost: "100% pamučni damast + 100% pamuk (čaršaf/peškiri/stopa)" },
-      {
-        kljuc: "Set sadrži",
-        vrijednost:
-          "Posteljina bračna (Slifer 200×200 + 2 jastučnice), čaršaf na gumu 220×240, 2× peškir 140×70, 2× peškir 85×45, stopa za noge 50×70",
-      },
-      { kljuc: "Ušteda", vrijednost: "15% u odnosu na pojedinačnu kupovinu (143,76 → 122,20 KM)" },
-    ],
-    slike: generisiSlike(
-      "pamučni damast",
-      ["posteljina", "damast", "set", "bracna"],
-      BOJA_PRIVREMENA,
-      "200x200 cm",
-      [
-        "/images/products/bracni-peskiri-na-krevetu.webp",
-        "/images/products/bracna-1-hotel.webp",
-      ]
-    ),
-    naStanju: true,
-    kategorije: ["posteljina", "damast", "set", "bracna"],
   },
 ];
 

@@ -83,8 +83,12 @@ export function vrstaProizvoda(p: Proizvod): "posteljina" | "peskiri" | "carsafi
   return "posteljina";
 }
 
+// "posteljina" NEMA pilulu/filter-URL (SEO odluka 29.08.2026) — /shop/ je sama po sebi već
+// fokusirana na posteljinu (H1 "Posteljina od pamučnog damasta"), pa ne treba zaseban
+// ?vrsta=posteljina URL koji bi samo duplirao istu stranicu. Peškiri i čaršafi imaju prave
+// kategorijske stranice (/shop/peskiri/, /shop/carsafi/) na koje njihove pilule vode — vidi
+// vrstaHref() u ./filters.tsx.
 export const VRSTA_OPCIJE: { value: string; label: string }[] = [
-  { value: "posteljina", label: "Posteljina" },
   { value: "peskiri", label: "Peškiri" },
   { value: "carsafi", label: "Čaršafi" },
 ];

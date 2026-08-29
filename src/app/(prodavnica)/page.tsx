@@ -30,7 +30,7 @@ const SITE_URL = "https://aurelia.ba";
 
 // Metadata — tačno iz CLAUDE_aurelia.md §4 (H1/Title/Meta tabela na vrhu sekcije).
 export const metadata: Metadata = {
-  title: "Posteljina — online prodaja posteljine | Aurelia.ba",
+  title: "Aurelia — posteljina, peškiri i čaršafi od pamuka | Dostava po BiH",
   description:
     "Kvalitetna posteljina za bračni i Single krevet. Dostava po cijeloj BiH, plaćanje pouzećem, zamjena u 14 dana.",
   alternates: {
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
 const KUPUJ_PO_VRSTI = [
   {
     naziv: "Posteljine",
-    href: "/shop/?vrsta=posteljina",
+    href: "/shop/",
     alt: "Posteljina od pamučnog damasta",
     slika: "/images/products/bracna-1-hotel.webp",
   },
@@ -251,7 +251,7 @@ export default function Home() {
         <div className="relative z-10 mx-auto w-full max-w-7xl px-4 pb-12 sm:px-6 md:pb-20 lg:px-8">
           <div className="max-w-xl">
             <p className="text-eyebrow text-background/80">Nova kolekcija</p>
-            <h1 className="mt-3 text-background">Posteljina</h1>
+            <h1 className="mt-3 text-background">Pamučni tekstil za hotele i apartmane</h1>
             <p className="mt-4 text-lg leading-relaxed text-background/90">
               Premium posteljina od pamučnog damasta za udoban san i sofisticiran izgled spavaće
               sobe. Idealna za hotele, apartmane i privatni smještaj, uz kvalitet koji traje i

@@ -71,11 +71,14 @@ export async function generateMetadata({ searchParams }: ShopPageProps): Promise
   const robots = izracunajRobots(params);
 
   return {
-    title: "Posteljina — svi modeli i dimenzije | Aurelia.ba",
+    // Naslov usklađen s H1 (SEO odluka 29.08.2026): /shop/ sad ciljano cilja keyword "posteljina",
+    // ne dijeli generički "Posteljina" naslov sa početnom (koja je pomjerena na "Pamučni tekstil
+    // za hotele i apartmane" da se izbjegne kanibalizacija dva različita ciljna izraza na dvije URL).
+    title: "Posteljina od pamučnog damasta — sve dimenzije | Aurelia.ba",
     // Prilagođeno stvarnom asortimanu (products.ts): damast posteljina, peškiri, čaršafi — NE
     // ranforce/saten kako je pisalo u CLAUDE_aurelia.md §5 primjeru (ta linija još nije u ponudi).
     description:
-      "Pregledaj cijelu ponudu: posteljina od pamučnog damasta, peškiri i čaršafi od 100% pamuka. Dimenzije od 85×45 do 240×260 cm. Dostava po BiH.",
+      "Posteljina od pamučnog damasta u dvije linije, plus peškiri i čaršafi od 100% pamuka. Dimenzije od 85×45 do 240×260 cm. Dostava po BiH.",
     alternates: {
       // §5-03, blokirajuće pravilo: canonical UVIJEK pokazuje na čisti /shop/, bez obzira na
       // aktivne filtere ili sortiranje.
@@ -125,15 +128,25 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
 
       {/* 02 — Naslov i uvod (§5-02): <h1> + 60-100 riječi. Korisnik 23.08.2026: ne navoditi broj
           artikala ni raspon cijena (brzo zastari, mijenja se sa svakim novim proizvodom/setom) —
-          fokus na kvalitetu, izdržljivost i premium poziciju za apartmane/hotele/privatnu upotrebu. */}
+          fokus na kvalitetu, izdržljivost i premium poziciju za apartmane/hotele/privatnu upotrebu.
+          SEO odluka 29.08.2026: prve dvije rečenice isključivo o posteljini (H1/title cilja taj
+          keyword), tek treća spominje peškire i čaršafe s linkovima na njihove kategorije. */}
       <div className="mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-8 md:pb-12">
-        <h1>Posteljina — cijela ponuda</h1>
+        <h1>Posteljina od pamučnog damasta</h1>
         <p className="mt-4 max-w-3xl text-lg leading-relaxed text-foreground">
-          Svaki komad u Aurelia ponudi biramo prije svega po kvalitetu materijala i izdržljivosti —
-          posteljina, peškiri i čaršafi izrađeni su da izdrže svakodnevno pranje i korištenje bez
-          gubitka mekoće i sjaja. To nas čini pouzdanim izborom kako za privatna domaćinstva, tako i
-          za apartmane i hotele kojima je stalna kvaliteta ključna za goste. Ispod možete filtrirati
-          ponudu po vrsti proizvoda.
+          Posteljina od pamučnog damasta dolazi u dvije linije — užoj za Single krevet i bračnoj sa
+          dvije jastučnice — tkana je gusto, sa suptilnim žakardnim uzorkom i blagim prirodnim
+          sjajem. Izdržava svakodnevno pranje i korištenje bez gubitka mekoće, što je čini pouzdanim
+          izborom kako za privatna domaćinstva, tako i za apartmane i hotele kojima je stalna
+          kvaliteta ključna za goste. Uz posteljinu, u ponudi su i{" "}
+          <Link href="/shop/peskiri/" className="font-medium text-primary underline-offset-4 hover:underline">
+            peškiri
+          </Link>{" "}
+          i{" "}
+          <Link href="/shop/carsafi/" className="font-medium text-primary underline-offset-4 hover:underline">
+            čaršafi
+          </Link>{" "}
+          od 100% pamuka, za kompletno opremanje kreveta i kupatila.
         </p>
       </div>
 
@@ -187,7 +200,7 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
         <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
           <div className="rounded-xl bg-card p-6 ring-1 ring-border sm:p-8">
             <p className="text-eyebrow text-primary">Asortiman</p>
-            <h2 className="mt-2">Šta se nalazi u ponudi</h2>
+            <h2 className="mt-2">Kakvu posteljinu nudimo</h2>
             <div className="mt-4 max-w-3xl space-y-4">
               <p className="text-base leading-relaxed text-foreground">
                 Asortiman je namjerno uzak umjesto razvučen: pamučni damast za posteljinu, plus
