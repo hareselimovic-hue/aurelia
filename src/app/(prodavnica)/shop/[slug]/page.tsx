@@ -13,6 +13,7 @@ import { PlaceholderImage } from "@/components/placeholder-image";
 import { KarticaProizvoda } from "@/components/product/kartica-proizvoda";
 import { cn } from "@/lib/utils";
 import { formatPrice } from "@/lib/format";
+import { POSTANSKI_BROJ_BESPLATNE_DOSTAVE, CIJENA_DOSTAVE } from "@/lib/dostava";
 import {
   PLACEHOLDER_IMAGE,
   getAllProducts,
@@ -104,6 +105,10 @@ export default async function ProizvodnaStranica({
         "@type": "Product",
         name: proizvod.naziv,
         sku: proizvod.slug,
+        // Nema stvarnog GTIN-a (nisu brendirani, bar-kodirani proizvodi) — brand + sku je
+        // Google-u validna kombinacija globalnog identifikatora umjesto GTIN-a (GSC poteškoća
+        // "Nije naveden globalni identifikator", 22.08.2026).
+        brand: { "@type": "Brand", name: "Aurelia" },
         material: proizvod.materijal,
         color: proizvod.boja,
         description:
@@ -119,6 +124,59 @@ export default async function ProizvodnaStranica({
           availability: proizvod.naStanju
             ? "https://schema.org/InStock"
             : "https://schema.org/OutOfStock",
+          // GSC poteškoća "Nedostaje hasMerchantReturnPolicy" — stvarna politika sa
+          // /reklamacije-i-povrat/: 14 dana, nekorišten/originalno pakovanje, kupac plaća povrat
+          // (korisnik potvrdio 27.08.2026).
+          hasMerchantReturnPolicy: {
+            "@type": "MerchantReturnPolicy",
+            returnPolicyCategory: "https://schema.org/MerchantReturnFiniteReturnWindow",
+            merchantReturnDays: 14,
+            returnMethod: "https://schema.org/ReturnByMail",
+            returnFees: "https://schema.org/ReturnShippingFees",
+            applicableCountry: "BA",
+          },
+          // GSC poteškoća "Nedostaje shippingDetails" — dvije zone iz src/lib/dostava.ts (jedan
+          // izvor istine, isti kao checkout): besplatno za 71000, inače CIJENA_DOSTAVE. Rok
+          // dostave 2-4 radna dana (korisnik potvrdio 27.08.2026) — handlingTime se namjerno
+          // izostavlja jer taj broj nigdje nije potvrđen.
+          shippingDetails: [
+            {
+              "@type": "OfferShippingDetails",
+              shippingRate: { "@type": "MonetaryAmount", value: "0.00", currency: "BAM" },
+              shippingDestination: {
+                "@type": "DefinedRegion",
+                addressCountry: "BA",
+                postalCode: POSTANSKI_BROJ_BESPLATNE_DOSTAVE,
+              },
+              deliveryTime: {
+                "@type": "ShippingDeliveryTime",
+                transitTime: {
+                  "@type": "QuantitativeValue",
+                  minValue: 2,
+                  maxValue: 4,
+                  unitCode: "DAY",
+                },
+              },
+            },
+            {
+              "@type": "OfferShippingDetails",
+              shippingRate: {
+                "@type": "MonetaryAmount",
+                value: CIJENA_DOSTAVE.toFixed(2),
+                currency: "BAM",
+              },
+              shippingDestination: { "@type": "DefinedRegion", addressCountry: "BA" },
+              deliveryTime: {
+                "@type": "ShippingDeliveryTime",
+                transitTime: {
+                  "@type": "QuantitativeValue",
+                  minValue: 2,
+                  maxValue: 4,
+                  unitCode: "DAY",
+                },
+              },
+            },
+          ],
         },
       },
       {
