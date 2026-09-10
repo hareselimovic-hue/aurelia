@@ -93,10 +93,12 @@ export function KarticaProizvoda({
             (npr. "bračna (Slifer + 2 jastučnice)"), taksativna lista ispod je suvišna — dovoljna
             je ista kratka meta linija kao kod jednostavnih proizvoda. Puna itemizacija (i dalje
             potrebna, jer naziv "Puni set posteljine — ..." NE opisuje svih 5-6 komponenti) ostaje
-            SAMO za "puni set" proizvode (`bedz` je jedini pouzdan signal za njih), i to u istom
-            jednorednom "stavka · stavka · stavka" formatu kao meta linija — ne vertikalna
-            checklist, jer je previše produžavala karticu. */}
-        {proizvod.bedz ? (
+            SAMO za "puni set" proizvode, i to u istom jednorednom "stavka · stavka · stavka"
+            formatu kao meta linija — ne vertikalna checklist, jer je previše produžavala karticu.
+            Provjera je `jePuniSet` — NE `bedz` (svi proizvodi imaju bedž otkad je 29.09.2026
+            uveden na cijeloj ponudi) niti `dimenzije.length > 1` ("Posteljina bračna" ima 2
+            stavke u dimenzijama — Slifer + jastučnica — a nije bundle). */}
+        {proizvod.jePuniSet ? (
           <p className="text-xs text-muted-foreground">{proizvod.dimenzije.join(" · ")}</p>
         ) : (
           <p className="text-sm text-muted-foreground">
