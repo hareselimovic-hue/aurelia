@@ -36,3 +36,17 @@ model Narudzba {
 
   @@index([createdAt])
 }
+
+// Zaliha po proizvodu (korisnik, 10.10.2026) — ručno uneseno stanje, admin-only pregled, NIJE
+// povezano sa checkout/shop stranicama (korisnik eksplicitno: "ne mora to biti povezano sa
+// stranicom, ni da zaustavi kupovinu"). `slug` prati `Proizvod.slug` iz src/lib/products.ts
+// (statični katalog, nije u bazi) — nema FK jer products.ts nije DB tabela. Kod slanja narudžbe
+// ("Označi poslano", src/app/admin/narudzbe/actions.ts) se automatski skida po stavkama; "puni
+// set" proizvodi nemaju svoj red ovdje koji se skida — njihove komponente (products.ts
+// `komponente` polje) se skidaju umjesto njih. `kolicina` smije biti negativna (signal da je
+// prodano više nego što je uneseno, ne blokira ništa).
+model Zaliha {
+  slug          String   @id
+  kolicina      Int      @default(0)
+  azuriranoAt   DateTime @updatedAt
+}

@@ -41,6 +41,14 @@ export type Proizvod = {
    * setove i za damast bračnu posteljinu iako izbor ništa nije mijenjao, što je zbunjivalo kupce).
    */
   dimenzijeSuIzbor?: boolean;
+  /**
+   * Za "puni set" bundle proizvode: stvarni sastav u pojedinačnim proizvodima iz ovog istog
+   * kataloga (slug + količina). Koristi se SAMO za automatsko skidanje zalihe kad se narudžba
+   * označi poslano (src/lib/zaliha.ts) — `dimenzije[]` iznad ostaje čisto prikazni tekst na
+   * stranici, ovo je mašinski čitljiva verzija istog sastava. Nedefinisano za proizvode koji
+   * nisu bundle (zaliha im se skida direktno po vlastitom slugu).
+   */
+  komponente?: { slug: string; kolicina: number }[];
 };
 
 /**
@@ -186,6 +194,14 @@ export const PROIZVODI: Proizvod[] = [
     cijena: 98.31,
     cijenaStara: 115.66,
     bedz: "Ušteda 15%",
+    // Zaliha (korisnik, 10.10.2026): set nema vlastiti red u zalihi — kad se pošalje, ovo su
+    // stvarne komponente koje se skidaju (src/lib/zaliha.ts).
+    komponente: [
+      { slug: "posteljina-od-damasta-uska-linija", kolicina: 2 },
+      { slug: "peskir-140x70", kolicina: 2 },
+      { slug: "peskir-85x45", kolicina: 2 },
+      { slug: "stopa-za-noge", kolicina: 1 },
+    ],
     materijal: "pamučni damast",
     dimenzije: [
       "Slifer 140×200 cm (2×)",
@@ -228,6 +244,16 @@ export const PROIZVODI: Proizvod[] = [
     cijena: 122.2,
     cijenaStara: 143.76,
     bedz: "Ušteda 15%",
+    // Zaliha (korisnik, 10.10.2026): set nema vlastiti red u zalihi — kad se pošalje, ovo su
+    // stvarne komponente koje se skidaju (src/lib/zaliha.ts). "posteljina-od-damasta-bracna" već
+    // sadrži Slifer + 2 jastučnice, pa se ne razlaže dalje na te dvije stavke posebno.
+    komponente: [
+      { slug: "posteljina-od-damasta-bracna", kolicina: 1 },
+      { slug: "carsaf-na-gumu-bracni-220x240", kolicina: 1 },
+      { slug: "peskir-140x70", kolicina: 2 },
+      { slug: "peskir-85x45", kolicina: 2 },
+      { slug: "stopa-za-noge", kolicina: 1 },
+    ],
     materijal: "pamučni damast",
     dimenzije: [
       "Slifer 200×200 cm",

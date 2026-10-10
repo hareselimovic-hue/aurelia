@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import { formatPrice } from "@/lib/format";
 import { prisma } from "@/lib/prisma";
 
+import { AdminNav } from "../admin-nav";
 import { oznaciPoslano } from "./actions";
 import { OdjaviSeDugme } from "./odjavi-se-dugme";
 
@@ -98,6 +99,10 @@ export default async function AdminNarudzbePage({ searchParams }: AdminNarudzbeP
             </p>
           </div>
           <OdjaviSeDugme />
+        </div>
+
+        <div className="mt-6">
+          <AdminNav aktivno="narudzbe" />
         </div>
 
         {/* Filteri — status i način plaćanja kao pill dugmad (linkovi, rade bez JS-a) + pretraga po
