@@ -29,7 +29,7 @@ export default function AdminLoginPage() {
         setUcitava(false);
         return;
       }
-      router.push("/admin/narudzbe/");
+      router.push("/admin/");
       router.refresh();
     } catch {
       setGreska("Greška u komunikaciji sa serverom.");
