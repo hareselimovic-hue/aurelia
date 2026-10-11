@@ -42,7 +42,7 @@ export default async function AdminDashboardPage() {
 
   return (
     <main className="min-h-screen bg-secondary">
-      <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between gap-4">
           <div>
             <p className="font-heading text-2xl font-medium text-foreground">Dashboard</p>
@@ -64,26 +64,28 @@ export default async function AdminDashboardPage() {
             {mjesecnaStatistika.length === 0 ? (
               <p className="mt-3 text-sm text-muted-foreground">Još nema narudžbi.</p>
             ) : (
-              <table className="mt-4 w-full border-collapse text-sm">
-                <thead>
-                  <tr className="border-b border-border text-left text-xs text-muted-foreground">
-                    <th className="py-2 font-medium">Mjesec</th>
-                    <th className="py-2 text-right font-medium">Narudžbi</th>
-                    <th className="py-2 text-right font-medium">Ukupno</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {mjesecnaStatistika.map((m) => (
-                    <tr key={m.mjesec} className="border-b border-border last:border-0">
-                      <td className="py-2 text-foreground">{m.naziv}</td>
-                      <td className="py-2 text-right text-foreground">{m.brojNarudzbi}</td>
-                      <td className="py-2 text-right font-medium text-foreground">
-                        {formatPrice(m.ukupnaCijena)}
-                      </td>
+              <div className="overflow-x-auto">
+                <table className="mt-4 w-full min-w-[320px] border-collapse text-sm">
+                  <thead>
+                    <tr className="border-b border-border text-left text-xs text-muted-foreground">
+                      <th className="py-2 font-medium">Mjesec</th>
+                      <th className="py-2 text-right font-medium">Narudžbi</th>
+                      <th className="py-2 text-right font-medium">Ukupno</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {mjesecnaStatistika.map((m) => (
+                      <tr key={m.mjesec} className="border-b border-border last:border-0">
+                        <td className="py-2 text-foreground">{m.naziv}</td>
+                        <td className="py-2 text-right text-foreground">{m.brojNarudzbi}</td>
+                        <td className="py-2 text-right font-medium text-foreground">
+                          {formatPrice(m.ukupnaCijena)}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             )}
           </div>
 
@@ -105,7 +107,9 @@ export default async function AdminDashboardPage() {
                       <span className="mr-2 text-muted-foreground">{i + 1}.</span>
                       {b.naziv}
                     </span>
-                    <span className="font-medium text-foreground">{b.kolicina} kom</span>
+                    <span className="shrink-0 whitespace-nowrap font-medium text-foreground">
+                      {b.kolicina} kom
+                    </span>
                   </li>
                 ))}
               </ol>
@@ -136,7 +140,7 @@ export default async function AdminDashboardPage() {
                   >
                     <span className="text-foreground">{p.naziv}</span>
                     <span
-                      className={`font-medium ${p.kolicina <= 0 ? "text-destructive" : "text-foreground"}`}
+                      className={`shrink-0 whitespace-nowrap font-medium ${p.kolicina <= 0 ? "text-destructive" : "text-foreground"}`}
                     >
                       {p.kolicina} kom
                     </span>

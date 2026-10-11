@@ -174,63 +174,113 @@ export default async function AdminNarudzbePage({ searchParams }: AdminNarudzbeP
             <p className="text-muted-foreground">Nema narudžbi koje odgovaraju filteru.</p>
           </div>
         ) : (
-          <div className="mt-6 overflow-x-auto rounded-xl bg-card ring-1 ring-border">
-            <table className="w-full min-w-[820px] border-collapse text-sm">
-              <thead>
-                <tr className="border-b border-border text-left text-xs text-muted-foreground">
-                  <th className="px-4 py-3 font-medium">Broj</th>
-                  <th className="px-4 py-3 font-medium">Kupac</th>
-                  <th className="px-4 py-3 font-medium">Plaćanje</th>
-                  <th className="px-4 py-3 text-right font-medium">Iznos</th>
-                  <th className="px-4 py-3 font-medium">Datum</th>
-                  <th className="px-4 py-3 font-medium">Status</th>
-                  <th className="px-4 py-3"></th>
-                </tr>
-              </thead>
-              <tbody>
-                {narudzbe.map((n) => (
-                  <tr key={n.id} className="border-b border-border last:border-0">
-                    <td className="px-4 py-3 font-mono text-xs text-foreground">{n.brojNarudzbe}</td>
-                    <td className="px-4 py-3">
-                      <div className="text-foreground">{n.imePrezime}</div>
-                      <div className="text-xs text-muted-foreground">
-                        {n.email} · {n.telefon}
-                      </div>
-                      <div className="text-xs text-muted-foreground">
-                        {n.adresa}, {n.postanskiBroj} {n.grad}
-                      </div>
-                    </td>
-                    <td className="px-4 py-3 text-foreground">
-                      {NAZIVI_NACINA_PLACANJA[n.nacinPlacanja] ?? n.nacinPlacanja}
-                    </td>
-                    <td className="px-4 py-3 text-right font-medium text-foreground">
-                      {formatPrice(Number(n.ukupnaCijena))}
-                    </td>
-                    <td className="px-4 py-3 whitespace-nowrap text-xs text-muted-foreground">
+          <>
+            {/* Mobilni prikaz (korisnik, 11.10.2026: tabela na uskom ekranu pokazuje samo
+                Broj/Kupac kolonu, ostatak (Iznos/Status/dugme) ostaje skriven iza horizontalnog
+                scrolla bez vidljivog nagovještaja) — ispod `md:` umjesto tabele, kartica po
+                narudžbi sa svim istim podacima, ništa sakriveno. */}
+            <div className="mt-6 flex flex-col gap-3 md:hidden">
+              {narudzbe.map((n) => (
+                <div key={n.id} className="rounded-xl bg-card p-4 ring-1 ring-border">
+                  <div className="flex items-start justify-between gap-3">
+                    <span className="font-mono text-xs text-muted-foreground">
+                      {n.brojNarudzbe}
+                    </span>
+                    {n.status === "poslano" ? (
+                      <Badge variant="secondary">Poslano</Badge>
+                    ) : (
+                      <Badge>Nova</Badge>
+                    )}
+                  </div>
+                  <div className="mt-2 text-foreground">{n.imePrezime}</div>
+                  <div className="text-xs text-muted-foreground">
+                    {n.email} · {n.telefon}
+                  </div>
+                  <div className="text-xs text-muted-foreground">
+                    {n.adresa}, {n.postanskiBroj} {n.grad}
+                  </div>
+                  <div className="mt-3 flex items-center justify-between gap-3 text-sm">
+                    <span className="text-muted-foreground">
+                      {NAZIVI_NACINA_PLACANJA[n.nacinPlacanja] ?? n.nacinPlacanja} ·{" "}
                       {formatirajDatum(n.createdAt)}
-                    </td>
-                    <td className="px-4 py-3">
-                      {n.status === "poslano" ? (
-                        <Badge variant="secondary">Poslano</Badge>
-                      ) : (
-                        <Badge>Nova</Badge>
-                      )}
-                    </td>
-                    <td className="px-4 py-3 text-right">
-                      {n.status !== "poslano" && (
-                        <form action={oznaciPoslano}>
-                          <input type="hidden" name="id" value={n.id} />
-                          <Button type="submit" variant="outline" size="sm">
-                            Označi poslano
-                          </Button>
-                        </form>
-                      )}
-                    </td>
+                    </span>
+                    <span className="font-medium text-foreground">
+                      {formatPrice(Number(n.ukupnaCijena))}
+                    </span>
+                  </div>
+                  {n.status !== "poslano" && (
+                    <form action={oznaciPoslano} className="mt-3">
+                      <input type="hidden" name="id" value={n.id} />
+                      <Button type="submit" variant="outline" size="sm" className="w-full">
+                        Označi poslano
+                      </Button>
+                    </form>
+                  )}
+                </div>
+              ))}
+            </div>
+
+            {/* Desktop/tablet prikaz — ista podaci kao gore, puna tabela. */}
+            <div className="mt-6 hidden overflow-x-auto rounded-xl bg-card ring-1 ring-border md:block">
+              <table className="w-full min-w-[820px] border-collapse text-sm">
+                <thead>
+                  <tr className="border-b border-border text-left text-xs text-muted-foreground">
+                    <th className="px-4 py-3 font-medium">Broj</th>
+                    <th className="px-4 py-3 font-medium">Kupac</th>
+                    <th className="px-4 py-3 font-medium">Plaćanje</th>
+                    <th className="px-4 py-3 text-right font-medium">Iznos</th>
+                    <th className="px-4 py-3 font-medium">Datum</th>
+                    <th className="px-4 py-3 font-medium">Status</th>
+                    <th className="px-4 py-3"></th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody>
+                  {narudzbe.map((n) => (
+                    <tr key={n.id} className="border-b border-border last:border-0">
+                      <td className="px-4 py-3 font-mono text-xs text-foreground">
+                        {n.brojNarudzbe}
+                      </td>
+                      <td className="px-4 py-3">
+                        <div className="text-foreground">{n.imePrezime}</div>
+                        <div className="text-xs text-muted-foreground">
+                          {n.email} · {n.telefon}
+                        </div>
+                        <div className="text-xs text-muted-foreground">
+                          {n.adresa}, {n.postanskiBroj} {n.grad}
+                        </div>
+                      </td>
+                      <td className="px-4 py-3 text-foreground">
+                        {NAZIVI_NACINA_PLACANJA[n.nacinPlacanja] ?? n.nacinPlacanja}
+                      </td>
+                      <td className="px-4 py-3 text-right font-medium text-foreground">
+                        {formatPrice(Number(n.ukupnaCijena))}
+                      </td>
+                      <td className="px-4 py-3 whitespace-nowrap text-xs text-muted-foreground">
+                        {formatirajDatum(n.createdAt)}
+                      </td>
+                      <td className="px-4 py-3">
+                        {n.status === "poslano" ? (
+                          <Badge variant="secondary">Poslano</Badge>
+                        ) : (
+                          <Badge>Nova</Badge>
+                        )}
+                      </td>
+                      <td className="px-4 py-3 text-right">
+                        {n.status !== "poslano" && (
+                          <form action={oznaciPoslano}>
+                            <input type="hidden" name="id" value={n.id} />
+                            <Button type="submit" variant="outline" size="sm">
+                              Označi poslano
+                            </Button>
+                          </form>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </>
         )}
       </div>
     </main>

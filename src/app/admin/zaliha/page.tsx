@@ -16,7 +16,7 @@ export default async function AdminZalihaPage() {
 
   return (
     <main className="min-h-screen bg-secondary">
-      <div className="mx-auto max-w-4xl px-4 py-10 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between gap-4">
           <div>
             <p className="font-heading text-2xl font-medium text-foreground">Zaliha</p>
@@ -31,7 +31,49 @@ export default async function AdminZalihaPage() {
           <AdminNav aktivno="zaliha" />
         </div>
 
-        <div className="mt-6 overflow-x-auto rounded-xl bg-card ring-1 ring-border">
+        {/* Mobilni prikaz (korisnik, 11.10.2026: tabela na uskom ekranu sakrivala je "Sačuvaj"
+            dugme potpuno iza horizontalnog scrolla) — kartica po proizvodu, input + dugme stanu
+            jedno pored drugog bez odsijecanja. */}
+        <div className="mt-6 flex flex-col gap-3 md:hidden">
+          {proizvodi.map((proizvod) => {
+            const trenutno = kolicinaPoSlugu.get(proizvod.slug) ?? 0;
+            const jeBundle = Boolean(proizvod.komponente && proizvod.komponente.length > 0);
+            return (
+              <div key={proizvod.slug} className="rounded-xl bg-card p-4 ring-1 ring-border">
+                <p className="text-foreground">{proizvod.naziv}</p>
+                {jeBundle && (
+                  <p className="mt-0.5 text-xs text-muted-foreground">
+                    Set — skida se iz komponenti, ne iz ovog reda
+                  </p>
+                )}
+                <p className="mt-2 text-sm text-muted-foreground">
+                  Trenutna zaliha:{" "}
+                  <span
+                    className={`font-medium ${trenutno < 0 ? "text-destructive" : "text-foreground"}`}
+                  >
+                    {trenutno}
+                  </span>
+                </p>
+                <form action={azurirajZalihu} className="mt-3 flex items-center gap-2">
+                  <input type="hidden" name="slug" value={proizvod.slug} />
+                  <Input
+                    type="number"
+                    name="kolicina"
+                    defaultValue={trenutno}
+                    className="h-9 flex-1"
+                    aria-label={`Nova količina za ${proizvod.naziv}`}
+                  />
+                  <Button type="submit" variant="outline" size="sm">
+                    Sačuvaj
+                  </Button>
+                </form>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Desktop/tablet prikaz — ista podaci kao gore, puna tabela. */}
+        <div className="mt-6 hidden overflow-x-auto rounded-xl bg-card ring-1 ring-border md:block">
           <table className="w-full min-w-[520px] border-collapse text-sm">
             <thead>
               <tr className="border-b border-border text-left text-xs text-muted-foreground">
