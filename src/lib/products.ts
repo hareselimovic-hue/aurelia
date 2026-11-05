@@ -179,6 +179,88 @@ export const PROIZVODI: Proizvod[] = [
     naStanju: true,
     kategorije: ["posteljina", "damast", "bracna"],
   },
+  {
+    slug: "posteljina-damast-glat-double-160x200",
+    // Damast GLAT, hotelska izvedba (dobavljač 5.TB Company, ponuda 05/13/10/2026, stavka 1).
+    // Cijena (korisnik, 05.11.2026): nabavna 72,00 KM bez PDV-a − 10% rabata = 64,80 KM × ista
+    // marža kao postojeća damast posteljina (~1,94) = 125,90 KM.
+    naziv: "Hotelska posteljina damast glat — Double set (krevet 160×200)",
+    cijena: 125.9,
+    materijal: "pamučni damast",
+    dimenzije: [
+      "Slifer 200×200 cm",
+      "Čaršaf 220×240 cm",
+      "Jastučnica 50×70 cm (2 kom)",
+    ],
+    boja: "Bijela",
+    opisKratki:
+      "Kompletan hotelski set za bračni krevet 160×200 od glatkog bijelog damasta: Slifer 200×200 cm s preklopom, čaršaf 220×240 cm i dvije jastučnice 50×70 cm. Gustoća tkanja TC250, 180 g/m² — ista izvedba koju koriste hoteli.",
+    opisDugi:
+      "Ovo je posteljina u izvedbi koju hoteli biraju za svoje sobe: glatki bijeli damast, bez pruga i uzorka, s mekim, jedva primjetnim sjajem. Glat varijanta izgleda čisto i uredno na svakom krevetu i lako se kombinuje s bilo kojim enterijerom, a bijela boja ostaje svježa i poslije čestog pranja.\n\nSet je kompletan za bračni krevet dimenzija 160×200 cm. Slifer (navlaka za poplun) 200×200 cm ima preklop umjesto dugmadi ili rajsferšlusa, pa se poplun ubacuje brzo i ne izvlači se tokom noći. Čaršaf 220×240 cm ostavlja dovoljno platna da se uvuče ispod dušeka sa svih strana, a dvije jastučnice 50×70 cm su iste tkanine kao ostatak seta.\n\nTkanina ima gustoću TC250 i težinu 180 g/m² — dovoljno je čvrsta za svakodnevnu upotrebu i učestalo pranje, kakvo zahtijevaju apartmani i smještaj za izdavanje, a opet prijatna na dodir. Zato je ovaj set praktičan izbor i za vlasnike apartmana koji žele hotelski izgled kreveta, i za dom u kojem se posteljina često mijenja. Na rubu Slifera je ušivena Aurelia etiketa.",
+    specifikacije: [
+      { kljuc: "Materijal", vrijednost: "Damast glat (bez uzorka), hotelska izvedba" },
+      { kljuc: "Gustoća / težina", vrijednost: "TC250, 180 g/m²" },
+      { kljuc: "Set sadrži", vrijednost: "Slifer + čaršaf + 2 jastučnice" },
+      { kljuc: "Slifer", vrijednost: "200×200 cm, s preklopom" },
+      { kljuc: "Čaršaf", vrijednost: "220×240 cm" },
+      { kljuc: "Jastučnice", vrijednost: "50×70 cm (2 komada)" },
+      { kljuc: "Za krevet", vrijednost: "160×200 cm" },
+    ],
+    slike: generisiSlike(
+      "pamučni damast",
+      ["posteljina", "damast", "bracna"],
+      "Bijela",
+      "160x200 cm",
+      [
+        "/images/products/glat-double-1-hotel.webp",
+        "/images/products/glat-double-2-stol.webp",
+        "/images/products/glat-double-3-odozgo.webp",
+        "/images/products/glat-double-4-soba.webp",
+        "/images/products/glat-double-5-detalj.webp",
+        "/images/products/glat-double-6-etiketa.webp",
+      ]
+    ),
+    naStanju: true,
+    kategorije: ["posteljina", "damast", "bracna"],
+  },
+  {
+    slug: "posteljina-damast-glat-single-90x200",
+    // Damast GLAT, hotelska izvedba (5.TB Company, ponuda 05/13/10/2026, stavka 2 "SINGLE SET/plus").
+    // Cijena (korisnik, 05.11.2026): nabavna 47,50 KM bez PDV-a − 10% rabata = 42,75 KM × ~1,94
+    // = 82,90 KM.
+    naziv: "Hotelska posteljina damast glat — Single set (krevet 90×200)",
+    cijena: 82.9,
+    materijal: "pamučni damast",
+    dimenzije: ["Slifer 140×200 cm", "Čaršaf 150×240 cm", "Jastučnica 50×70 cm"],
+    boja: "Bijela",
+    opisKratki:
+      "Kompletan hotelski set za Single krevet 90×200 od glatkog bijelog damasta: Slifer 140×200 cm s preklopom, čaršaf 150×240 cm i jastučnica 50×70 cm. Gustoća tkanja TC250, 180 g/m² — hotelska izvedba za dom i apartmane.",
+    opisDugi:
+      "Single set iz hotelske linije glatkog damasta napravljen je za krevete širine 90 cm — dječije i gostinjske sobe, apartmane s odvojenim krevetima ili hostelske i hotelske sobe. Tkanina je bijela, bez pruga i uzorka, s mekim sjajem koji krevetu daje uredan, \"tek namješten\" izgled.\n\nSet sadrži sve što krevet treba. Slifer 140×200 cm je malo širi od samog kreveta, pa poplun ostaje pokriven i kad visi preko ivica, a preklop ga drži unutra bez dugmadi. Čaršaf 150×240 cm je dovoljno dug i širok da se uvuče ispod dušeka, a jastučnica 50×70 cm je od iste tkanine, pa cijeli krevet izgleda usklađeno.\n\nGustoća tkanja TC250 i težina 180 g/m² su standard za smještaj gdje se posteljina mijenja nakon svakog gosta — tkanina podnosi učestalo pranje i ne gubi oblik. Ako opremate sobu s dva odvojena kreveta, dva ovakva seta daju isti hotelski izgled kao bračna varijanta. Na rubu Slifera je ušivena Aurelia etiketa.",
+    specifikacije: [
+      { kljuc: "Materijal", vrijednost: "Damast glat (bez uzorka), hotelska izvedba" },
+      { kljuc: "Gustoća / težina", vrijednost: "TC250, 180 g/m²" },
+      { kljuc: "Set sadrži", vrijednost: "Slifer + čaršaf + 1 jastučnica" },
+      { kljuc: "Slifer", vrijednost: "140×200 cm, s preklopom" },
+      { kljuc: "Čaršaf", vrijednost: "150×240 cm" },
+      { kljuc: "Jastučnica", vrijednost: "50×70 cm" },
+      { kljuc: "Za krevet", vrijednost: "90×200 cm" },
+    ],
+    slike: generisiSlike(
+      "pamučni damast",
+      ["posteljina", "damast"],
+      "Bijela",
+      "90x200 cm",
+      [
+        "/images/products/glat-single-1-hotel.webp",
+        "/images/products/glat-single-2-stol.webp",
+        "/images/products/glat-single-3-soba.webp",
+        "/images/products/glat-single-4-etiketa.webp",
+      ]
+    ),
+    naStanju: true,
+    kategorije: ["posteljina", "damast"],
+  },
   // Redoslijed: "puni set" bundlovi namjerno pomjereni ovdje, odmah iza pojedinačne posteljine
   // (SEO odluka 29.08.2026) — /shop/ default "novo" prikaz je prirodni redoslijed niza, a setovi
   // su potencijalno najbolje narudžbe (veća vrijednost korpe), pa ne smiju biti zadnji u prikazu.
