@@ -180,7 +180,7 @@ export const PROIZVODI: Proizvod[] = [
     kategorije: ["posteljina", "damast", "bracna"],
   },
   {
-    slug: "posteljina-damast-glat-double-160x200",
+    slug: "posteljina-od-damasta-glat-bracna",
     // Damast GLAT, hotelska izvedba (dobavljač 5.TB Company, ponuda 05/13/10/2026, stavka 1).
     // Cijena (korisnik, 06.11.2026): nabavna 72,00 KM bez PDV-a − 10% rabata = 64,80 KM + 30%
     // marže = 84,24 → 84,90 KM (prvobitno 125,90 KM uz ~1,94 kao ostali damast, korisnik smanjio).
@@ -224,7 +224,7 @@ export const PROIZVODI: Proizvod[] = [
     kategorije: ["posteljina", "damast", "bracna"],
   },
   {
-    slug: "posteljina-damast-glat-single-90x200",
+    slug: "posteljina-od-damasta-glat-single",
     // Damast GLAT, hotelska izvedba (5.TB Company, ponuda 05/13/10/2026, stavka 2 "SINGLE SET/plus").
     // Cijena (korisnik, 06.11.2026): nabavna 47,50 KM bez PDV-a − 10% rabata = 42,75 KM + 30%
     // marže = 55,58 → 55,90 KM (prvobitno 82,90 KM, korisnik smanjio).

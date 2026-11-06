@@ -38,6 +38,13 @@ const SHOP_REDIREKCIJE: Record<string, string> = {
   carsafi: "/shop/carsafi/",
 };
 
+// Preimenovani slugovi proizvoda (06.11.2026: damast glat usklađen s formatom prugastog damasta,
+// bez dimenzije kreveta u URL-u) — stari linkovi su bili live jedan dan, pa se trajno preusmjeravaju.
+const PROIZVOD_REDIREKCIJE: Record<string, string> = {
+  "/shop/posteljina-damast-glat-double-160x200/": "/shop/posteljina-od-damasta-glat-bracna/",
+  "/shop/posteljina-damast-glat-single-90x200/": "/shop/posteljina-od-damasta-glat-single/",
+};
+
 export async function middleware(request: NextRequest) {
   const url = request.nextUrl.clone();
   const forwardedProto = request.headers.get("x-forwarded-proto");
@@ -51,6 +58,12 @@ export async function middleware(request: NextRequest) {
   }
 
   const putanja = url.pathname;
+
+  const noviProizvod = PROIZVOD_REDIREKCIJE[putanja.endsWith("/") ? putanja : `${putanja}/`];
+  if (noviProizvod) {
+    url.pathname = noviProizvod;
+    return NextResponse.redirect(url, 308);
+  }
 
   if (putanja === "/shop/") {
     const vrijednost = url.searchParams.get("vrsta") ?? url.searchParams.get("kategorija");
