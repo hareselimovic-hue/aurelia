@@ -228,7 +228,7 @@ export const PROIZVODI: Proizvod[] = [
     // Damast GLAT, hotelska izvedba (5.TB Company, ponuda 05/13/10/2026, stavka 2 "SINGLE SET/plus").
     // Cijena (korisnik, 06.11.2026): nabavna 47,50 KM bez PDV-a − 10% rabata = 42,75 KM + 30%
     // marže = 55,58 → 55,90 KM (prvobitno 82,90 KM, korisnik smanjio).
-    naziv: "Posteljina od damasta glat — uska linija (Slifer + čaršaf + 1 jastučnica)",
+    naziv: "Posteljina od damasta glat — Single (Slifer + čaršaf + 1 jastučnica)",
     cijena: 55.9,
     materijal: "pamučni damast",
     dimenzije: ["Slifer 140×200 cm", "Čaršaf 150×240 cm", "Jastučnica 50×70 cm"],
