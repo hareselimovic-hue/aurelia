@@ -212,12 +212,11 @@ export const PROIZVODI: Proizvod[] = [
       "Bijela",
       "160x200 cm",
       [
-        "/images/products/glat-double-1-hotel.webp",
-        "/images/products/glat-double-2-stol.webp",
-        "/images/products/glat-double-3-odozgo.webp",
-        "/images/products/glat-double-4-soba.webp",
-        "/images/products/glat-double-5-detalj.webp",
-        "/images/products/glat-double-6-etiketa.webp",
+        "/images/products/glat-bracna-1-hotel.webp",
+        "/images/products/glat-bracna-2-stol.webp",
+        "/images/products/glat-bracna-4-bocno.webp",
+        "/images/products/glat-bracna-5-odozgo.webp",
+        "/images/products/glat-bracna-3-etiketa.webp",
       ]
     ),
     naStanju: true,
@@ -254,8 +253,9 @@ export const PROIZVODI: Proizvod[] = [
       [
         "/images/products/glat-single-1-hotel.webp",
         "/images/products/glat-single-2-stol.webp",
-        "/images/products/glat-single-3-soba.webp",
-        "/images/products/glat-single-4-etiketa.webp",
+        "/images/products/glat-single-4-pogled.webp",
+        "/images/products/glat-single-5-detalj.webp",
+        "/images/products/glat-single-3-etiketa.webp",
       ]
     ),
     naStanju: true,
@@ -390,6 +390,7 @@ export const PROIZVODI: Proizvod[] = [
     slike: generisiSlike("pamuk", ["peskiri"], BOJA_PRIVREMENA, "140x70 cm", [
       "/images/products/peskiri-veliki.webp",
       "/images/products/peskiri-closeup-krevet.webp",
+      "/images/products/peskir-detalj.webp",
     ]),
     naStanju: true,
     kategorije: ["peskiri"],
