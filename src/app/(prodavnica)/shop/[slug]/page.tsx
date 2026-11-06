@@ -9,7 +9,6 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-import { PlaceholderImage } from "@/components/placeholder-image";
 import { KarticaProizvoda } from "@/components/product/kartica-proizvoda";
 import { cn } from "@/lib/utils";
 import { formatPrice } from "@/lib/format";
@@ -21,6 +20,7 @@ import {
   getProductsByCategory,
 } from "@/lib/products";
 import { DodajUKorpu } from "./dodaj-u-korpu";
+import { Galerija } from "./galerija";
 
 // TODO: prava domena čeka korisnika (CLAUDE_aurelia.md §1 — "DOMENA: ___.ba" još nepopunjeno).
 // "aurelia.ba" je privremeni placeholder, usklađen s email domenom već korištenom u Footeru
@@ -222,31 +222,7 @@ export default async function ProizvodnaStranica({
 
         <div className="grid gap-8 md:grid-cols-2 md:gap-12">
           {/* 02 — Galerija (min 4 slike, placeholder dok nemamo prave fotografije) */}
-          <div className="grid grid-cols-2 gap-3">
-            {galerija.map((slika, i) => (
-              <div
-                key={`${slika.url}-${i}`}
-                className={cn(
-                  "relative aspect-[3/4] overflow-hidden rounded-lg bg-muted",
-                  i === 0 && "col-span-2"
-                )}
-              >
-                {slika.url === PLACEHOLDER_IMAGE ? (
-                  <PlaceholderImage alt={slika.alt} />
-                ) : (
-                  // next/image zahtijeva poznat domain config; izvor pravih fotografija (CDN/CMS) još nije poznat.
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    src={slika.url}
-                    alt={slika.alt}
-                    loading={i === 0 ? undefined : "lazy"}
-                    fetchPriority={i === 0 ? "high" : undefined}
-                    className="h-full w-full object-cover"
-                  />
-                )}
-              </div>
-            ))}
-          </div>
+          <Galerija slike={galerija} />
 
           {/* Info kolona: h1 → cijena → dimenzija/dodaj u korpu → kratak opis */}
           <div>
