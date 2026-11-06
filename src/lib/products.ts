@@ -184,7 +184,7 @@ export const PROIZVODI: Proizvod[] = [
     // Damast GLAT, hotelska izvedba (dobavljač 5.TB Company, ponuda 05/13/10/2026, stavka 1).
     // Cijena (korisnik, 06.11.2026): nabavna 72,00 KM bez PDV-a − 10% rabata = 64,80 KM + 30%
     // marže = 84,24 → 84,90 KM (prvobitno 125,90 KM uz ~1,94 kao ostali damast, korisnik smanjio).
-    naziv: "Hotelska posteljina damast glat — Double set (krevet 160×200)",
+    naziv: "Posteljina od damasta glat — bračna (Slifer + čaršaf + 2 jastučnice)",
     cijena: 84.9,
     materijal: "pamučni damast",
     dimenzije: [
@@ -228,7 +228,7 @@ export const PROIZVODI: Proizvod[] = [
     // Damast GLAT, hotelska izvedba (5.TB Company, ponuda 05/13/10/2026, stavka 2 "SINGLE SET/plus").
     // Cijena (korisnik, 06.11.2026): nabavna 47,50 KM bez PDV-a − 10% rabata = 42,75 KM + 30%
     // marže = 55,58 → 55,90 KM (prvobitno 82,90 KM, korisnik smanjio).
-    naziv: "Hotelska posteljina damast glat — Single set (krevet 90×200)",
+    naziv: "Posteljina od damasta glat — uska linija (Slifer + čaršaf + 1 jastučnica)",
     cijena: 55.9,
     materijal: "pamučni damast",
     dimenzije: ["Slifer 140×200 cm", "Čaršaf 150×240 cm", "Jastučnica 50×70 cm"],
