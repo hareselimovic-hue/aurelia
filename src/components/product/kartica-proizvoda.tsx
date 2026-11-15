@@ -123,7 +123,7 @@ export function KarticaProizvoda({
           // (eksterni dizajn review 23.08.2026, ui-ux-pro-max touch-target pravilo).
           // active: ponavlja hover: (23.08.2026, korisnički feedback: dodir na mobilnom nije davao
           // nikakav vizuelni signal) — :hover se ne okida pouzdano na dodir, :active da.
-          className="mt-2 h-11 w-full rounded-lg border border-cta bg-background text-sm font-medium text-cta transition-colors hover:border-cta hover:bg-cta hover:text-cta-foreground active:border-cta active:bg-cta active:text-cta-foreground disabled:pointer-events-none disabled:opacity-50"
+          className="mt-2 h-11 w-full rounded-lg bg-cta text-sm font-medium text-cta-foreground transition-colors hover:bg-[color-mix(in_oklch,var(--cta),var(--foreground)_12%)] active:bg-[color-mix(in_oklch,var(--cta),var(--foreground)_12%)] disabled:pointer-events-none disabled:opacity-50"
         >
           Dodaj u korpu
         </button>

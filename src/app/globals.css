@@ -64,7 +64,7 @@
   --primary-foreground: oklch(0.977 0.010 81.8); /* #FBF7F0 */
   /* CTA (15.11.2026): tamna navy kao jedini hladni akcent — samo na glavnim akcijama
      (Dodaj u korpu, Pogledaj ponudu, Potvrdi narudžbu). Krem tekst, kontrast ~6:1.
-     Kartice proizvoda: navy okvir+tekst, puna navy na hover. Linkovi/fokus ostaju bronzani (--primary). */
+     Kartice proizvoda isto puna navy (korisnik želi ista dugmad svuda). Linkovi/fokus ostaju bronzani (--primary). */
   --cta: #3f5f7a; /* tamna prigušena navy — bila prašnjava #9bbcd9 */
   --cta-foreground: oklch(0.977 0.010 81.8); /* #FBF7F0 krem tekst */
   --secondary: oklch(0.940 0.015 77.1); /* #F1EAE0 lan/bež — sekundarne površine, chip-ovi */
