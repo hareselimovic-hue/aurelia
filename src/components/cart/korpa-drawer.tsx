@@ -147,7 +147,7 @@ export function KorpaDrawer() {
             <Link
               href="/checkout/"
               onClick={() => setDrawerOtvoren(false)}
-              className="flex h-11 w-full items-center justify-center rounded-lg bg-primary px-8 text-sm font-medium tracking-[0.02em] text-primary-foreground transition-colors hover:bg-[color-mix(in_oklch,var(--primary),var(--foreground)_18%)]"
+              className="flex h-11 w-full items-center justify-center rounded-lg bg-cta px-8 text-sm font-medium tracking-[0.02em] text-cta-foreground transition-colors hover:bg-[color-mix(in_oklch,var(--cta),var(--foreground)_12%)] active:bg-[color-mix(in_oklch,var(--cta),var(--foreground)_12%)]"
             >
               Nastavi na plaćanje
             </Link>

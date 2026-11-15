@@ -88,6 +88,7 @@ export function DodajUKorpu({ proizvod }: { proizvod: Proizvod }) {
 
       <Button
         type="button"
+        variant="cta"
         disabled={!proizvod.naStanju}
         onClick={handleDodaj}
         className="h-11 w-full px-8 text-sm font-medium tracking-[0.02em] sm:w-auto"

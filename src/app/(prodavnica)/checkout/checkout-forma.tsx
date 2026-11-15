@@ -311,6 +311,7 @@ export function CheckoutForma({
 
       <Button
         type="submit"
+        variant="cta"
         disabled={saljemo}
         className="h-11 w-full px-8 text-sm font-medium tracking-[0.02em] sm:w-auto"
       >
