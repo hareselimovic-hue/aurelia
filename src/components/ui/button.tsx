@@ -13,7 +13,7 @@ const buttonVariants = cva(
         // signal da je dodir registrovan dok se JS ne izvrši. :active se okida odmah na touchstart.
         default:
           "bg-primary text-primary-foreground hover:bg-[color-mix(in_oklch,var(--primary),var(--foreground)_18%)] active:bg-[color-mix(in_oklch,var(--primary),var(--foreground)_18%)]",
-        // Glavne akcije prodavnice (Dodaj u korpu, Potvrdi narudžbu) — prašnjava plava, vidi --cta.
+        // Glavne akcije prodavnice (Dodaj u korpu, Potvrdi narudžbu) — tamna navy, vidi --cta.
         cta:
           "bg-cta text-cta-foreground hover:bg-[color-mix(in_oklch,var(--cta),var(--foreground)_12%)] active:bg-[color-mix(in_oklch,var(--cta),var(--foreground)_12%)]",
         outline:
