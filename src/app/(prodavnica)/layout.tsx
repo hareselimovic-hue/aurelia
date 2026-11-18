@@ -1,5 +1,6 @@
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
+import { GoogleTagManager } from "@/components/analytics/google-tag-manager";
 
 // Header/Footer žive ovdje (ne u root layout.tsx) — route group izdvaja sve javne/kupovne stranice
 // od /admin (interni alat, bez sajt navigacije/pretrage/korpe). Ključno: root layout ostaje bez
@@ -8,6 +9,7 @@ import { Footer } from "@/components/layout/footer";
 export default function ProdavnicaLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
+      <GoogleTagManager />
       <Header />
       <main className="flex-1">{children}</main>
       <Footer />
