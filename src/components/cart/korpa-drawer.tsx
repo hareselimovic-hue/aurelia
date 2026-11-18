@@ -23,7 +23,7 @@ import {
 import { PlaceholderImage } from "@/components/placeholder-image";
 import { formatPrice } from "@/lib/format";
 import { useCart, type StavkaKorpe } from "@/lib/cart-context";
-import { PLACEHOLDER_IMAGE } from "@/lib/products";
+import { PLACEHOLDER_IMAGE, cijenaStavke } from "@/lib/products";
 
 function RedStavke({ stavka }: { stavka: StavkaKorpe }) {
   const { removeItem, updateQuantity } = useCart();
@@ -31,7 +31,7 @@ function RedStavke({ stavka }: { stavka: StavkaKorpe }) {
 
   const glavnaSlika = proizvod.slike[0];
   const jePlaceholder = !glavnaSlika || glavnaSlika.url === PLACEHOLDER_IMAGE;
-  const zbirStavke = proizvod.cijena * kolicina;
+  const zbirStavke = cijenaStavke(proizvod, dimenzija) * kolicina;
   const href = `/shop/${proizvod.slug}/`;
 
   return (

@@ -45,9 +45,9 @@ const TABELA_DIMENZIJA: { dimenzija: string; vrsta: string; odgovaraZa: string }
     odgovaraZa: "Single krevet",
   },
   {
-    dimenzija: "160×240 cm",
+    dimenzija: "150×240 cm",
     vrsta: "Čaršaf",
-    odgovaraZa: "Single krevet (dušek do ~150 cm širine)",
+    odgovaraZa: "Single krevet 90×200 cm",
   },
   {
     dimenzija: "200×200 cm",
@@ -58,11 +58,6 @@ const TABELA_DIMENZIJA: { dimenzija: string; vrsta: string; odgovaraZa: string }
     dimenzija: "220×240 cm",
     vrsta: "Čaršaf / čaršaf na gumu",
     odgovaraZa: "Bračni krevet (dušek do ~200 cm širine)",
-  },
-  {
-    dimenzija: "240×260 cm",
-    vrsta: "Čaršaf",
-    odgovaraZa: "Bračni krevet, veća/produžena varijanta",
   },
 ];
 
@@ -78,7 +73,7 @@ export async function generateMetadata({ searchParams }: ShopPageProps): Promise
     // Prilagođeno stvarnom asortimanu (products.ts): damast posteljina, peškiri, čaršafi — NE
     // ranforce/saten kako je pisalo u CLAUDE_aurelia.md §5 primjeru (ta linija još nije u ponudi).
     description:
-      "Posteljina od pamučnog damasta u dvije linije, plus peškiri i čaršafi od 100% pamuka. Dimenzije od 85×45 do 240×260 cm. Dostava po BiH.",
+      "Posteljina od pamučnog damasta u dvije linije, plus čaršafi od glatkog damasta i pamučni peškiri. Dimenzije od 85×45 do 220×240 cm. Dostava po BiH.",
     alternates: {
       // §5-03, blokirajuće pravilo: canonical UVIJEK pokazuje na čisti /shop/, bez obzira na
       // aktivne filtere ili sortiranje.
@@ -229,10 +224,10 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
               <p className="text-base leading-relaxed text-foreground">
                 Čaršafi pokrivaju raspon od užeg Single dušeka (
                 <Link
-                  href="/shop/carsaf-160x240/"
+                  href="/shop/carsaf-150x240/"
                   className="font-medium text-primary underline-offset-4 hover:underline"
                 >
-                  Čaršaf 160×240 cm
+                  Čaršaf 150×240 cm
                 </Link>
                 ) do velikog bračnog dušeka (
                 <Link

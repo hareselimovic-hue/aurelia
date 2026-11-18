@@ -22,6 +22,15 @@ export function izracunajSkidanjeZalihe(stavke: NarudzbaStavka[]): Map<string, n
 
   for (const stavka of stavke) {
     const proizvod = getProductBySlug(stavka.slug);
+    // Pojedinačni komad iz seta (damast glat opcije, 17.11.2026) — skida se samo ono što ta
+    // opcija stvarno jeste (npr. čaršaf → zasebni čaršaf proizvod), NE cijeli set.
+    const opcija = proizvod?.opcije?.find((o) => o.naziv === stavka.dimenzija);
+    if (opcija) {
+      for (const komponenta of opcija.komponente ?? []) {
+        dodaj(komponenta.slug, komponenta.kolicina * stavka.kolicina);
+      }
+      continue;
+    }
     if (proizvod?.komponente && proizvod.komponente.length > 0) {
       for (const komponenta of proizvod.komponente) {
         dodaj(komponenta.slug, komponenta.kolicina * stavka.kolicina);

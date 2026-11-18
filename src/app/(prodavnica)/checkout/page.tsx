@@ -8,6 +8,7 @@ import { useState } from "react";
 import Link from "next/link";
 
 import { useCart } from "@/lib/cart-context";
+import { cijenaStavke } from "@/lib/products";
 import { izracunajDostavu } from "@/lib/dostava";
 import type { NarudzbaOdgovor, NarudzbaPayload } from "@/app/api/narudzbe/types";
 import { CheckoutForma, PRAZNA_FORMA, type FormaPodaci } from "./checkout-forma";
@@ -47,7 +48,7 @@ export default function CheckoutPage() {
         naziv: stavka.proizvod.naziv,
         dimenzija: stavka.dimenzija,
         kolicina: stavka.kolicina,
-        cijenaPoKomadu: stavka.proizvod.cijena,
+        cijenaPoKomadu: cijenaStavke(stavka.proizvod, stavka.dimenzija),
       })),
       ukupnaCijena: totalPrice,
     };

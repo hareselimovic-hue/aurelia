@@ -5,7 +5,7 @@
 import { PlaceholderImage } from "@/components/placeholder-image";
 import { formatPrice } from "@/lib/format";
 import type { StavkaKorpe } from "@/lib/cart-context";
-import { PLACEHOLDER_IMAGE } from "@/lib/products";
+import { PLACEHOLDER_IMAGE, cijenaStavke } from "@/lib/products";
 
 export function PregledNarudzbe({
   items,
@@ -52,7 +52,7 @@ export function PregledNarudzbe({
               </div>
 
               <span className="shrink-0 text-sm font-medium text-foreground">
-                {formatPrice(stavka.proizvod.cijena * stavka.kolicina)}
+                {formatPrice(cijenaStavke(stavka.proizvod, stavka.dimenzija) * stavka.kolicina)}
               </span>
             </li>
           );

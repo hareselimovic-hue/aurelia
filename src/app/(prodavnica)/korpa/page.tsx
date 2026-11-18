@@ -10,7 +10,7 @@ import { Minus, Plus, Trash2 } from "lucide-react";
 import { PlaceholderImage } from "@/components/placeholder-image";
 import { formatPrice } from "@/lib/format";
 import { useCart, type StavkaKorpe } from "@/lib/cart-context";
-import { PLACEHOLDER_IMAGE } from "@/lib/products";
+import { PLACEHOLDER_IMAGE, cijenaStavke } from "@/lib/products";
 
 function RedStavke({ stavka }: { stavka: StavkaKorpe }) {
   const { removeItem, updateQuantity } = useCart();
@@ -18,7 +18,8 @@ function RedStavke({ stavka }: { stavka: StavkaKorpe }) {
 
   const glavnaSlika = proizvod.slike[0];
   const jePlaceholder = !glavnaSlika || glavnaSlika.url === PLACEHOLDER_IMAGE;
-  const zbirStavke = proizvod.cijena * kolicina;
+  const cijenaKomada = cijenaStavke(proizvod, dimenzija);
+  const zbirStavke = cijenaKomada * kolicina;
   const href = `/shop/${proizvod.slug}/`;
 
   return (
@@ -59,7 +60,7 @@ function RedStavke({ stavka }: { stavka: StavkaKorpe }) {
           </button>
         </div>
 
-        <p className="text-sm text-muted-foreground">{formatPrice(proizvod.cijena)} / kom</p>
+        <p className="text-sm text-muted-foreground">{formatPrice(cijenaKomada)} / kom</p>
 
         <div className="mt-2 flex flex-wrap items-center justify-between gap-3">
           <div className="inline-flex items-center rounded-lg border border-border">

@@ -68,7 +68,7 @@ const FAQ = [
   {
     pitanje: "Koje dimenzije posteljine su prave za bračni krevet?",
     odgovor:
-      "Za bračni krevet uzmite set sa Sliferom (navlakom za poplun) 200×200 cm i dvije jastučnice 50×70 cm — to je bračna linija naše posteljine od damasta. Ako birate i čaršaf, uz nju ide dimenzija 220×240 cm za dušek do oko 200 cm širine, a za veći ili produženi dušek 240×260 cm.",
+      "Za bračni krevet uzmite set sa Sliferom (navlakom za poplun) 200×200 cm i dvije jastučnice 50×70 cm — to je bračna linija naše posteljine od damasta. Ako birate i čaršaf, uz nju ide dimenzija 220×240 cm za dušek do oko 200 cm širine.",
   },
   {
     pitanje: "Koliki je rok dostave?",
@@ -398,18 +398,18 @@ export default function Home() {
                   ne otvori. Korisnički feedback 23.08.2026: kartice previše dugog teksta odjednom. */}
               <input type="checkbox" id="prosiri-materijali" className="peer sr-only" />
               <p className="mt-2 line-clamp-4 text-muted-foreground peer-checked:line-clamp-none">
-                U ponudi imamo dvije vrste pamučnog tkanja. Obični pamuk koristimo za čaršafe i
-                peškire — gust, izdržljiv i praktičan za svakodnevnu upotrebu. Za posteljinu
-                biramo pamučni damast: žakardno tkanje kod kojeg se uzorak utka direktno u
+                U ponudi imamo dvije vrste pamučnog tkanja. Obični pamuk koristimo za peškire i
+                čaršaf na gumu — gust, izdržljiv i praktičan za svakodnevnu upotrebu. Za
+                posteljinu i ravne čaršafe biramo pamučni damast: žakardno tkanje kod kojeg se uzorak utka direktno u
                 materijal, pa tkanina ima blagi prirodan sjaj i gušću, plemenitiju strukturu od
                 obične pamučne posteljine. Ako želite tkaninu koja izgleda njegovano i nakon
                 više pranja, damast je bolji izbor od tanje, glatke pamučne varijante; ako vam
-                je prioritet jednostavnost i cijena, obični pamuk (npr.{" "}
+                je prioritet jednostavnost, obični pamuk (npr.{" "}
                 <Link
-                  href="/shop/carsaf-160x240/"
+                  href="/shop/carsaf-na-gumu-bracni-220x240/"
                   className="text-primary underline-offset-4 hover:underline"
                 >
-                  Čaršaf 160×240 cm
+                  Čaršaf na gumu — bračni 220×240 cm
                 </Link>
                 ) je sasvim dovoljan.
               </p>
@@ -450,16 +450,15 @@ export default function Home() {
                 >
                   Posteljina od damasta — bračna (Slifer + 2 jastučnice)
                 </Link>
-                . Kod čaršafa gledajte širinu dušeka, ne samo krevet: 160×240 cm pokriva uži,
-                Single dušek, dok{" "}
+                . Kod čaršafa gledajte širinu dušeka, ne samo krevet: 150×240 cm pokriva Single
+                krevet 90×200, dok{" "}
                 <Link
                   href="/shop/carsaf-220x240/"
                   className="text-primary underline-offset-4 hover:underline"
                 >
                   Čaršaf 220×240 cm
                 </Link>{" "}
-                odgovara bračnom dušeku do oko 200 cm širine. Ako imate veći ili produženi
-                dušek, posegnite za čaršafom 240×260 cm. Za one kojima je najvažnije da se
+                odgovara bračnom dušeku do oko 200 cm širine. Za one kojima je najvažnije da se
                 čaršaf ne pomjera tokom noći, tu je{" "}
                 <Link
                   href="/shop/carsaf-na-gumu-bracni-220x240/"

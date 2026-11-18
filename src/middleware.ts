@@ -43,6 +43,9 @@ const SHOP_REDIREKCIJE: Record<string, string> = {
 const PROIZVOD_REDIREKCIJE: Record<string, string> = {
   "/shop/posteljina-damast-glat-double-160x200/": "/shop/posteljina-od-damasta-glat-bracna/",
   "/shop/posteljina-damast-glat-single-90x200/": "/shop/posteljina-od-damasta-glat-single/",
+  // 17.11.2026: čaršafi svedeni na dimenzije iz ponude dobavljača (150×240, 220×240).
+  "/shop/carsaf-160x240/": "/shop/carsaf-150x240/",
+  "/shop/carsaf-240x260/": "/shop/carsaf-220x240/",
 };
 
 export async function middleware(request: NextRequest) {

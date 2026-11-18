@@ -16,7 +16,7 @@ import {
   type ReactNode,
 } from "react";
 
-import type { Proizvod } from "@/lib/products";
+import { cijenaStavke, type Proizvod } from "@/lib/products";
 import { KorpaDrawer } from "@/components/cart/korpa-drawer";
 
 export type StavkaKorpe = {
@@ -139,7 +139,11 @@ export function CartProvider({ children }: { children: ReactNode }) {
   );
 
   const totalPrice = useMemo(
-    () => items.reduce((zbir, stavka) => zbir + stavka.proizvod.cijena * stavka.kolicina, 0),
+    () =>
+      items.reduce(
+        (zbir, stavka) => zbir + cijenaStavke(stavka.proizvod, stavka.dimenzija) * stavka.kolicina,
+        0
+      ),
     [items]
   );
 

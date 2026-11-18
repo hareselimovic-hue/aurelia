@@ -240,20 +240,23 @@ export default async function ProizvodnaStranica({
               {proizvod.naziv}
             </h1>
 
-            {/* 04 — cijena */}
-            <p className="mt-3 flex items-baseline gap-2">
-              <span className="font-sans text-2xl font-semibold text-foreground">
-                {formatPrice(proizvod.cijena)}
-              </span>
-              {proizvod.cijenaStara !== undefined && (
-                <span className="text-base text-muted-foreground line-through">
-                  {formatPrice(proizvod.cijenaStara)}
+            {/* 04 — cijena (proizvodi s opcijama kupovine prikazuju cijenu unutar DodajUKorpu,
+                jer se mijenja po odabranoj opciji) */}
+            {!proizvod.opcije && (
+              <p className="mt-3 flex items-baseline gap-2">
+                <span className="font-sans text-2xl font-semibold text-foreground">
+                  {formatPrice(proizvod.cijena)}
                 </span>
-              )}
-            </p>
+                {proizvod.cijenaStara !== undefined && (
+                  <span className="text-base text-muted-foreground line-through">
+                    {formatPrice(proizvod.cijenaStara)}
+                  </span>
+                )}
+              </p>
+            )}
 
-            {/* 05 + 06 — izbor dimenzije (ako ih ima više) + Dodaj u korpu */}
-            <div className="mt-6">
+            {/* 05 + 06 — izbor dimenzije/opcije + Dodaj u korpu */}
+            <div className={proizvod.opcije ? "mt-3" : "mt-6"}>
               <DodajUKorpu proizvod={proizvod} />
             </div>
 

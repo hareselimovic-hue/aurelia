@@ -49,6 +49,15 @@ export type Proizvod = {
    * nisu bundle (zaliha im se skida direktno po vlastitom slugu).
    */
   komponente?: { slug: string; kolicina: number }[];
+  /**
+   * Opcije kupovine na proizvodnoj stranici (korisnik, 17.11.2026 — damast glat): kupac bira
+   * kompletan set ILI jedan komad iz seta, cijena se mijenja po izboru. PRVA opcija je uvijek
+   * kompletan set (cijena = `cijena` proizvoda) i u korpi ide BEZ `dimenzija` (kao i do sada).
+   * Ostale opcije idu u korpu s `dimenzija` = `naziv` opcije — tako se vide u korpi, mailu i
+   * adminu bez promjene modela narudžbe. `komponente` = šta se skida sa zalihe za tu opciju
+   * (prazno/nedefinisano = ništa, jer taj komad nema vlastiti red na zalihi).
+   */
+  opcije?: { naziv: string; cijena: number; komponente?: { slug: string; kolicina: number }[] }[];
 };
 
 /**
@@ -186,6 +195,19 @@ export const PROIZVODI: Proizvod[] = [
     // marže = 84,24 → 84,90 KM (prvobitno 125,90 KM uz ~1,94 kao ostali damast, korisnik smanjio).
     naziv: "Posteljina od damasta glat — bračna (Slifer + čaršaf + 2 jastučnice)",
     cijena: 84.9,
+    // Pojedinačni komadi (korisnik, 17.11.2026): ista formula kao set (nabavna − 10% + 30%),
+    // zaokruženo na ,90 — navlaka 200×200 37,70 → 44,90; plahta 220×240 20,90 → 24,90;
+    // jastučnica 7,00 → 8,90 (ponuda 05/13/10/2026, stavke 3, 5, 7).
+    opcije: [
+      { naziv: "Kompletan set", cijena: 84.9 },
+      { naziv: "Slifer 200×200 cm", cijena: 44.9 },
+      {
+        naziv: "Čaršaf 220×240 cm",
+        cijena: 24.9,
+        komponente: [{ slug: "carsaf-220x240", kolicina: 1 }],
+      },
+      { naziv: "Jastučnica 50×70 cm", cijena: 8.9 },
+    ],
     materijal: "pamučni damast",
     dimenzije: [
       "Slifer 200×200 cm",
@@ -229,6 +251,18 @@ export const PROIZVODI: Proizvod[] = [
     // marže = 55,58 → 55,90 KM (prvobitno 82,90 KM, korisnik smanjio).
     naziv: "Posteljina od damasta glat — Single (Slifer + čaršaf + 1 jastučnica)",
     cijena: 55.9,
+    // Pojedinačni komadi (korisnik, 17.11.2026): navlaka 140×200 26,50 → 31,90; plahta 150×240
+    // 14,40 → 16,90; jastučnica 7,00 → 8,90 (ponuda 05/13/10/2026, stavke 4, 5, 6).
+    opcije: [
+      { naziv: "Kompletan set", cijena: 55.9 },
+      { naziv: "Slifer 140×200 cm", cijena: 31.9 },
+      {
+        naziv: "Čaršaf 150×240 cm",
+        cijena: 16.9,
+        komponente: [{ slug: "carsaf-150x240", kolicina: 1 }],
+      },
+      { naziv: "Jastučnica 50×70 cm", cijena: 8.9 },
+    ],
     materijal: "pamučni damast",
     dimenzije: ["Slifer 140×200 cm", "Čaršaf 150×240 cm", "Jastučnica 50×70 cm"],
     boja: "Bijela",
@@ -441,23 +475,28 @@ export const PROIZVODI: Proizvod[] = [
     kategorije: ["peskiri", "stopa-za-noge"],
   },
   {
-    slug: "carsaf-160x240",
-    naziv: "Čaršaf 160×240 cm",
-    cijena: 20.9,
-    materijal: "pamuk",
-    dimenzije: ["160x240 cm"],
+    slug: "carsaf-150x240",
+    // Zamijenio "carsaf-160x240" (korisnik, 17.11.2026): u ponudi ostaju samo dimenzije čaršafa
+    // iz ponude dobavljača 05/13/10/2026 (150×240 i 220×240). Cijena = ista kao čaršaf iz glat
+    // single seta (plahta 14,40 → 16,90 KM). Stari URL se 308 preusmjerava ovdje (middleware.ts).
+    // Isti artikal kao čaršaf u glat single setu (korisnik potvrdio 18.11.2026): damast glat,
+    // hotelska izvedba, TC250, 180 g/m² (ponuda 05/13/10/2026, stavka 6).
+    naziv: "Čaršaf 150×240 cm",
+    cijena: 16.9,
+    materijal: "pamučni damast",
+    dimenzije: ["150x240 cm"],
     boja: "Bijela",
     opisKratki:
-      "Čaršaf od 100% pamuka, 160×240 cm, za Single krevet s dušekom do oko 150 cm širine. Klasičan ravni čaršaf bez gume — prostire se preko dušeka i pokriva ga sa svih strana. Gusto pamučno tkanje, prijatno na dodir i izdržljivo na česta pranja.",
+      "Bijeli čaršaf od glatkog damasta u hotelskoj izvedbi, 150×240 cm, za Single krevet 90×200. Ravni kroj bez gume, gustoća tkanja TC250 i 180 g/m² — isti čaršaf koji dolazi u našem Single setu posteljine od damasta glat.",
     opisDugi:
-      "Čaršaf 160×240 cm je klasičan, ravni čaršaf namijenjen Single krevetima s dušekom do otprilike 150 cm širine. Nema elastičan rub kao verzija na gumu — prostire se preko dušeka i pokriva ga sa dovoljno viška platna da se krajevi mogu uvući ispod dušeka po želji.\n\nTkan je od 100% pamuka, iste porodice materijala kao i ostatak naše čaršaf linije, tako da ravnomjerno upija vlagu tokom noći i ostaje prijatan na dodir u svim godišnjim dobima. Za razliku od gušće, sjajnije teksture pamučnog damasta koji koristimo za posteljinu, čaršaf ima glađu, laganiju površinu prilagođenu direktnom kontaktu s kožom. Podnosi česta pranja bez gubitka čvrstoće, a ravni krojevi poput ovog lakše se peglaju od varijanti na gumu jer nemaju šavove po uglovima.",
+      "Čaršaf 150×240 cm je ravni čaršaf od glatkog bijelog damasta, napravljen za Single krevete dimenzija 90×200 cm. Dovoljno je širok i dug da se uvuče ispod dušeka sa svih strana, pa krevet ostaje zategnut i uredan cijelu noć. Tkanina je bez pruga i uzorka, s mekim, jedva primjetnim sjajem — izgled koji hoteli biraju za svoje sobe.\n\nRiječ je o istom čaršafu koji dolazi u našem Single setu posteljine od damasta glat, pa se lako dokupljuje kao rezerva ili za drugi krevet u istoj sobi. Gustoća tkanja TC250 i težina 180 g/m² su standard za smještaj u kojem se posteljina mijenja nakon svakog gosta: tkanina podnosi učestalo pranje, ne gubi oblik i bijela boja ostaje svježa. Zato je praktičan izbor i za vlasnike apartmana i za dom u kojem se posteljina često mijenja.",
     specifikacije: [
-      { kljuc: "Materijal", vrijednost: "100% pamuk" },
-      { kljuc: "Dimenzije", vrijednost: "160×240 cm" },
+      { kljuc: "Materijal", vrijednost: "Damast glat (bez uzorka), hotelska izvedba" },
+      { kljuc: "Gustoća / težina", vrijednost: "TC250, 180 g/m²" },
+      { kljuc: "Dimenzije", vrijednost: "150×240 cm" },
+      { kljuc: "Za krevet", vrijednost: "90×200 cm" },
     ],
-    // Ista opšta čaršaf fotografija dijeli se sa druga 2 "obična" čaršafa niže — imamo samo 1
-    // generičku fotografiju za taj tip proizvoda dok korisnik ne pošalje snimke po dimenziji.
-    slike: generisiSlike("pamuk", ["carsafi"], "Bijela", "160x240 cm", [
+    slike: generisiSlike("pamučni damast", ["carsafi"], "Bijela", "150x240 cm", [
       "/images/products/carsaf-1.webp",
       "/images/products/carsaf-obicni.webp",
       "/images/products/carsaf-obicni-pakovanje.webp",
@@ -468,46 +507,24 @@ export const PROIZVODI: Proizvod[] = [
   },
   {
     slug: "carsaf-220x240",
+    // Isti artikal kao čaršaf u glat bračnom setu (korisnik potvrdio 18.11.2026): damast glat,
+    // hotelska izvedba, TC250, 180 g/m² (ponuda 05/13/10/2026, stavka 7, plahta 20,90 → 24,90 KM).
     naziv: "Čaršaf 220×240 cm",
     cijena: 24.9,
-    materijal: "pamuk",
+    materijal: "pamučni damast",
     dimenzije: ["220x240 cm"],
     boja: "Bijela",
     opisKratki:
-      "Čaršaf od 100% pamuka, 220×240 cm, za bračni krevet s dušekom do oko 200 cm širine. Ravni kroj bez gume, dovoljno platna za udoban preklop sa svih strana. Ista kvalitetna pamučna tkanina kao i ostali čaršafi u ponudi.",
+      "Bijeli čaršaf od glatkog damasta u hotelskoj izvedbi, 220×240 cm, za bračni krevet 160×200. Ravni kroj bez gume, gustoća tkanja TC250 i 180 g/m² — isti čaršaf koji dolazi u našem bračnom setu posteljine od damasta glat.",
     opisDugi:
-      "Čaršaf 220×240 cm napravljen je za bračne krevete s dušekom širine do otprilike 200 cm — dovoljno platna da pokrije dušek sa svih strana i ostavi višak za udoban preklop, bez da krajevi jedva dohvate ivicu. Kao ravni čaršaf, bez elastičnog ruba, lakše ga je poravnati na dušecima nestandardnih dimenzija nego fiksnu varijantu na gumu.\n\nMaterijal je 100% pamuk, tkan gušće nego kod jeftinijih čaršafa, pa se manje gužva i duže zadržava svježinu tokom noći. Ako vam je važnije da se čaršaf ne pomjera dok spavate, u ponudi postoji i verzija iste dimenzije s elastičnim rubom — čaršaf na gumu za bračni krevet. Ova, ravna verzija je praktičnija za smjenu posteljine i lakše se pegla i skladišti jer nema oblikovane uglove.",
+      "Čaršaf 220×240 cm je ravni čaršaf od glatkog bijelog damasta za bračne krevete 160×200 cm. Ostavlja dovoljno platna da se uvuče ispod dušeka sa svih strana, pa se ne izvlači ni nakon nemirnije noći. Tkanina je bez pruga i uzorka, s mekim, jedva primjetnim sjajem, pa krevet izgleda čisto i uredno, kao u hotelskoj sobi.\n\nOvo je isti čaršaf koji dolazi u našem bračnom setu posteljine od damasta glat, pa se lako dokupljuje kao rezerva ili zamjena. Gustoća tkanja TC250 i težina 180 g/m² daju tkaninu dovoljno čvrstu za učestalo pranje, kakvo zahtijevaju apartmani i smještaj za izdavanje, a opet prijatnu na dodir. Ako vam je važnije da se čaršaf uopšte ne pomjera, u ponudi je i čaršaf na gumu za bračni krevet.",
     specifikacije: [
-      { kljuc: "Materijal", vrijednost: "100% pamuk" },
+      { kljuc: "Materijal", vrijednost: "Damast glat (bez uzorka), hotelska izvedba" },
+      { kljuc: "Gustoća / težina", vrijednost: "TC250, 180 g/m²" },
       { kljuc: "Dimenzije", vrijednost: "220×240 cm" },
+      { kljuc: "Za krevet", vrijednost: "160×200 cm" },
     ],
-    slike: generisiSlike("pamuk", ["carsafi"], "Bijela", "220x240 cm", [
-      "/images/products/carsaf-1.webp",
-      "/images/products/carsaf-obicni.webp",
-      "/images/products/carsaf-obicni-pakovanje.webp",
-      "/images/products/plahta-detalj.webp",
-    ]),
-    naStanju: true,
-    kategorije: ["carsafi"],
-  },
-  {
-    slug: "carsaf-240x260",
-    // Naziv i dimenzija su ranije bili neusklađeni (docs/product-data-raw.md, red #7, ista greška
-    // u izvornom cjenovniku) — korisnik je 27.08.2026 potvrdio da je 240×260 tačna dimenzija.
-    naziv: "Čaršaf 240×260",
-    cijena: 27.9,
-    materijal: "pamuk",
-    dimenzije: ["240x260 cm"],
-    boja: "Bijela",
-    opisKratki:
-      "Čaršaf od 100% pamuka, veće, produžene dimenzije 240×260 cm — za bračne krevete i dušeke koji su duži ili širi od standarda. Ravni kroj, dovoljno platna za pokrivanje i preklop sa svih strana. Praktičan izbor kad standardna dimenzija od 220×240 cm nije dovoljno velika.",
-    opisDugi:
-      "Čaršaf 240×260 cm je naša najveća, produžena varijanta, namijenjena bračnim krevetima i dušecima koji su duži ili širi od standardne bračne mjere. Ako vam je dušek nestandardne veličine — na primjer produženi krevet ili deblji dušek kojem treba više viška platna za preklop — ovo je dimenzija koja to rješava bez stiskanja na uglovima.\n\nKao i ostali čaršafi u ponudi, tkan je od 100% pamuka, dovoljno guste strukture da izdrži redovno pranje i svakodnevnu upotrebu bez brzog habanja. Veća površina znači i više platna za uvlačenje ispod dušeka, što čaršaf drži urednijim tokom noći i pored toga što nema elastičan rub. Prije kupovine izmjerite dušek, ne samo krevet — širinu, dužinu i visinu (debljinu) dušeka — jer je upravo ta razlika između standardne bračne i produžene dimenzije razlog zašto ova veća varijanta postoji u ponudi.",
-    specifikacije: [
-      { kljuc: "Materijal", vrijednost: "100% pamuk" },
-      { kljuc: "Dimenzije", vrijednost: "240×260 cm" },
-    ],
-    slike: generisiSlike("pamuk", ["carsafi"], "Bijela", "240x260 cm", [
+    slike: generisiSlike("pamučni damast", ["carsafi"], "Bijela", "220x240 cm", [
       "/images/products/carsaf-1.webp",
       "/images/products/carsaf-obicni.webp",
       "/images/products/carsaf-obicni-pakovanje.webp",
@@ -548,6 +565,16 @@ export function getAllProducts(): Proizvod[] {
 
 export function getProductBySlug(slug: string): Proizvod | undefined {
   return PROIZVODI.find((proizvod) => proizvod.slug === slug);
+}
+
+/**
+ * Cijena jedne stavke korpe: cijena odabrane opcije (damast glat pojedinačni komadi) ili cijena
+ * proizvoda. Uvijek čita SVJEŽ katalog po slugu — korpa u localStorage čuva cijeli `proizvod`
+ * objekat, pa bi bez ovoga stara korpa nosila stare cijene nakon promjene cjenovnika.
+ */
+export function cijenaStavke(proizvod: Proizvod, dimenzija?: string): number {
+  const svjez = getProductBySlug(proizvod.slug) ?? proizvod;
+  return svjez.opcije?.find((o) => o.naziv === dimenzija)?.cijena ?? svjez.cijena;
 }
 
 export function getProductsByCategory(kategorija: string): Proizvod[] {

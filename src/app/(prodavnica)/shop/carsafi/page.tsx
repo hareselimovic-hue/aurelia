@@ -15,9 +15,9 @@ import { VrstaFilter } from "../filters";
 const SITE_URL = "https://aurelia.ba";
 
 export const metadata: Metadata = {
-  title: "Čaršafi — 100% pamuk, ravni i na gumu | Aurelia.ba",
+  title: "Čaršafi — damast glat hotelska izvedba i na gumu | Aurelia.ba",
   description:
-    "Pamučni čaršafi za Single i bračni krevet, 160×240 do 240×260 cm, ravni i na gumu. Gusto tkanje, izdržljivo na česta pranja. Dostava po BiH.",
+    "Čaršafi od glatkog damasta (TC250) za Single i bračni krevet, 150×240 i 220×240 cm, te čaršaf na gumu. Gusto tkanje, izdržljivo na česta pranja. Dostava po BiH.",
   alternates: {
     canonical: `${SITE_URL}/shop/carsafi/`,
   },
@@ -94,9 +94,9 @@ export default function CarsafiPage() {
       <div className="mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-8 md:pb-12">
         <h1>Čaršafi</h1>
         <p className="mt-4 max-w-3xl text-lg leading-relaxed text-foreground">
-          Čaršafi od 100% pamuka za Single i bračni krevet, u ravnoj varijanti i na gumu s
-          elastičnim rubom koji drži platno zategnutim preko noći. Dimenzije od 160×240 do
-          240×260 cm pokrivaju standardne i veće, produžene dušeke.
+          Ravni čaršafi od glatkog bijelog damasta u hotelskoj izvedbi (TC250, 180 g/m²) —
+          150×240 cm za Single i 220×240 cm za bračni krevet — i pamučni čaršaf na gumu s
+          elastičnim rubom koji drži platno zategnutim preko noći.
         </p>
       </div>
 
@@ -122,12 +122,12 @@ export default function CarsafiPage() {
             <h2 className="mt-2">Koji čaršaf za koji krevet</h2>
             <div className="mt-4 max-w-3xl space-y-4">
               <p className="text-base leading-relaxed text-foreground">
-                Za Single krevet s dušekom do oko 150 cm širine,{" "}
+                Za Single krevet 90×200 cm,{" "}
                 <Link
-                  href="/shop/carsaf-160x240/"
+                  href="/shop/carsaf-150x240/"
                   className="font-medium text-primary underline-offset-4 hover:underline"
                 >
-                  Čaršaf 160×240 cm
+                  Čaršaf 150×240 cm
                 </Link>{" "}
                 je ravni kroj bez gume — prostire se preko dušeka sa dovoljno viška platna da se
                 krajevi uvuku ispod. Za bračni krevet s dušekom do oko 200 cm širine, u ponudi je{" "}
@@ -137,15 +137,7 @@ export default function CarsafiPage() {
                 >
                   Čaršaf 220×240 cm
                 </Link>{" "}
-                u istoj ravnoj varijanti, a za dušeke koji su duži ili širi od standardne bračne
-                mjere postoji i veća,{" "}
-                <Link
-                  href="/shop/carsaf-240x260/"
-                  className="font-medium text-primary underline-offset-4 hover:underline"
-                >
-                  produžena varijanta 240×260 cm
-                </Link>
-                .
+                u istoj ravnoj varijanti.
               </p>
               <p className="text-base leading-relaxed text-foreground">
                 Ko ne želi da se čaršaf pomjera tokom noći, tu je{" "}
@@ -157,7 +149,8 @@ export default function CarsafiPage() {
                 </Link>
                 : elastični rub oko cijelog oboda oblikovan je da obuhvati uglove dušeka i drži
                 platno zategnutim, a namještanje i skidanje traje kraće nego kod ravnog čaršafa.
-                Svi čaršafi u ponudi su od 100% pamuka i podnose česta pranja bez gubitka
+                Ravni čaršafi su isti oni koji dolaze u našim setovima posteljine od damasta
+                glat, pa se lako dokupljuju kao rezerva — i podnose česta pranja bez gubitka
                 čvrstoće ili sjaja.
               </p>
             </div>
