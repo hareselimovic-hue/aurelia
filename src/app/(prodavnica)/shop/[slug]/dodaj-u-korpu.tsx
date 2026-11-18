@@ -10,8 +10,8 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useCart } from "@/lib/cart-context";
-import { formatPrice } from "@/lib/format";
 import type { Proizvod } from "@/lib/products";
+import { OdabirKomada } from "./odabir-komada";
 
 export function DodajUKorpu({ proizvod }: { proizvod: Proizvod }) {
   const { addItem } = useCart();
@@ -30,66 +30,13 @@ export function DodajUKorpu({ proizvod }: { proizvod: Proizvod }) {
   // korpa-drawer.tsx, otvara ga addItem u cart-context.tsx) — dugme namjerno NE mijenja tekst
   // (korisnički feedback 27.08.2026: "vratiti na staro, bez da piše na istom buttonu dodano u
   // korpu").
-  // Opcije kupovine (damast glat, 17.11.2026): kompletan set ili pojedinačni komad. Prva opcija =
-  // set → u korpu bez `dimenzija` (isto kao kartica proizvoda); ostale nose naziv opcije.
-  const opcije = proizvod.opcije;
-  const [opcijaIndeks, setOpcijaIndeks] = useState(0);
-  const odabranaOpcija = opcije?.[opcijaIndeks];
-
   function handleDodaj() {
-    if (opcije && odabranaOpcija) {
-      addItem(proizvod, opcijaIndeks === 0 ? undefined : odabranaOpcija.naziv, 1);
-      return;
-    }
     addItem(proizvod, izborAktivan ? dimenzija || undefined : undefined, 1);
   }
 
-  if (opcije && odabranaOpcija) {
-    return (
-      <div className="space-y-6">
-        <p className="font-sans text-2xl font-semibold text-foreground" aria-live="polite">
-          {formatPrice(odabranaOpcija.cijena)}
-        </p>
-        <div>
-          <p id="opcija-label" className="text-eyebrow text-foreground">
-            Odaberite
-          </p>
-          <div
-            role="radiogroup"
-            aria-labelledby="opcija-label"
-            className="mt-2 flex flex-wrap gap-2"
-          >
-            {opcije.map((o, i) => (
-              <button
-                key={o.naziv}
-                type="button"
-                role="radio"
-                aria-checked={opcijaIndeks === i}
-                onClick={() => setOpcijaIndeks(i)}
-                className={cn(
-                  "h-10 rounded-lg border px-4 text-sm font-medium transition-colors",
-                  opcijaIndeks === i
-                    ? "border-primary bg-primary text-primary-foreground"
-                    : "border-border bg-background text-foreground hover:border-primary/40 hover:bg-muted active:border-primary/40 active:bg-muted"
-                )}
-              >
-                {o.naziv}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        <Button
-          type="button"
-          variant="cta"
-          disabled={!proizvod.naStanju}
-          onClick={handleDodaj}
-          className="h-11 w-full px-8 text-sm font-medium tracking-[0.02em] sm:w-auto"
-        >
-          {proizvod.naStanju ? "Dodaj u korpu" : "Nema na stanju"}
-        </Button>
-      </div>
-    );
+  // Proizvodi s opcijama (damast glat): lista komada s količinama — vidi odabir-komada.tsx.
+  if (proizvod.opcije) {
+    return <OdabirKomada proizvod={proizvod} />;
   }
 
   return (
