@@ -14,6 +14,7 @@ import type { NarudzbaOdgovor, NarudzbaPayload } from "@/app/api/narudzbe/types"
 import { CheckoutForma, PRAZNA_FORMA, type FormaPodaci } from "./checkout-forma";
 import { PregledNarudzbe } from "./pregled-narudzbe";
 import { PotvrdaNarudzbe } from "./potvrda-narudzbe";
+import { PromoKod, zaboraviSacuvaniKod, type PrimijenjenPromo } from "./promo-kod";
 
 export default function CheckoutPage() {
   const { items, totalPrice, updateQuantity } = useCart();
@@ -27,6 +28,11 @@ export default function CheckoutPage() {
   // Cijena dostave se prikazuje uživo (PregledNarudzbe) dok kupac kuca poštanski broj — server
   // (route.ts) je nezavisno preračunava iz iste vrijednosti, ovo je samo za prikaz prije slanja.
   const cijenaDostave = izracunajDostavu(podaci.postanskiBroj);
+
+  // Popust samo za prikaz — server (route.ts) ga nezavisno računa iz koda. Ista formula kao
+  // izracunajPopust u src/lib/promo.ts (taj fajl je server-only, pa se ne uvozi ovdje).
+  const [promo, setPromo] = useState<PrimijenjenPromo | null>(null);
+  const popust = promo ? Math.round(totalPrice * promo.procenat) / 100 : 0;
 
   async function posaljiNarudzbu(podaci: FormaPodaci) {
     setGreska(null);
@@ -51,6 +57,7 @@ export default function CheckoutPage() {
         cijenaPoKomadu: cijenaStavke(stavka.proizvod, stavka.dimenzija),
       })),
       ukupnaCijena: totalPrice,
+      promoKod: promo?.kod,
     };
 
     try {
@@ -71,6 +78,7 @@ export default function CheckoutPage() {
       // svaka stavka pojedinačno "skine na 0" preko updateQuantity, koji interno uklanja stavku
       // kad je količina <= 0 (vidi src/lib/cart-context.tsx).
       items.forEach((stavka) => updateQuantity(stavka.proizvod.slug, stavka.dimenzija, 0));
+      if (promo) zaboraviSacuvaniKod();
 
       setPotvrdjenaNarudzba({ brojNarudzbe: rezultat.brojNarudzbe });
     } catch {
@@ -116,7 +124,14 @@ export default function CheckoutPage() {
           saljemo={saljemo}
           greska={greska}
         />
-        <PregledNarudzbe items={items} totalPrice={totalPrice} cijenaDostave={cijenaDostave} />
+        <PregledNarudzbe
+          items={items}
+          totalPrice={totalPrice}
+          cijenaDostave={cijenaDostave}
+          popust={promo ? { kod: promo.kod, procenat: promo.procenat, iznos: popust } : null}
+        >
+          <PromoKod primijenjen={promo} onChange={setPromo} />
+        </PregledNarudzbe>
       </div>
     </div>
   );

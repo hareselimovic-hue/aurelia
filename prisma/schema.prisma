@@ -45,6 +45,20 @@ model Narudzba {
 // set" proizvodi nemaju svoj red ovdje koji se skida — njihove komponente (products.ts
 // `komponente` polje) se skidaju umjesto njih. `kolicina` smije biti negativna (signal da je
 // prodano više nego što je uneseno, ne blokira ništa).
+// Jednokratni promo kodovi iz popupa "ostavi email, dobij 10%" (korisnik, 19.11.2026). Svaki email
+// dobija svoj kod (src/app/api/popust-prijava/route.ts); ponovna prijava istim emailom šalje isti
+// neiskorišteni kod umjesto novog. Kod se "troši" u /api/narudzbe (iskoristenAt + brojNarudzbe).
+model PromoKod {
+  kod           String    @id
+  email         String
+  procenat      Int       @default(10)
+  createdAt     DateTime  @default(now())
+  iskoristenAt  DateTime?
+  brojNarudzbe  String?
+
+  @@index([email])
+}
+
 model Zaliha {
   slug          String   @id
   kolicina      Int      @default(0)

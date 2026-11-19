@@ -32,7 +32,15 @@ export type NarudzbaPayload = {
   // Zbir stavki BEZ dostave — server nezavisno preračunava cijenu dostave iz postanskiBroj
   // (src/lib/dostava.ts) i sam je dodaje, ne vjeruje klijentu za taj dio (vidi route.ts).
   ukupnaCijena: number;
+  // Opciono — server sam provjerava kod i računa popust (src/lib/promo.ts), klijent šalje samo kod.
+  promoKod?: string;
 };
+
+export type PromoOdgovor =
+  | { ok: true; kod: string; procenat: number }
+  | { ok: false; greska: string };
+
+export type PopustPrijavaOdgovor = { ok: true } | { ok: false; greska: string };
 
 export type NarudzbaOdgovor =
   | { ok: true; brojNarudzbe: string }

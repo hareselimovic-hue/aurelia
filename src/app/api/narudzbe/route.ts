@@ -9,6 +9,8 @@ import { NextResponse } from "next/server";
 import { posaljiObavjestenjeVlasniku, posaljiPotvrduKupcu } from "./email";
 import { prisma } from "@/lib/prisma";
 import { izracunajDostavu } from "@/lib/dostava";
+import { formatPrice } from "@/lib/format";
+import { iskoristiKod, izracunajPopust, provjeriKod } from "@/lib/promo";
 import type {
   NacinPlacanja,
   NarudzbaKupac,
@@ -128,14 +130,58 @@ export async function POST(request: Request) {
     );
   }
 
+  if (payload.promoKod !== undefined && typeof payload.promoKod !== "string") {
+    return NextResponse.json<NarudzbaOdgovor>(
+      { ok: false, greska: "Neispravan promo kod." },
+      { status: 400 }
+    );
+  }
+
   const brojNarudzbe = generisiBrojNarudzbe();
+
+  // Promo kod: server sam provjerava kod i računa popust (10% = samo na stavke, ne na dostavu).
+  // Jednokratni kod (iz popupa) se troši atomski PRIJE upisa narudžbe — dvije istovremene narudžbe
+  // ne mogu iskoristiti isti kod.
+  let popust: { kod: string; procenat: number; iznos: number } | null = null;
+  if (payload.promoKod?.trim()) {
+    const provjera = await provjeriKod(payload.promoKod);
+    if (!provjera.ok) {
+      return NextResponse.json<NarudzbaOdgovor>(
+        { ok: false, greska: `${provjera.greska} Uklonite ga i pošaljite narudžbu ponovo.` },
+        { status: 400 }
+      );
+    }
+    if (provjera.jednokratni && !(await iskoristiKod(provjera.kod, brojNarudzbe))) {
+      return NextResponse.json<NarudzbaOdgovor>(
+        {
+          ok: false,
+          greska: "Ovaj promo kod je već iskorišten. Uklonite ga i pošaljite narudžbu ponovo.",
+        },
+        { status: 400 }
+      );
+    }
+    popust = {
+      kod: provjera.kod,
+      procenat: provjera.procenat,
+      iznos: izracunajPopust(payload.ukupnaCijena, provjera.procenat),
+    };
+  }
 
   // Cijena dostave se NEZAVISNO preračunava ovdje iz poštanskog broja (src/lib/dostava.ts) — server
   // ne vjeruje nikakvoj cijeni dostave koju bi klijent mogao poslati. `payload.ukupnaCijena` je zbir
   // SAMO stavki (bez dostave, vidi types.ts) — konačna, stvarna cijena za naplatu je taj zbir plus
   // dostava, i to je ono što se čuva u bazi i šalje u mejlovima kao "ukupno".
   const cijenaDostave = izracunajDostavu(payload.kupac.postanskiBroj) ?? 0;
-  const ukupnaCijenaSaDostavom = payload.ukupnaCijena + cijenaDostave;
+  const ukupnaCijenaSaDostavom =
+    Math.round((payload.ukupnaCijena - (popust?.iznos ?? 0) + cijenaDostave) * 100) / 100;
+
+  // Popust nema svoju kolonu u Narudzba tabeli — bilježi se na početku napomene (vidljivo u bazi i
+  // u mailu vlasniku), a `ukupnaCijena` je već umanjena. Trošak koda je i u tabeli PromoKod.
+  const popustNapomena = popust
+    ? `[Promo kod ${popust.kod}: −${popust.procenat}% = −${formatPrice(popust.iznos)}]`
+    : null;
+  const napomenaZaBazu =
+    [popustNapomena, payload.kupac.napomena].filter(Boolean).join(" ") || undefined;
 
   await prisma.narudzba.create({
     data: {
@@ -146,7 +192,7 @@ export async function POST(request: Request) {
       adresa: payload.kupac.adresa,
       grad: payload.kupac.grad,
       postanskiBroj: payload.kupac.postanskiBroj,
-      napomena: payload.kupac.napomena,
+      napomena: napomenaZaBazu,
       nacinPlacanja: payload.nacinPlacanja,
       stavke: payload.stavke,
       ukupnaCijena: ukupnaCijenaSaDostavom,
@@ -168,6 +214,7 @@ export async function POST(request: Request) {
         (s) =>
           `  - ${s.naziv}${s.dimenzija ? ` (${s.dimenzija})` : ""} x${s.kolicina} @ ${s.cijenaPoKomadu} KM`
       ),
+      popust ? `Popust (${popust.kod}, ${popust.procenat}%): -${popust.iznos} KM` : null,
       `Dostava: ${cijenaDostave} KM`,
       `Ukupno: ${ukupnaCijenaSaDostavom} KM`,
       "===================================",
@@ -181,6 +228,7 @@ export async function POST(request: Request) {
     kupac: payload.kupac,
     nacinPlacanja: payload.nacinPlacanja,
     stavke: payload.stavke,
+    popust,
     cijenaDostave,
     ukupnaCijena: ukupnaCijenaSaDostavom,
   };

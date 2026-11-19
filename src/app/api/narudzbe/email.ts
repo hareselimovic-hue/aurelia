@@ -48,6 +48,7 @@ type NarudzbaZaEmail = {
   kupac: NarudzbaKupac;
   nacinPlacanja: NacinPlacanja;
   stavke: NarudzbaStavka[];
+  popust?: { kod: string; procenat: number; iznos: number } | null;
   // `ukupnaCijena` ovdje je već KONAČAN iznos (stavke + dostava, izračunato u route.ts) — dostava
   // se prosljeđuje odvojeno samo da se prikaže kao svoj red u tabeli/tekstu maila.
   cijenaDostave: number;
@@ -82,10 +83,29 @@ function stavkeTekst(stavke: NarudzbaStavka[]): string {
     .join("\n");
 }
 
-function stavkeTabela(stavke: NarudzbaStavka[], cijenaDostave: number, ukupnaCijena: number): string {
+function popustTekst(narudzba: NarudzbaZaEmail): string {
+  return narudzba.popust
+    ? `Popust (${narudzba.popust.kod}, ${narudzba.popust.procenat}%): −${formatPrice(narudzba.popust.iznos)}\n`
+    : "";
+}
+
+function stavkeTabela(narudzba: NarudzbaZaEmail): string {
+  const { stavke, popust, cijenaDostave, ukupnaCijena } = narudzba;
   return `
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;">
       ${stavkeHtmlRedovi(stavke)}
+      ${
+        popust
+          ? `<tr>
+        <td colspan="2" style="padding:12px 0 0;font-family:Arial,Helvetica,sans-serif;font-size:13px;color:${BOJA.tekstMuted};">
+          Popust (${popust.kod}, ${popust.procenat}%)
+        </td>
+        <td align="right" style="padding:12px 0 0;font-family:Arial,Helvetica,sans-serif;font-size:14px;color:${BOJA.bronzaTamnija};white-space:nowrap;">
+          −${formatPrice(popust.iznos)}
+        </td>
+      </tr>`
+          : ""
+      }
       <tr>
         <td colspan="2" style="padding:12px 0 0;font-family:Arial,Helvetica,sans-serif;font-size:13px;color:${BOJA.tekstMuted};">
           Dostava
@@ -213,7 +233,7 @@ export async function posaljiPotvrduKupcu(narudzba: NarudzbaZaEmail): Promise<vo
     <p style="margin:0 0 28px;font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:1.7;color:${BOJA.tekstMuted};">
       Narudžba je potvrđena. Informacije o isporuci šaljemo na ovu istu email adresu čim paket bude spreman za slanje.
     </p>
-    ${stavkeTabela(narudzba.stavke, narudzba.cijenaDostave, narudzba.ukupnaCijena)}
+    ${stavkeTabela(narudzba)}
     <div style="height:24px;line-height:24px;font-size:1px;">&nbsp;</div>
     ${infoKutija([
       { label: "Plaćanje", vrijednost: nacinPlacanjaNaziv },
@@ -239,7 +259,7 @@ Vaša narudžba pod brojem #${narudzba.brojNarudzbe} je potvrđena. Informacije 
 
 ${stavkeTekst(narudzba.stavke)}
 
-Dostava: ${narudzba.cijenaDostave === 0 ? "Besplatno" : formatPrice(narudzba.cijenaDostave)}
+${popustTekst(narudzba)}Dostava: ${narudzba.cijenaDostave === 0 ? "Besplatno" : formatPrice(narudzba.cijenaDostave)}
 Ukupno: ${formatPrice(narudzba.ukupnaCijena)}
 Način plaćanja: ${nacinPlacanjaNaziv}
 Dostava na: ${narudzba.kupac.adresa}, ${narudzba.kupac.postanskiBroj} ${narudzba.kupac.grad}
@@ -285,7 +305,7 @@ export async function posaljiObavjestenjeVlasniku(narudzba: NarudzbaZaEmail): Pr
     <h1 style="margin:16px 0 24px;font-family:Georgia,'Times New Roman',serif;font-weight:normal;font-size:24px;color:${BOJA.tekst};">
       #${narudzba.brojNarudzbe} — ${formatPrice(narudzba.ukupnaCijena)}
     </h1>
-    ${stavkeTabela(narudzba.stavke, narudzba.cijenaDostave, narudzba.ukupnaCijena)}
+    ${stavkeTabela(narudzba)}
     <div style="height:24px;line-height:24px;font-size:1px;">&nbsp;</div>
     ${infoKutija([
       { label: "Kupac", vrijednost: narudzba.kupac.imePrezime },
@@ -321,7 +341,7 @@ export async function posaljiObavjestenjeVlasniku(narudzba: NarudzbaZaEmail): Pr
 
 ${stavkeTekst(narudzba.stavke)}
 
-Dostava: ${narudzba.cijenaDostave === 0 ? "Besplatno" : formatPrice(narudzba.cijenaDostave)}
+${popustTekst(narudzba)}Dostava: ${narudzba.cijenaDostave === 0 ? "Besplatno" : formatPrice(narudzba.cijenaDostave)}
 Ukupno: ${formatPrice(narudzba.ukupnaCijena)}
 
 Kupac: ${narudzba.kupac.imePrezime}
@@ -406,5 +426,103 @@ Pitanja o dostavi? Samo odgovorite direktno na ovaj email.`;
       `Slanje obavještenja o slanju za narudžbu ${narudzba.brojNarudzbe} nije uspjelo:`,
       error
     );
+  }
+}
+
+/**
+ * Promo kod iz popupa "ostavi email, dobij 10%" (korisnik, 19.11.2026). Vraća false ako slanje nije
+ * uspjelo — popup tada kupcu kaže da pokuša ponovo (kod se vidi i u popupu, ali mail je obećan).
+ */
+export async function posaljiPromoKodKupcu(opts: {
+  email: string;
+  kod: string;
+  procenat: number;
+}): Promise<boolean> {
+  const resend = getResendKlijent();
+  if (!resend) {
+    console.error(`RESEND_API_KEY nije postavljen — promo kod ${opts.kod} NIJE poslan na ${opts.email}.`);
+    return false;
+  }
+
+  const link = `https://aurelia.ba/shop/?promo=${encodeURIComponent(opts.kod)}`;
+
+  const sadrzaj = `
+    <h1 style="margin:0 0 8px;font-family:Georgia,'Times New Roman',serif;font-weight:normal;font-size:24px;color:${BOJA.tekst};">
+      Vaš popust od ${opts.procenat}%
+    </h1>
+    <p style="margin:0 0 24px;font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:1.7;color:${BOJA.tekstMuted};">
+      Hvala što ste se prijavili. Unesite ovaj kod pri plaćanju i dobijate ${opts.procenat}% popusta na proizvode u korpi.
+    </p>
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;background-color:${BOJA.kutijaBg};border:1px dashed ${BOJA.bronza};border-radius:8px;">
+      <tr>
+        <td align="center" style="padding:22px 16px;font-family:Georgia,'Times New Roman',serif;font-size:28px;letter-spacing:3px;color:${BOJA.bronzaTamnija};">
+          ${opts.kod}
+        </td>
+      </tr>
+    </table>
+    <table role="presentation" cellpadding="0" cellspacing="0" style="margin:28px auto 0;">
+      <tr>
+        <td align="center" style="background-color:#3F5F7A;border-radius:8px;">
+          <a href="${link}" style="display:inline-block;padding:14px 28px;font-family:Arial,Helvetica,sans-serif;font-size:14px;font-weight:bold;color:#FFFFFF;text-decoration:none;">
+            Kupujte s popustom
+          </a>
+        </td>
+      </tr>
+    </table>
+    <p style="margin:28px 0 0;font-family:Arial,Helvetica,sans-serif;font-size:12px;line-height:1.6;color:${BOJA.tekstMuted};">
+      Kod važi za jednu narudžbu. Klikom na dugme kod se automatski primjenjuje u korpi. Popust se ne odnosi na dostavu.
+    </p>
+  `;
+
+  const html = emailShell({
+    pretpregled: `Vaš kod za ${opts.procenat}% popusta: ${opts.kod}`,
+    naslov: `Vaš popust od ${opts.procenat}%`,
+    sadrzaj,
+  });
+
+  const text = `Hvala što ste se prijavili!
+
+Vaš kod za ${opts.procenat}% popusta: ${opts.kod}
+
+Unesite ga pri plaćanju na aurelia.ba ili otvorite ovaj link i kod će biti automatski primijenjen:
+${link}
+
+Kod važi za jednu narudžbu. Popust se ne odnosi na dostavu.`;
+
+  const { error } = await resend.emails.send({
+    from: OD_ADRESA,
+    to: opts.email,
+    replyTo: VLASNIK_EMAIL,
+    subject: `Vaš kod za ${opts.procenat}% popusta — Aurelia`,
+    html,
+    text,
+  });
+
+  if (error) {
+    console.error(`Slanje promo koda ${opts.kod} na ${opts.email} nije uspjelo:`, error);
+    return false;
+  }
+  return true;
+}
+
+/** Obavještenje vlasniku o novoj prijavi iz popupa ("mail koji nama dođe"). */
+export async function posaljiObavjestenjePrijava(opts: { email: string; kod: string }): Promise<void> {
+  const resend = getResendKlijent();
+  if (!resend) return;
+
+  const { error } = await resend.emails.send({
+    from: OD_ADRESA,
+    to: VLASNIK_EMAIL,
+    replyTo: opts.email,
+    subject: `Nova prijava za popust — ${opts.email}`,
+    text: `Nova prijava iz popupa na aurelia.ba
+
+Email: ${opts.email}
+Poslan kod: ${opts.kod}
+Vrijeme: ${new Date().toISOString()}`,
+  });
+
+  if (error) {
+    console.error(`Obavještenje o prijavi ${opts.email} nije poslano:`, error);
   }
 }
