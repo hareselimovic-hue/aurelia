@@ -112,7 +112,7 @@ export function PopustPopup() {
           <form onSubmit={posalji} noValidate className="space-y-4 pt-2">
             <div className="space-y-2 text-center">
               <p className="text-xs font-medium tracking-[0.15em] text-muted-foreground uppercase">
-                Dobrodošli u Aureliju
+                Dobrodošli na aurelia.ba
               </p>
               <DialogTitle className="text-3xl leading-tight">10% popusta na prvu narudžbu</DialogTitle>
               <DialogDescription className="text-base">
