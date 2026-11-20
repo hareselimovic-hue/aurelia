@@ -7,6 +7,8 @@
 import Link from "next/link";
 import { Minus, Plus, Trash2 } from "lucide-react";
 
+import { PopustLink } from "@/components/popust-popup";
+
 import { PlaceholderImage } from "@/components/placeholder-image";
 import { formatPrice } from "@/lib/format";
 import { useCart, type StavkaKorpe } from "@/lib/cart-context";
@@ -142,6 +144,7 @@ export default function KorpaPage() {
             <span className="text-base font-medium text-foreground">Za platiti</span>
             <span className="text-xl font-semibold text-foreground">{formatPrice(totalPrice)}</span>
           </div>
+          <PopustLink className="mt-3" />
 
           <Link
             href="/checkout/"

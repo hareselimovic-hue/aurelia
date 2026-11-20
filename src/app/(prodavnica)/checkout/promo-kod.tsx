@@ -9,7 +9,7 @@ import { useEffect, useState, type FormEvent } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { PROMO_STORAGE_KLJUC } from "@/components/popust-popup";
+import { PROMO_STORAGE_KLJUC, PopustLink } from "@/components/popust-popup";
 import type { PromoOdgovor } from "@/app/api/narudzbe/types";
 
 export type PrimijenjenPromo = { kod: string; procenat: number };
@@ -132,6 +132,7 @@ export function PromoKod({
           {greska}
         </p>
       )}
+      <PopustLink className="pt-1" />
     </form>
   );
 }
