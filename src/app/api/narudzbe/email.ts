@@ -190,7 +190,7 @@ function emailShell(opts: { pretpregled: string; naslov: string; sadrzaj: string
             <tr>
               <td style="padding:20px 32px 28px;border-top:1px solid ${BOJA.granica};">
                 <p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:12px;line-height:1.6;color:${BOJA.tekstMuted};">
-                  Aurelia · Derviša Numića 4, Bosna i Hercegovina<br />
+                  Aurelia · Bosna i Hercegovina<br />
                   <a href="mailto:info@aurelia.ba" style="color:${BOJA.bronza};text-decoration:none;">info@aurelia.ba</a>
                   &nbsp;·&nbsp;
                   <a href="https://aurelia.ba/" style="color:${BOJA.bronza};text-decoration:none;">aurelia.ba</a>

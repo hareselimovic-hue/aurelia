@@ -43,7 +43,7 @@ export function Footer() {
               TODO: PIB/ID broj još nije poslan — ne izmišljati, dodati kad korisnik pošalje.
             */}
             <address className="mt-3 space-y-1 text-sm not-italic text-muted-foreground">
-              <p>Derviša Numića 4, Bosna i Hercegovina</p>
+              <p>Bosna i Hercegovina</p>
               <p>
                 <a href="mailto:info@aurelia.ba" className="hover:text-primary">
                   info@aurelia.ba
