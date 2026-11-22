@@ -197,8 +197,7 @@ export default function NagradnaIgraPage() {
         <h2 id="pravila-naslov">Pravila nagradne igre</h2>
         <ol className="mt-6 list-decimal space-y-3 pl-5 text-sm leading-relaxed text-muted-foreground">
           <li>
-            Organizator nagradne igre je Aurelia (aurelia.ba), Derviša Numića 4, Bosna i
-            Hercegovina.
+            Organizator nagradne igre je aurelia.ba.
           </li>
           <li>Nagradna igra traje {NAGRADNA_IGRA.trajanjeTekst} (do 23:59).</li>
           <li>

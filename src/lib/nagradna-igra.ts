@@ -8,11 +8,11 @@ export const INSTAGRAM_URL = `https://www.instagram.com/${INSTAGRAM_PROFIL}/`;
 export const NAGRADNA_IGRA = {
   kljuc: "decembar-2026",
   // Vrijeme u Sarajevu (CET, +01:00).
-  pocetak: new Date("2026-11-22T00:00:00+01:00"),
-  // 10 dana (korisnik, 21.11.2026: "10 dana od sutra") — 22.11. do uključivo 1.12.
+  // Početak pomjeren na 23.11. (korisnik, 22.11.2026), kraj ostaje 1.12.
+  pocetak: new Date("2026-11-23T00:00:00+01:00"),
   kraj: new Date("2026-12-01T23:59:59+01:00"),
   izvlacenjeTekst: "2. decembra 2026.",
-  trajanjeTekst: "od 22. novembra do 1. decembra 2026.",
+  trajanjeTekst: "od 23. novembra do 1. decembra 2026.",
   nagrade: [
     {
       slug: "posteljina-od-damasta-uska-linija",
