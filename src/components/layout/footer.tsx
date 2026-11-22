@@ -27,7 +27,7 @@ const PRAVNE_STRANICE = [
 
 // TODO: društvene mreže — pravi linkovi čekaju korisnika (nalozi možda još ne postoje).
 const DRUSTVENE_MREZE = [
-  { naziv: "Instagram", href: "#" },
+  { naziv: "Instagram", href: "https://www.instagram.com/aurelia.linen/" },
   { naziv: "Facebook", href: "#" },
 ];
 
@@ -43,7 +43,6 @@ export function Footer() {
               TODO: PIB/ID broj još nije poslan — ne izmišljati, dodati kad korisnik pošalje.
             */}
             <address className="mt-3 space-y-1 text-sm not-italic text-muted-foreground">
-              <p>TB d.o.o.</p>
               <p>Derviša Numića 4, Bosna i Hercegovina</p>
               <p>
                 <a href="mailto:info@aurelia.ba" className="hover:text-primary">

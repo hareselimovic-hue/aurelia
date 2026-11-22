@@ -11,9 +11,18 @@ const TABOVI = [
   { kljuc: "dashboard", naziv: "Dashboard", href: "/admin/" },
   { kljuc: "narudzbe", naziv: "Narudžbe", href: "/admin/narudzbe/" },
   { kljuc: "zaliha", naziv: "Zaliha", href: "/admin/zaliha/" },
+  {
+    kljuc: "nagradna-igra",
+    naziv: "Nagradna igra",
+    href: "/admin/nagradna-igra/",
+  },
 ] as const;
 
-export function AdminNav({ aktivno }: { aktivno: "dashboard" | "narudzbe" | "zaliha" }) {
+export function AdminNav({
+  aktivno,
+}: {
+  aktivno: (typeof TABOVI)[number]["kljuc"];
+}) {
   return (
     <nav className="flex gap-1 border-b border-border">
       {TABOVI.map((tab) => (
@@ -24,7 +33,7 @@ export function AdminNav({ aktivno }: { aktivno: "dashboard" | "narudzbe" | "zal
             "border-b-2 px-3 py-2 text-sm font-medium transition-colors",
             tab.kljuc === aktivno
               ? "border-primary text-foreground"
-              : "border-transparent text-muted-foreground hover:text-foreground"
+              : "border-transparent text-muted-foreground hover:text-foreground",
           )}
         >
           {tab.naziv}

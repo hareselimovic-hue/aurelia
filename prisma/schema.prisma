@@ -59,6 +59,23 @@ model PromoKod {
   @@index([email])
 }
 
+// Prijave u nagradnu igru (/nagradna-igra/, korisnik 21.11.2026). `igra` = NAGRADNA_IGRA.kljuc iz
+// src/lib/nagradna-igra.ts — jedna prijava po emailu po igri. `kod` = dodijeljeni PromoKod (10%),
+// null ako je taj email već ranije iskoristio popust. `izvucenAt` postavlja admin "Izvuci dobitnika"
+// (više izvučenih = ponovna izvlačenja ako prvi ne ispunjava uslove).
+model NagradnaPrijava {
+  id         String    @id @default(cuid())
+  igra       String
+  email      String
+  instagram  String
+  kod        String?
+  createdAt  DateTime  @default(now())
+  izvucenAt  DateTime?
+
+  @@unique([igra, email])
+  @@index([igra, createdAt])
+}
+
 model Zaliha {
   slug          String   @id
   kolicina      Int      @default(0)

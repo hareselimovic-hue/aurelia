@@ -37,6 +37,13 @@ const NATPIS_SKRIVEN_KLJUC = "aurelia-popup-natpis-skriven";
 const OTVORI_DOGADJAJ = "aurelia:otvori-popust";
 const PRIJAVLJEN_DOGADJAJ = "aurelia:popust-prijavljen";
 
+// Checkout ima svoje polje za kod, a nagradna igra već daje isti kod — popup/natpis bi smetali.
+function bezPopupa(pathname: string | null): boolean {
+  return Boolean(
+    pathname?.startsWith("/checkout") || pathname?.startsWith("/nagradna-igra"),
+  );
+}
+
 export function otvoriPopustPopup() {
   window.dispatchEvent(new Event(OTVORI_DOGADJAJ));
 }
@@ -95,7 +102,7 @@ export function PopustPopup() {
       );
       return () => window.clearTimeout(t);
     }
-    if (pathname?.startsWith("/checkout")) return;
+    if (bezPopupa(pathname)) return;
 
     const tajmer = window.setTimeout(() => setOtvoren(true), KASNJENJE_MS);
     return () => window.clearTimeout(tajmer);
@@ -149,7 +156,7 @@ export function PopustPopup() {
     }
   }
 
-  const naCheckoutu = pathname?.startsWith("/checkout");
+  const naCheckoutu = bezPopupa(pathname);
 
   return (
     <>

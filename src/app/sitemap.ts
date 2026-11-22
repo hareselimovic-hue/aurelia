@@ -26,6 +26,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "reklamacije-i-povrat",
     "uslovi-koristenja",
     "politika-privatnosti",
+    "nagradna-igra",
   ].map((ruta) => ({
     url: ruta ? `${SITE_URL}/${ruta}/` : `${SITE_URL}/`,
     lastModified: POSLJEDNJA_IZMJENA,

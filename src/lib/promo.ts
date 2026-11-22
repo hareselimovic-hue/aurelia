@@ -30,11 +30,13 @@ export async function provjeriKod(unos: string): Promise<ProvjeraKoda> {
   if (!kod) return { ok: false, greska: "Unesite promo kod." };
 
   const opsti = OPSTI_KODOVI[kod];
-  if (opsti !== undefined) return { ok: true, kod, procenat: opsti, jednokratni: false };
+  if (opsti !== undefined)
+    return { ok: true, kod, procenat: opsti, jednokratni: false };
 
   const zapis = await prisma.promoKod.findUnique({ where: { kod } });
   if (!zapis) return { ok: false, greska: "Promo kod nije važeći." };
-  if (zapis.iskoristenAt) return { ok: false, greska: "Ovaj promo kod je već iskorišten." };
+  if (zapis.iskoristenAt)
+    return { ok: false, greska: "Ovaj promo kod je već iskorišten." };
   return { ok: true, kod, procenat: zapis.procenat, jednokratni: true };
 }
 
@@ -42,7 +44,10 @@ export async function provjeriKod(unos: string): Promise<ProvjeraKoda> {
  * Atomski "troši" jednokratni kod — uslov `iskoristenAt: null` u istom UPDATE-u sprječava da dvije
  * istovremene narudžbe iskoriste isti kod. Vraća false ako je kod u međuvremenu iskorišten.
  */
-export async function iskoristiKod(kod: string, brojNarudzbe: string): Promise<boolean> {
+export async function iskoristiKod(
+  kod: string,
+  brojNarudzbe: string,
+): Promise<boolean> {
   const { count } = await prisma.promoKod.updateMany({
     where: { kod, iskoristenAt: null },
     data: { iskoristenAt: new Date(), brojNarudzbe },
@@ -57,6 +62,35 @@ export function generisiKod(): string {
   let dio = "";
   for (let i = 0; i < 6; i++) dio += ABECEDA[randomInt(ABECEDA.length)];
   return `AUR-${dio}`;
+}
+
+export type DodjelaKoda =
+  | { status: "nov" | "postojeci"; kod: string }
+  | { status: "iskoristen" }
+  | { status: "greska" };
+
+/**
+ * Jedan jednokratni kod po emailu (popup i nagradna igra dijele ovo). Isti email → isti
+ * neiskorišteni kod; ako je email već iskoristio kod, novi se ne daje.
+ */
+export async function dodijeliKodZaEmail(email: string): Promise<DodjelaKoda> {
+  const postojeci = await prisma.promoKod.findMany({ where: { email } });
+  if (postojeci.some((k) => k.iskoristenAt)) return { status: "iskoristen" };
+  if (postojeci[0]) return { status: "postojeci", kod: postojeci[0].kod };
+
+  // Kolizija 6 nasumičnih znakova (31^6 ≈ 887 mil.) je praktično nemoguća, ali ipak par pokušaja.
+  for (let pokusaj = 0; pokusaj < 5; pokusaj++) {
+    const kandidat = generisiKod();
+    try {
+      await prisma.promoKod.create({
+        data: { kod: kandidat, email, procenat: POPUP_PROCENAT },
+      });
+      return { status: "nov", kod: kandidat };
+    } catch {
+      // duplikat ključa → novi pokušaj
+    }
+  }
+  return { status: "greska" };
 }
 
 /** Iznos popusta u KM, zaokružen na 2 decimale. */

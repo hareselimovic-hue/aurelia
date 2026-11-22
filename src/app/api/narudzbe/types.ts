@@ -42,6 +42,10 @@ export type PromoOdgovor =
 
 export type PopustPrijavaOdgovor = { ok: true } | { ok: false; greska: string };
 
+export type NagradnaPrijavaOdgovor =
+  | { ok: true; dobioKod: boolean }
+  | { ok: false; greska: string };
+
 export type NarudzbaOdgovor =
   | { ok: true; brojNarudzbe: string }
   | { ok: false; greska: string };

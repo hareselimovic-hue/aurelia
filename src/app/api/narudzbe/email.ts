@@ -190,7 +190,7 @@ function emailShell(opts: { pretpregled: string; naslov: string; sadrzaj: string
             <tr>
               <td style="padding:20px 32px 28px;border-top:1px solid ${BOJA.granica};">
                 <p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:12px;line-height:1.6;color:${BOJA.tekstMuted};">
-                  Aurelia · TB d.o.o. · Derviša Numića 4, Bosna i Hercegovina<br />
+                  Aurelia · Derviša Numića 4, Bosna i Hercegovina<br />
                   <a href="mailto:info@aurelia.ba" style="color:${BOJA.bronza};text-decoration:none;">info@aurelia.ba</a>
                   &nbsp;·&nbsp;
                   <a href="https://aurelia.ba/" style="color:${BOJA.bronza};text-decoration:none;">aurelia.ba</a>
@@ -525,4 +525,99 @@ Vrijeme: ${new Date().toISOString()}`,
   if (error) {
     console.error(`Obavještenje o prijavi ${opts.email} nije poslano:`, error);
   }
+}
+
+/**
+ * Potvrda prijave u nagradnu igru (/nagradna-igra/, korisnik 21.11.2026) + lični kod za 10% ako ga
+ * email još nije iskoristio (`kod` = null → samo potvrda prijave). Vraća false ako slanje nije uspjelo.
+ */
+export async function posaljiPotvrduNagradneIgre(opts: {
+  email: string;
+  kod: string | null;
+  procenat: number;
+  izvlacenjeTekst: string;
+  instagramUrl: string;
+}): Promise<boolean> {
+  const resend = getResendKlijent();
+  if (!resend) {
+    console.error(`RESEND_API_KEY nije postavljen — potvrda nagradne igre NIJE poslana na ${opts.email}.`);
+    return false;
+  }
+
+  const link = opts.kod ? `https://aurelia.ba/shop/?promo=${encodeURIComponent(opts.kod)}` : null;
+
+  const kodBlok = opts.kod
+    ? `
+    <p style="margin:28px 0 12px;font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:1.7;color:${BOJA.tekst};">
+      A dok čekate izvlačenje — vaš lični kod za <strong>${opts.procenat}% popusta</strong> na proizvode u korpi:
+    </p>
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;background-color:${BOJA.kutijaBg};border:1px dashed ${BOJA.bronza};border-radius:8px;">
+      <tr>
+        <td align="center" style="padding:22px 16px;font-family:Georgia,'Times New Roman',serif;font-size:28px;letter-spacing:3px;color:${BOJA.bronzaTamnija};">
+          ${opts.kod}
+        </td>
+      </tr>
+    </table>
+    <table role="presentation" cellpadding="0" cellspacing="0" style="margin:24px auto 0;">
+      <tr>
+        <td align="center" style="background-color:#3F5F7A;border-radius:8px;">
+          <a href="${link}" style="display:inline-block;padding:14px 28px;font-family:Arial,Helvetica,sans-serif;font-size:14px;font-weight:bold;color:#FFFFFF;text-decoration:none;">
+            Kupujte s popustom
+          </a>
+        </td>
+      </tr>
+    </table>
+    <p style="margin:16px 0 0;font-family:Arial,Helvetica,sans-serif;font-size:12px;line-height:1.6;color:${BOJA.tekstMuted};text-align:center;">
+      Kod važi za jednu narudžbu i ne utiče na šanse u izvlačenju. Popust se ne odnosi na dostavu.
+    </p>`
+    : "";
+
+  const sadrzaj = `
+    <h1 style="margin:0 0 8px;font-family:Georgia,'Times New Roman',serif;font-weight:normal;font-size:24px;color:${BOJA.tekst};">
+      Prijavljeni ste u nagradnu igru
+    </h1>
+    <p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:1.7;color:${BOJA.tekstMuted};">
+      Hvala na prijavi! Dobitnika izvlačimo ${opts.izvlacenjeTekst} i javljamo mu se na ovaj email.
+      Uslov je da pratite naš <a href="${opts.instagramUrl}" style="color:${BOJA.bronzaTamnija};">Instagram profil</a> —
+      provjerite da ste ga zapratili.
+    </p>
+    ${kodBlok}
+  `;
+
+  const html = emailShell({
+    pretpregled: opts.kod
+      ? `Prijavljeni ste — i evo vašeg koda za ${opts.procenat}% popusta`
+      : "Prijavljeni ste u Aurelia nagradnu igru",
+    naslov: "Prijava u nagradnu igru",
+    sadrzaj,
+  });
+
+  const text = `Prijavljeni ste u Aurelia nagradnu igru!
+
+Dobitnika izvlačimo ${opts.izvlacenjeTekst} i javljamo mu se na ovaj email. Uslov je da pratite naš Instagram profil: ${opts.instagramUrl}
+${
+  opts.kod
+    ? `
+Vaš lični kod za ${opts.procenat}% popusta: ${opts.kod}
+Kupujte s popustom (kod se automatski primjenjuje): ${link}
+Kod važi za jednu narudžbu i ne utiče na šanse u izvlačenju.`
+    : ""
+}`;
+
+  const { error } = await resend.emails.send({
+    from: OD_ADRESA,
+    to: opts.email,
+    replyTo: VLASNIK_EMAIL,
+    subject: opts.kod
+      ? `Prijavljeni ste + vaš kod za ${opts.procenat}% popusta — Aurelia`
+      : "Prijavljeni ste u nagradnu igru — Aurelia",
+    html,
+    text,
+  });
+
+  if (error) {
+    console.error(`Potvrda nagradne igre na ${opts.email} nije poslana:`, error);
+    return false;
+  }
+  return true;
 }
