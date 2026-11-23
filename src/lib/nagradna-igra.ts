@@ -14,15 +14,16 @@ export const NAGRADNA_IGRA = {
   izvlacenjeTekst: "2. decembra 2026.",
   trajanjeTekst: "od 23. novembra do 1. decembra 2026.",
   nagrade: [
+    // Nagrade promijenjene na glat setove (korisnik, 23.11.2026).
     {
-      slug: "posteljina-od-damasta-uska-linija",
-      naziv: "2× Single posteljina od damasta — uska linija",
-      sadrzaj: "2 × (Slifer 140×200 cm + 1 jastučnica)",
+      slug: "posteljina-od-damasta-glat-single",
+      naziv: "Posteljina od damasta glat — Single",
+      sadrzaj: "Kompletan set: Slifer 140×200 cm + čaršaf 150×240 cm + 1 jastučnica",
     },
     {
-      slug: "posteljina-od-damasta-bracna",
-      naziv: "Bračna posteljina od damasta",
-      sadrzaj: "Slifer 200×200 cm + 2 jastučnice 50×70 cm",
+      slug: "posteljina-od-damasta-glat-bracna",
+      naziv: "Posteljina od damasta glat — bračna",
+      sadrzaj: "Kompletan set: Slifer 200×200 cm + čaršaf 220×240 cm + 2 jastučnice",
     },
   ],
 } as const;
