@@ -55,6 +55,8 @@ model PromoKod {
   createdAt     DateTime  @default(now())
   iskoristenAt  DateTime?
   brojNarudzbe  String?
+  // Podsjetnik 2 dana nakon dodjele ako kod nije iskorišten (24.11.2026) — šalje se samo jednom.
+  podsjetnikPoslanAt DateTime?
 
   @@index([email])
 }

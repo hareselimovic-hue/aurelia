@@ -505,6 +505,86 @@ Kod važi za jednu narudžbu. Popust se ne odnosi na dostavu.`;
   return true;
 }
 
+/**
+ * Podsjetnik 2 dana nakon dodjele ako kod još nije iskorišten (korisnik, 24.11.2026). Šalje ga
+ * dnevni cron /api/cron/podsjetnik-kod/. Vraća false ako slanje nije uspjelo (cron tada pokuša sutra).
+ */
+export async function posaljiPodsjetnikKoda(opts: {
+  email: string;
+  kod: string;
+  procenat: number;
+}): Promise<boolean> {
+  const resend = getResendKlijent();
+  if (!resend) {
+    console.error(`RESEND_API_KEY nije postavljen — podsjetnik za ${opts.kod} NIJE poslan.`);
+    return false;
+  }
+
+  const link = `https://aurelia.ba/shop/?promo=${encodeURIComponent(opts.kod)}`;
+
+  const sadrzaj = `
+    <h1 style="margin:0 0 8px;font-family:Georgia,'Times New Roman',serif;font-weight:normal;font-size:24px;color:${BOJA.tekst};">
+      Vaš popust od ${opts.procenat}% još čeka
+    </h1>
+    <p style="margin:0 0 24px;font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:1.7;color:${BOJA.tekstMuted};">
+      Prije dva dana ste dobili lični kod za ${opts.procenat}% popusta, ali ga još niste iskoristili.
+      Posteljina, peškiri i čaršafi od 100% pamuka — dostava po cijeloj BiH, plaćanje pouzećem.
+    </p>
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;background-color:${BOJA.kutijaBg};border:1px dashed ${BOJA.bronza};border-radius:8px;">
+      <tr>
+        <td align="center" style="padding:22px 16px;font-family:Georgia,'Times New Roman',serif;font-size:28px;letter-spacing:3px;color:${BOJA.bronzaTamnija};">
+          ${opts.kod}
+        </td>
+      </tr>
+    </table>
+    <table role="presentation" cellpadding="0" cellspacing="0" style="margin:28px auto 0;">
+      <tr>
+        <td align="center" style="background-color:#3F5F7A;border-radius:8px;">
+          <a href="${link}" style="display:inline-block;padding:14px 28px;font-family:Arial,Helvetica,sans-serif;font-size:14px;font-weight:bold;color:#FFFFFF;text-decoration:none;">
+            Iskoristite popust
+          </a>
+        </td>
+      </tr>
+    </table>
+    <p style="margin:28px 0 0;font-family:Arial,Helvetica,sans-serif;font-size:12px;line-height:1.6;color:${BOJA.tekstMuted};">
+      Klikom na dugme kod se automatski primjenjuje u korpi. Kod važi za jednu narudžbu, popust se ne odnosi na dostavu.
+      Ovo je jedini podsjetnik koji šaljemo za ovaj kod.
+    </p>
+  `;
+
+  const html = emailShell({
+    pretpregled: `Vaš kod ${opts.kod} za ${opts.procenat}% popusta još nije iskorišten`,
+    naslov: `Vaš popust od ${opts.procenat}% još čeka`,
+    sadrzaj,
+  });
+
+  const text = `Vaš popust od ${opts.procenat}% još čeka
+
+Prije dva dana ste dobili lični kod za ${opts.procenat}% popusta, ali ga još niste iskoristili.
+
+Kod: ${opts.kod}
+
+Otvorite ovaj link i kod će biti automatski primijenjen u korpi:
+${link}
+
+Kod važi za jednu narudžbu. Popust se ne odnosi na dostavu. Ovo je jedini podsjetnik koji šaljemo za ovaj kod.`;
+
+  const { error } = await resend.emails.send({
+    from: OD_ADRESA,
+    to: opts.email,
+    replyTo: VLASNIK_EMAIL,
+    subject: `Vaš popust od ${opts.procenat}% još čeka — Aurelia`,
+    html,
+    text,
+  });
+
+  if (error) {
+    console.error(`Podsjetnik za kod ${opts.kod} na ${opts.email} nije poslan:`, error);
+    return false;
+  }
+  return true;
+}
+
 /** Obavještenje vlasniku o novoj prijavi iz popupa ("mail koji nama dođe"). */
 export async function posaljiObavjestenjePrijava(opts: { email: string; kod: string }): Promise<void> {
   const resend = getResendKlijent();
