@@ -5,7 +5,8 @@ import Link from "next/link";
 import { PlaceholderImage } from "@/components/placeholder-image";
 import { formatPrice } from "@/lib/format";
 import { useCart } from "@/lib/cart-context";
-import { PLACEHOLDER_IMAGE, type Proizvod } from "@/lib/products";
+import { metaVrijednost, pratiMeta } from "@/lib/meta-pixel";
+import { PLACEHOLDER_IMAGE, cijenaStavke, type Proizvod } from "@/lib/products";
 
 /**
  * Dijeljena kartica proizvoda — koristi se na početnoj, shopu i "slični proizvodi"
@@ -117,7 +118,15 @@ export function KarticaProizvoda({
 
         <button
           type="button"
-          onClick={() => addItem(proizvod, dimenzijaZaKorpu, 1)}
+          onClick={() => {
+            addItem(proizvod, dimenzijaZaKorpu, 1);
+            pratiMeta("AddToCart", {
+              content_ids: [proizvod.slug],
+              content_type: "product",
+              content_name: proizvod.naziv,
+              ...metaVrijednost(cijenaStavke(proizvod, dimenzijaZaKorpu)),
+            });
+          }}
           disabled={!proizvod.naStanju}
           // h-11 (44px) umjesto h-10 (40px) — minimalni touch target za mobilne uređaje
           // (eksterni dizajn review 23.08.2026, ui-ux-pro-max touch-target pravilo).

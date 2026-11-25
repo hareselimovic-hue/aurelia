@@ -10,7 +10,8 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useCart } from "@/lib/cart-context";
-import type { Proizvod } from "@/lib/products";
+import { metaVrijednost, pratiMeta } from "@/lib/meta-pixel";
+import { cijenaStavke, type Proizvod } from "@/lib/products";
 import { OdabirKomada } from "./odabir-komada";
 
 export function DodajUKorpu({ proizvod }: { proizvod: Proizvod }) {
@@ -31,7 +32,14 @@ export function DodajUKorpu({ proizvod }: { proizvod: Proizvod }) {
   // (korisnički feedback 27.08.2026: "vratiti na staro, bez da piše na istom buttonu dodano u
   // korpu").
   function handleDodaj() {
-    addItem(proizvod, izborAktivan ? dimenzija || undefined : undefined, 1);
+    const izabrana = izborAktivan ? dimenzija || undefined : undefined;
+    addItem(proizvod, izabrana, 1);
+    pratiMeta("AddToCart", {
+      content_ids: [proizvod.slug],
+      content_type: "product",
+      content_name: proizvod.naziv,
+      ...metaVrijednost(cijenaStavke(proizvod, izabrana)),
+    });
   }
 
   // Proizvodi s opcijama (damast glat): lista komada s količinama — vidi odabir-komada.tsx.

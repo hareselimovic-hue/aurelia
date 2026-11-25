@@ -1,7 +1,7 @@
 // POLITIKA PRIVATNOSTI — CLAUDE_aurelia.md §2. Polja podataka su tačno preuzeta iz
 // src/app/checkout/checkout-forma.tsx (FormaPodaci: imePrezime, email, telefon, adresa, grad,
-// napomena). Sajt trenutno ne koristi analytics/cookie skripte (provjereno pretragom koda) —
-// ne tvrditi postojanje cookie consent bannera. Header/Footer su globalni.
+// napomena). Kolačići: GTM (od 18.11.2026) + Meta Pixel (od 25.11.2026); cookie consent banner NE
+// postoji — ne tvrditi ga. Header/Footer su globalni.
 
 import type { Metadata } from "next";
 
@@ -55,6 +55,11 @@ export default function PolitikaPrivatnostiPage() {
             isporuku i kontaktirali vas telefonom ako je potrebno nešto razjasniti prije slanja
             paketa.
           </p>
+          <p className="text-muted-foreground">
+            Ako ostavite email da biste dobili kod za popust ili se prijavite u nagradnu igru,
+            email koristimo za slanje koda, provođenje nagradne igre i povremene Aurelia ponude.
+            Odjavu možete zatražiti u bilo kojem trenutku na info@aurelia.ba.
+          </p>
         </div>
 
         <div className="space-y-3">
@@ -93,8 +98,24 @@ export default function PolitikaPrivatnostiPage() {
         <div className="space-y-3">
           <h2>Kolačići</h2>
           <p className="text-muted-foreground">
-            Sajt trenutno ne koristi analitičke ni marketinške kolačiće trećih strana. Ukoliko se
-            to u budućnosti promijeni, ova stranica će biti ažurirana.
+            Sajt koristi kolačiće i slične tehnologije dva servisa trećih strana:
+          </p>
+          <ul className="list-disc space-y-1 pl-5 text-muted-foreground">
+            <li>
+              <strong className="font-medium text-foreground">Google</strong> (Google Tag Manager,
+              Google Analytics i Google Ads) — za statistiku posjeta i mjerenje uspješnosti oglasa.
+            </li>
+            <li>
+              <strong className="font-medium text-foreground">Meta</strong> (Facebook i Instagram
+              Pixel) — za mjerenje uspješnosti oglasa na Facebooku i Instagramu i prikazivanje
+              relevantnih oglasa. Bilježe se posjete stranicama, dodavanje u korpu, započinjanje i
+              završetak narudžbe (vrijednost, ne vaši lični podaci iz forme).
+            </li>
+          </ul>
+          <p className="text-muted-foreground">
+            Ove kolačiće možete blokirati ili obrisati u postavkama svog pretraživača, a
+            personalizovane oglase isključiti u postavkama svog Google i Facebook/Instagram naloga.
+            Kupovina na sajtu radi i bez njih.
           </p>
         </div>
       </div>

@@ -1,6 +1,7 @@
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { GoogleTagManager } from "@/components/analytics/google-tag-manager";
+import { MetaPixel } from "@/components/analytics/meta-pixel";
 import { PopustPopup } from "@/components/popust-popup";
 
 // Header/Footer žive ovdje (ne u root layout.tsx) — route group izdvaja sve javne/kupovne stranice
@@ -11,6 +12,7 @@ export default function ProdavnicaLayout({ children }: { children: React.ReactNo
   return (
     <>
       <GoogleTagManager />
+      <MetaPixel />
       <Header />
       <main className="flex-1">{children}</main>
       <Footer />

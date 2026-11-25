@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
+import { pratiMeta } from "@/lib/meta-pixel";
 import type { PopustPrijavaOdgovor } from "@/app/api/narudzbe/types";
 
 export const PROMO_STORAGE_KLJUC = "aurelia-promo";
@@ -142,6 +143,7 @@ export function PopustPopup() {
       });
       const rezultat = (await odgovor.json()) as PopustPrijavaOdgovor;
       if (rezultat.ok) {
+        pratiMeta("Lead", { content_name: "popup-10" });
         setPoslano(true);
         setNatpis(false);
         upisi(POPUP_STORAGE_KLJUC, "prijavljen");

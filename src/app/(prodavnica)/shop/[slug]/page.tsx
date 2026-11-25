@@ -9,6 +9,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import { MetaDogadjaj } from "@/components/analytics/meta-pixel";
 import { KarticaProizvoda } from "@/components/product/kartica-proizvoda";
 import { cn } from "@/lib/utils";
 import { formatPrice } from "@/lib/format";
@@ -260,6 +261,16 @@ export default async function ProizvodnaStranica({
             <div className={proizvod.opcije ? "mt-3" : "mt-6"}>
               <DodajUKorpu proizvod={proizvod} />
               <InfoKupovina naStanju={proizvod.naStanju} />
+              <MetaDogadjaj
+                dogadjaj="ViewContent"
+                parametri={{
+                  content_ids: [proizvod.slug],
+                  content_type: "product",
+                  content_name: proizvod.naziv,
+                  value: proizvod.cijena,
+                  currency: "BAM",
+                }}
+              />
             </div>
 
             {/* 07 — kratak opis (~50 riječi, opisKratki) */}

@@ -4,10 +4,11 @@
 // /api/narudzbe, potvrda. Cijeli page je client component (isti razlog kao /korpa/page.tsx —
 // vidi src/app/checkout/layout.tsx za metadata).
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 
 import { useCart } from "@/lib/cart-context";
+import { metaVrijednost, pratiMeta } from "@/lib/meta-pixel";
 import { cijenaStavke } from "@/lib/products";
 import { izracunajDostavu } from "@/lib/dostava";
 import type { NarudzbaOdgovor, NarudzbaPayload } from "@/app/api/narudzbe/types";
@@ -33,6 +34,20 @@ export default function CheckoutPage() {
   // izracunajPopust u src/lib/promo.ts (taj fajl je server-only, pa se ne uvozi ovdje).
   const [promo, setPromo] = useState<PrimijenjenPromo | null>(null);
   const popust = promo ? Math.round(totalPrice * promo.procenat) / 100 : 0;
+
+  // Meta Pixel InitiateCheckout — jednom, kad se korpa učita (cart-context je puni iz localStorage
+  // nakon prvog renderovanja, pa se čeka da stavke postoje).
+  const checkoutPracen = useRef(false);
+  useEffect(() => {
+    if (checkoutPracen.current || items.length === 0) return;
+    checkoutPracen.current = true;
+    pratiMeta("InitiateCheckout", {
+      content_ids: items.map((s) => s.proizvod.slug),
+      content_type: "product",
+      num_items: items.reduce((z, s) => z + s.kolicina, 0),
+      ...metaVrijednost(totalPrice),
+    });
+  }, [items, totalPrice]);
 
   async function posaljiNarudzbu(podaci: FormaPodaci) {
     setGreska(null);
@@ -80,6 +95,13 @@ export default function CheckoutPage() {
       items.forEach((stavka) => updateQuantity(stavka.proizvod.slug, stavka.dimenzija, 0));
       if (promo) zaboraviSacuvaniKod();
 
+      // Meta Pixel Purchase — vrijednost = proizvodi nakon popusta, bez dostave.
+      pratiMeta("Purchase", {
+        content_ids: payload.stavke.map((s) => s.slug),
+        content_type: "product",
+        num_items: payload.stavke.reduce((z, s) => z + s.kolicina, 0),
+        ...metaVrijednost(totalPrice - popust),
+      });
       setPotvrdjenaNarudzba({ brojNarudzbe: rezultat.brojNarudzbe });
     } catch {
       setGreska(

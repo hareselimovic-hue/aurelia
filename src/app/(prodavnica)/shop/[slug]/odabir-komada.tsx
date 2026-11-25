@@ -12,6 +12,7 @@ import { Minus, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/lib/cart-context";
 import { formatPrice } from "@/lib/format";
+import { metaVrijednost, pratiMeta } from "@/lib/meta-pixel";
 import type { Proizvod } from "@/lib/products";
 
 const MAKS_KOLICINA = 99;
@@ -35,6 +36,14 @@ export function OdabirKomada({ proizvod }: { proizvod: Proizvod }) {
       const k = kolicine[i] ?? 0;
       if (k > 0) addItem(proizvod, i === 0 ? undefined : o.naziv, k);
     });
+    if (ukupnoKomada > 0) {
+      pratiMeta("AddToCart", {
+        content_ids: [proizvod.slug],
+        content_type: "product",
+        content_name: proizvod.naziv,
+        ...metaVrijednost(ukupno),
+      });
+    }
   }
 
   function red(i: number) {

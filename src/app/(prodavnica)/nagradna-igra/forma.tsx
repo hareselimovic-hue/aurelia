@@ -8,6 +8,7 @@ import { useState, type FormEvent } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { pratiMeta } from "@/lib/meta-pixel";
 import type { NagradnaPrijavaOdgovor } from "@/app/api/narudzbe/types";
 
 export function NagradnaForma({
@@ -51,7 +52,10 @@ export function NagradnaForma({
         }),
       });
       const r = (await odgovor.json()) as NagradnaPrijavaOdgovor;
-      if (r.ok) setRezultat({ dobioKod: r.dobioKod });
+      if (r.ok) {
+        pratiMeta("Lead", { content_name: "nagradna-igra" });
+        setRezultat({ dobioKod: r.dobioKod });
+      }
       else setGreska(r.greska);
     } catch {
       setGreska("Slanje nije uspjelo. Pokušajte ponovo.");
