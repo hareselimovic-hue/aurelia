@@ -32,6 +32,8 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Aurelia — posteljina",
   description: "Aurelia — online prodaja posteljine u BiH.",
+  // Meta (Facebook) potvrda domene aurelia.ba za Aurelia business portfolio (25.11.2026).
+  other: { "facebook-domain-verification": "6ol6h8m8m585a1gj3uwg2lhq6p1mn4" },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
