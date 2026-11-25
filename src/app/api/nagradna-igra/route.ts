@@ -4,10 +4,7 @@
 
 import { NextResponse } from "next/server";
 
-import {
-  posaljiObavjestenjeNagradnaIgra,
-  posaljiPotvrduNagradneIgre,
-} from "@/app/api/narudzbe/email";
+import { posaljiPotvrduNagradneIgre } from "@/app/api/narudzbe/email";
 import type { NagradnaPrijavaOdgovor } from "@/app/api/narudzbe/types";
 import {
   INSTAGRAM_URL,
@@ -91,20 +88,15 @@ export async function POST(request: Request) {
   }
 
   // Prijava je upisana bez obzira na mail — neuspjeh slanja se samo logguje (email.ts).
-  const brojPrijava = await prisma.nagradnaPrijava.count({
-    where: { igra: NAGRADNA_IGRA.kljuc },
+  // Vlasniku se namjerno NE šalje mail o prijavi (korisnik, 25.11.2026) — sve se vidi u
+  // /admin/nagradna-igra/. Učesnik i dalje dobija potvrdu s kodom.
+  await posaljiPotvrduNagradneIgre({
+    email,
+    kod,
+    procenat: POPUP_PROCENAT,
+    izvlacenjeTekst: NAGRADNA_IGRA.izvlacenjeTekst,
+    instagramUrl: INSTAGRAM_URL,
   });
-  await Promise.all([
-    posaljiPotvrduNagradneIgre({
-      email,
-      kod,
-      procenat: POPUP_PROCENAT,
-      izvlacenjeTekst: NAGRADNA_IGRA.izvlacenjeTekst,
-      instagramUrl: INSTAGRAM_URL,
-    }),
-    // Obavijest vlasniku (korisnik, 25.11.2026) — odvojena od "Nova prijava za popust" iz popupa.
-    posaljiObavjestenjeNagradnaIgra({ email, instagram, kod, brojPrijava }),
-  ]);
 
   return NextResponse.json<NagradnaPrijavaOdgovor>({
     ok: true,

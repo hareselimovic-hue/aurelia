@@ -607,37 +607,6 @@ Vrijeme: ${new Date().toISOString()}`,
   }
 }
 
-/** Obavijest vlasniku o novoj prijavi u nagradnu igru (korisnik, 25.11.2026). */
-export async function posaljiObavjestenjeNagradnaIgra(opts: {
-  email: string;
-  instagram: string;
-  kod: string | null;
-  brojPrijava: number;
-}): Promise<void> {
-  const resend = getResendKlijent();
-  if (!resend) return;
-
-  const { error } = await resend.emails.send({
-    from: OD_ADRESA,
-    to: VLASNIK_EMAIL,
-    replyTo: opts.email,
-    subject: `Nagradna igra: nova prijava #${opts.brojPrijava} — @${opts.instagram}`,
-    text: `Nova prijava u nagradnu igru na aurelia.ba/nagradna-igra/
-
-Email: ${opts.email}
-Instagram: @${opts.instagram} (https://www.instagram.com/${opts.instagram}/)
-Kod za 10%: ${opts.kod ?? "nije dodijeljen (email je već iskoristio popust)"}
-Ukupno prijava: ${opts.brojPrijava}
-Vrijeme: ${new Date().toISOString()}
-
-Sve prijave: https://aurelia.ba/admin/nagradna-igra/`,
-  });
-
-  if (error) {
-    console.error(`Obavijest o prijavi u nagradnu igru (${opts.email}) nije poslana:`, error);
-  }
-}
-
 /**
  * Potvrda prijave u nagradnu igru (/nagradna-igra/, korisnik 21.11.2026) + lični kod za 10% ako ga
  * email još nije iskoristio (`kod` = null → samo potvrda prijave). Vraća false ako slanje nije uspjelo.
