@@ -21,6 +21,7 @@ import {
 } from "@/lib/products";
 import { DodajUKorpu } from "./dodaj-u-korpu";
 import { Galerija } from "./galerija";
+import { InfoKupovina } from "./info-kupovina";
 
 // TODO: prava domena čeka korisnika (CLAUDE_aurelia.md §1 — "DOMENA: ___.ba" još nepopunjeno).
 // "aurelia.ba" je privremeni placeholder, usklađen s email domenom već korištenom u Footeru
@@ -258,6 +259,7 @@ export default async function ProizvodnaStranica({
             {/* 05 + 06 — izbor dimenzije/opcije + Dodaj u korpu */}
             <div className={proizvod.opcije ? "mt-3" : "mt-6"}>
               <DodajUKorpu proizvod={proizvod} />
+              <InfoKupovina naStanju={proizvod.naStanju} />
             </div>
 
             {/* 07 — kratak opis (~50 riječi, opisKratki) */}
