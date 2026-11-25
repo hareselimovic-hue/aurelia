@@ -8,11 +8,11 @@ export const INSTAGRAM_URL = `https://www.instagram.com/${INSTAGRAM_PROFIL}/`;
 export const NAGRADNA_IGRA = {
   kljuc: "decembar-2026",
   // Vrijeme u Sarajevu (CET, +01:00).
-  // Početak pomjeren na 25.11. (korisnik, 25.11.2026), kraj ostaje 1.12.
+  // Početak pomjeren na 25.11., kraj produžen na 4.12. (korisnik, 25.11.2026); izvlačenje dan poslije.
   pocetak: new Date("2026-11-25T00:00:00+01:00"),
-  kraj: new Date("2026-12-01T23:59:59+01:00"),
-  izvlacenjeTekst: "2. decembra 2026.",
-  trajanjeTekst: "od 25. novembra do 1. decembra 2026.",
+  kraj: new Date("2026-12-04T23:59:59+01:00"),
+  izvlacenjeTekst: "5. decembra 2026.",
+  trajanjeTekst: "od 25. novembra do 4. decembra 2026.",
   nagrade: [
     // Nagrade promijenjene na glat setove (korisnik, 23.11.2026).
     {
