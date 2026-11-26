@@ -612,6 +612,8 @@ export async function posaljiMailNakonIsporuke(opts: {
   ime: string;
   linkRecenzije: string;
   linkPreporuke: string;
+  /** Stranica za dijeljenje bez ?na= (vidi linkPodijeli u preporuke-konstante.ts). */
+  linkPodijeli: string;
   procenat: number;
   maksPrijatelja: number;
 }): Promise<boolean> {
@@ -621,9 +623,9 @@ export async function posaljiMailNakonIsporuke(opts: {
     return false;
   }
 
-  const poruka = `Poklanjam ti ${opts.procenat}% popusta na Aurelia posteljinu i peškire od 100% pamuka: ${opts.linkPreporuke}`;
-  const viber = `viber://forward?text=${encodeURIComponent(poruka)}`;
-  const whatsapp = `https://wa.me/?text=${encodeURIComponent(poruka)}`;
+  // Gmail blokira viber:// i prepravlja wa.me — dugmad vode na našu stranicu koja otvara aplikaciju.
+  const viber = `${opts.linkPodijeli}?na=viber`;
+  const whatsapp = `${opts.linkPodijeli}?na=whatsapp`;
 
   const sadrzaj = `
     <h1 style="margin:0 0 8px;font-family:Georgia,'Times New Roman',serif;font-weight:normal;font-size:24px;color:${BOJA.tekst};">
@@ -645,7 +647,10 @@ export async function posaljiMailNakonIsporuke(opts: {
             a vi za svakog ko naruči dobijate <strong style="color:${BOJA.tekst};">svoj kod za ${opts.procenat}%</strong> — do ${opts.maksPrijatelja} prijatelja, svaki kod posebno na mail.
           </p>
           <p style="margin:0;padding:12px 14px;background-color:#FFFFFF;border:1px dashed ${BOJA.bronza};border-radius:6px;font-family:Arial,Helvetica,sans-serif;font-size:14px;color:${BOJA.bronzaTamnija};word-break:break-all;">
-            ${opts.linkPreporuke}
+            <a href="${opts.linkPodijeli}" style="color:${BOJA.bronzaTamnija};text-decoration:none;">${opts.linkPreporuke.replace("https://", "")}</a>
+          </p>
+          <p style="margin:8px 0 0;font-family:Arial,Helvetica,sans-serif;font-size:12px;color:${BOJA.tekstMuted};">
+            Ovaj link je za vaše prijatelje — vama ne daje popust.
           </p>
           <table role="presentation" cellpadding="0" cellspacing="0" style="margin-top:14px;">
             <tr>
@@ -672,7 +677,7 @@ export async function posaljiMailNakonIsporuke(opts: {
   `;
 
   const html = emailShell({
-    pretpregled: `Poklon za vaše prijatelje: ${opts.procenat}% popusta`,
+    pretpregled: "Hvala što ste kupili kod nas — nekoliko riječi od Aurelije",
     naslov: "Nadamo se da ste zadovoljni",
     sadrzaj,
   });
@@ -682,8 +687,9 @@ export async function posaljiMailNakonIsporuke(opts: {
 Hvala što ste kupili kod nas. Kao zahvalu, imamo mali poklon koji možete podijeliti.
 
 Poklonite prijatelju ${opts.procenat}%
-Pošaljite svoj lični link prijateljima — oni dobijaju ${opts.procenat}% na prvu narudžbu, a vi za svakog ko naruči dobijate svoj kod za ${opts.procenat}% (do ${opts.maksPrijatelja} prijatelja):
-${opts.linkPreporuke}
+Pošaljite svoj lični link prijateljima — oni dobijaju ${opts.procenat}% na prvu narudžbu, a vi za svakog ko naruči dobijate svoj kod za ${opts.procenat}% (do ${opts.maksPrijatelja} prijatelja).
+Pošaljite im ovaj link: ${opts.linkPreporuke}
+Ili otvorite stranicu za dijeljenje: ${opts.linkPodijeli}
 
 Ostavite recenziju (30 sekundi):
 ${opts.linkRecenzije}`;
@@ -692,7 +698,7 @@ ${opts.linkRecenzije}`;
     from: OD_ADRESA,
     to: opts.email,
     replyTo: VLASNIK_EMAIL,
-    subject: "Nadamo se da ste zadovoljni — i mali poklon za vaše prijatelje",
+    subject: "Nadamo se da ste zadovoljni narudžbom",
     html,
     text,
   });

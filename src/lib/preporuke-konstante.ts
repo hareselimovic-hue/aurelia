@@ -15,3 +15,8 @@ export const MAIL_NAKON_SLANJA_DANA = 4;
 export function linkPreporuke(kod: string): string {
   return `https://aurelia.ba/?promo=${encodeURIComponent(kod)}`;
 }
+
+/** Stranica za dijeljenje (dugmad iz maila vode ovdje — Gmail blokira viber:// u mailu). */
+export function linkPodijeli(kod: string, na?: "viber" | "whatsapp"): string {
+  return `https://aurelia.ba/podijeli/${encodeURIComponent(kod)}/${na ? `?na=${na}` : ""}`;
+}

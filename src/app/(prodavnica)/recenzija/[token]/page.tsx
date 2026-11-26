@@ -71,6 +71,7 @@ export default async function RecenzijaPage({
         proizvodi={proizvodi}
         predlozenoIme={predlozenoIme(narudzba.imePrezime, narudzba.grad)}
         vecPoslano={vecOcijenjeno.length > 0}
+        kodPreporuke={kodPreporuke}
         linkPreporuke={linkPreporuke(kodPreporuke)}
         procenat={PREPORUKA_PROCENAT}
         maksPrijatelja={PREPORUKA_MAKS_PRIJATELJA}

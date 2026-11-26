@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
+import { MOJ_KOD_KLJUC } from "@/components/preporuka-kutija";
 import { pratiMeta } from "@/lib/meta-pixel";
 import type { PopustPrijavaOdgovor } from "@/app/api/narudzbe/types";
 
@@ -43,7 +44,8 @@ function bezPopupa(pathname: string | null): boolean {
   return Boolean(
     pathname?.startsWith("/checkout") ||
       pathname?.startsWith("/nagradna-igra") ||
-      pathname?.startsWith("/recenzija"),
+      pathname?.startsWith("/recenzija") ||
+      pathname?.startsWith("/podijeli"),
   );
 }
 
@@ -81,6 +83,8 @@ export function PopustPopup() {
   // Kod iz linka u mailu (?promo=AUR-XXXXXX) → zapamti za checkout, popup više ne treba.
   useEffect(() => {
     const kod = new URLSearchParams(window.location.search).get("promo");
+    // Kupac je kliknuo SVOJ link preporuke (zapamćen na /podijeli/ ili /recenzija/) — ne primjenjuj.
+    if (kod && procitaj(MOJ_KOD_KLJUC) === kod.trim().toUpperCase()) return;
     if (kod) {
       upisi(PROMO_STORAGE_KLJUC, kod.trim().toUpperCase());
       upisi(POPUP_STORAGE_KLJUC, "prijavljen");

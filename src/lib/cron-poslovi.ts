@@ -21,6 +21,7 @@ import {
   PREPORUKA_MAKS_PRIJATELJA,
   PREPORUKA_NAGRADA_DANA,
   PREPORUKA_PROCENAT,
+  linkPodijeli,
   linkPreporuke,
 } from "@/lib/preporuke-konstante";
 
@@ -97,6 +98,7 @@ export async function mailoviNakonIsporuke(): Promise<Rezultat> {
       ime: imeZaPrikaz(n.imePrezime),
       linkRecenzije: `https://aurelia.ba/recenzija/${token}/`,
       linkPreporuke: linkPreporuke(kod),
+      linkPodijeli: linkPodijeli(kod),
       procenat: PREPORUKA_PROCENAT,
       maksPrijatelja: PREPORUKA_MAKS_PRIJATELJA,
     });

@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
+import { PreporukaKutija } from "@/components/preporuka-kutija";
 
 type ProizvodZaOcjenu = { slug: string; naziv: string; slika: string | null };
 
@@ -45,68 +46,12 @@ function Zvjezdice({
   );
 }
 
-function PreporukaKutija({
-  link,
-  procenat,
-  maksPrijatelja,
-}: {
-  link: string;
-  procenat: number;
-  maksPrijatelja: number;
-}) {
-  const [kopirano, setKopirano] = useState(false);
-  const poruka = `Poklanjam ti ${procenat}% popusta na Aurelia posteljinu i peškire od 100% pamuka: ${link}`;
-
-  async function kopiraj() {
-    try {
-      await navigator.clipboard.writeText(link);
-      setKopirano(true);
-      setTimeout(() => setKopirano(false), 2000);
-    } catch {
-      // clipboard nedostupan — link je vidljiv i može se označiti ručno
-    }
-  }
-
-  return (
-    <div className="mt-8 rounded-2xl border border-border bg-card p-6">
-      <h2 className="font-heading text-xl font-normal text-foreground">
-        Poklonite prijatelju {procenat}%
-      </h2>
-      <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-        Pošaljite svoj lični link. Prijatelj dobija {procenat}% na prvu narudžbu, a vi za svakog ko
-        naruči dobijate svoj kod za {procenat}% na mail — do {maksPrijatelja} prijatelja.
-      </p>
-      <div className="mt-4 flex gap-2">
-        <Input readOnly value={link} className="font-mono text-xs" onFocus={(e) => e.target.select()} />
-        <Button type="button" variant="outline" onClick={kopiraj} className="shrink-0">
-          {kopirano ? "Kopirano" : "Kopiraj"}
-        </Button>
-      </div>
-      <div className="mt-3 flex flex-wrap gap-2">
-        <a
-          href={`viber://forward?text=${encodeURIComponent(poruka)}`}
-          className="rounded-lg bg-[#7360F2] px-4 py-2 text-sm font-medium text-white"
-        >
-          Pošalji na Viber
-        </a>
-        <a
-          href={`https://wa.me/?text=${encodeURIComponent(poruka)}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="rounded-lg bg-[#25D366] px-4 py-2 text-sm font-medium text-white"
-        >
-          Pošalji na WhatsApp
-        </a>
-      </div>
-    </div>
-  );
-}
-
 export function RecenzijaForma({
   token,
   proizvodi,
   predlozenoIme,
   vecPoslano,
+  kodPreporuke,
   linkPreporuke,
   procenat,
   maksPrijatelja,
@@ -115,6 +60,7 @@ export function RecenzijaForma({
   proizvodi: ProizvodZaOcjenu[];
   predlozenoIme: string;
   vecPoslano: boolean;
+  kodPreporuke: string;
   linkPreporuke: string;
   procenat: number;
   maksPrijatelja: number;
@@ -166,7 +112,12 @@ export function RecenzijaForma({
   }
 
   const preporuka = (
-    <PreporukaKutija link={linkPreporuke} procenat={procenat} maksPrijatelja={maksPrijatelja} />
+    <PreporukaKutija
+      kod={kodPreporuke}
+      link={linkPreporuke}
+      procenat={procenat}
+      maksPrijatelja={maksPrijatelja}
+    />
   );
 
   if (gotovo) {
