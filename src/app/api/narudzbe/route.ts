@@ -11,6 +11,7 @@ import { prisma } from "@/lib/prisma";
 import { izracunajDostavu } from "@/lib/dostava";
 import { formatPrice } from "@/lib/format";
 import { iskoristiKod, izracunajPopust, provjeriKod } from "@/lib/promo";
+import { provjeriPrijatelja } from "@/lib/preporuke";
 import type {
   NacinPlacanja,
   NarudzbaKupac,
@@ -143,6 +144,7 @@ export async function POST(request: Request) {
   // Jednokratni kod (iz popupa) se troši atomski PRIJE upisa narudžbe — dvije istovremene narudžbe
   // ne mogu iskoristiti isti kod.
   let popust: { kod: string; procenat: number; iznos: number } | null = null;
+  let preporukaKod: string | null = null;
   if (payload.promoKod?.trim()) {
     const provjera = await provjeriKod(payload.promoKod);
     if (!provjera.ok) {
@@ -150,6 +152,22 @@ export async function POST(request: Request) {
         { ok: false, greska: `${provjera.greska} Uklonite ga i pošaljite narudžbu ponovo.` },
         { status: 400 }
       );
+    }
+    // Kod preporuke: samo za NOVE kupce i najviše 3 prijatelja po kupcu (src/lib/preporuke.ts).
+    if (provjera.preporuka) {
+      const prijatelj = await provjeriPrijatelja({
+        kod: provjera.kod,
+        emailPreporucitelja: provjera.preporuka.email,
+        email: payload.kupac.email,
+        telefon: payload.kupac.telefon,
+      });
+      if (!prijatelj.ok) {
+        return NextResponse.json<NarudzbaOdgovor>(
+          { ok: false, greska: `${prijatelj.greska} Uklonite ga i pošaljite narudžbu ponovo.` },
+          { status: 400 }
+        );
+      }
+      preporukaKod = provjera.kod;
     }
     if (provjera.jednokratni && !(await iskoristiKod(provjera.kod, brojNarudzbe))) {
       return NextResponse.json<NarudzbaOdgovor>(
@@ -199,6 +217,17 @@ export async function POST(request: Request) {
       cijenaDostave,
     },
   });
+
+  if (preporukaKod) {
+    // Nagrada kupcu koji je poslao link ide kasnije (dnevni cron, kad je ova narudžba poslana).
+    await prisma.preporukaKoristenje.create({
+      data: {
+        preporukaKod,
+        brojNarudzbe,
+        emailPrijatelja: payload.kupac.email.trim().toLowerCase(),
+      },
+    });
+  }
 
   // Log ostaje kao brz uvid kroz Vercel deploy logove — baza (gore) je stvarni izvor istine.
   console.log(

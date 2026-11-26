@@ -23,7 +23,8 @@ const BROJ_MJESECI_PRIKAZ = 6;
 
 export default async function AdminDashboardPage() {
   const [sveNarudzbe, zalihaRedovi] = await Promise.all([
-    prisma.narudzba.findMany({ orderBy: { createdAt: "desc" } }),
+    // Vraćene narudžbe (26.11.2026) se ne broje u prihod/statistiku.
+    prisma.narudzba.findMany({ where: { status: { not: "vraceno" } }, orderBy: { createdAt: "desc" } }),
     prisma.zaliha.findMany(),
   ]);
 

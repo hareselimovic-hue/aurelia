@@ -585,6 +585,194 @@ Kod važi za jednu narudžbu. Popust se ne odnosi na dostavu. Ovo je jedini pods
   return true;
 }
 
+function esc(t: string): string {
+  return t
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+function dugme(href: string, tekst: string, boja = "#3F5F7A"): string {
+  return `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:20px auto 0;">
+      <tr>
+        <td align="center" style="background-color:${boja};border-radius:8px;">
+          <a href="${href}" style="display:inline-block;padding:14px 28px;font-family:Arial,Helvetica,sans-serif;font-size:14px;font-weight:bold;color:#FFFFFF;text-decoration:none;">${tekst}</a>
+        </td>
+      </tr>
+    </table>`;
+}
+
+/**
+ * Mail nakon isporuke (korisnik, 26.11.2026): recenzija + lični link za prijatelje. Link za prijatelje
+ * NE zavisi od recenzije. Šalje ga dnevni cron (src/lib/cron-poslovi.ts) 4 dana nakon "poslano".
+ */
+export async function posaljiMailNakonIsporuke(opts: {
+  email: string;
+  ime: string;
+  linkRecenzije: string;
+  linkPreporuke: string;
+  procenat: number;
+  maksPrijatelja: number;
+}): Promise<boolean> {
+  const resend = getResendKlijent();
+  if (!resend) {
+    console.error(`RESEND_API_KEY nije postavljen — mail nakon isporuke NIJE poslan na ${opts.email}.`);
+    return false;
+  }
+
+  const poruka = `Poklanjam ti ${opts.procenat}% popusta na Aurelia posteljinu i peškire od 100% pamuka: ${opts.linkPreporuke}`;
+  const viber = `viber://forward?text=${encodeURIComponent(poruka)}`;
+  const whatsapp = `https://wa.me/?text=${encodeURIComponent(poruka)}`;
+
+  const sadrzaj = `
+    <h1 style="margin:0 0 8px;font-family:Georgia,'Times New Roman',serif;font-weight:normal;font-size:24px;color:${BOJA.tekst};">
+      ${esc(opts.ime)}, kako ste zadovoljni?
+    </h1>
+    <p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:1.7;color:${BOJA.tekstMuted};">
+      Nadamo se da vam je narudžba stigla uredno i da uživate u njoj. Vaše mišljenje nam puno znači —
+      a i drugim kupcima pomaže da odaberu. Ocjena traje 30 sekundi.
+    </p>
+    ${dugme(opts.linkRecenzije, "Ostavite recenziju")}
+
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-top:36px;border-collapse:collapse;background-color:${BOJA.kutijaBg};border:1px solid ${BOJA.granica};border-radius:8px;">
+      <tr>
+        <td style="padding:24px 22px;">
+          <p style="margin:0 0 6px;font-family:Georgia,'Times New Roman',serif;font-size:19px;color:${BOJA.tekst};">
+            Poklonite prijatelju ${opts.procenat}%
+          </p>
+          <p style="margin:0 0 16px;font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:1.7;color:${BOJA.tekstMuted};">
+            Pošaljite svoj lični link prijateljima. Oni dobijaju <strong style="color:${BOJA.tekst};">${opts.procenat}% na prvu narudžbu</strong>,
+            a vi za svakog ko naruči dobijate <strong style="color:${BOJA.tekst};">svoj kod za ${opts.procenat}%</strong> — do ${opts.maksPrijatelja} prijatelja, svaki kod posebno na mail.
+          </p>
+          <p style="margin:0;padding:12px 14px;background-color:#FFFFFF;border:1px dashed ${BOJA.bronza};border-radius:6px;font-family:Arial,Helvetica,sans-serif;font-size:14px;color:${BOJA.bronzaTamnija};word-break:break-all;">
+            ${opts.linkPreporuke}
+          </p>
+          <table role="presentation" cellpadding="0" cellspacing="0" style="margin-top:14px;">
+            <tr>
+              <td style="background-color:#7360F2;border-radius:8px;">
+                <a href="${viber}" style="display:inline-block;padding:11px 18px;font-family:Arial,Helvetica,sans-serif;font-size:13px;font-weight:bold;color:#FFFFFF;text-decoration:none;">Pošalji na Viber</a>
+              </td>
+              <td style="width:10px;"></td>
+              <td style="background-color:#25D366;border-radius:8px;">
+                <a href="${whatsapp}" style="display:inline-block;padding:11px 18px;font-family:Arial,Helvetica,sans-serif;font-size:13px;font-weight:bold;color:#FFFFFF;text-decoration:none;">Pošalji na WhatsApp</a>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  `;
+
+  const html = emailShell({
+    pretpregled: `Kako ste zadovoljni narudžbom? + ${opts.procenat}% za vaše prijatelje`,
+    naslov: "Kako ste zadovoljni?",
+    sadrzaj,
+  });
+
+  const text = `${opts.ime}, kako ste zadovoljni?
+
+Nadamo se da vam je narudžba stigla uredno. Ostavite recenziju (30 sekundi):
+${opts.linkRecenzije}
+
+Poklonite prijatelju ${opts.procenat}%
+Pošaljite svoj lični link prijateljima — oni dobijaju ${opts.procenat}% na prvu narudžbu, a vi za svakog ko naruči dobijate svoj kod za ${opts.procenat}% (do ${opts.maksPrijatelja} prijatelja):
+${opts.linkPreporuke}`;
+
+  const { error } = await resend.emails.send({
+    from: OD_ADRESA,
+    to: opts.email,
+    replyTo: VLASNIK_EMAIL,
+    subject: "Kako ste zadovoljni narudžbom? — Aurelia",
+    html,
+    text,
+  });
+
+  if (error) {
+    console.error(`Mail nakon isporuke na ${opts.email} nije poslan:`, error);
+    return false;
+  }
+  return true;
+}
+
+/** Nagrada kupcu kad prijatelj naruči preko njegovog linka — svaki prijatelj = poseban kod i mail. */
+export async function posaljiNagraduPreporuke(opts: {
+  email: string;
+  kod: string;
+  procenat: number;
+  imePrijatelja: string;
+  redniBroj: number;
+  maksPrijatelja: number;
+  vaziDo: Date;
+}): Promise<boolean> {
+  const resend = getResendKlijent();
+  if (!resend) {
+    console.error(`RESEND_API_KEY nije postavljen — nagrada ${opts.kod} NIJE poslana.`);
+    return false;
+  }
+
+  const link = `https://aurelia.ba/shop/?promo=${encodeURIComponent(opts.kod)}`;
+  const datum = opts.vaziDo.toLocaleDateString("bs-BA", {
+    day: "numeric",
+    month: "numeric",
+    year: "numeric",
+    timeZone: "Europe/Sarajevo",
+  });
+  const preostalo = opts.maksPrijatelja - opts.redniBroj;
+
+  const sadrzaj = `
+    <h1 style="margin:0 0 8px;font-family:Georgia,'Times New Roman',serif;font-weight:normal;font-size:24px;color:${BOJA.tekst};">
+      Hvala na preporuci!
+    </h1>
+    <p style="margin:0 0 24px;font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:1.7;color:${BOJA.tekstMuted};">
+      ${esc(opts.imePrijatelja)} je naručio/la preko vašeg linka. Kao zahvalu, evo vašeg koda za
+      <strong style="color:${BOJA.tekst};">${opts.procenat}% popusta</strong> na sljedeću narudžbu.
+    </p>
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;background-color:${BOJA.kutijaBg};border:1px dashed ${BOJA.bronza};border-radius:8px;">
+      <tr>
+        <td align="center" style="padding:22px 16px;font-family:Georgia,'Times New Roman',serif;font-size:28px;letter-spacing:3px;color:${BOJA.bronzaTamnija};">
+          ${opts.kod}
+        </td>
+      </tr>
+    </table>
+    ${dugme(link, "Iskoristite popust")}
+    <p style="margin:28px 0 0;font-family:Arial,Helvetica,sans-serif;font-size:12px;line-height:1.6;color:${BOJA.tekstMuted};">
+      Kod važi do ${datum}, za jednu narudžbu; popust se ne odnosi na dostavu.
+      ${preostalo > 0 ? `Vaš link vrijedi još za ${preostalo} prijatelja — za svakog novi kod.` : "Iskoristili ste sve preporuke — hvala vam!"}
+    </p>
+  `;
+
+  const html = emailShell({
+    pretpregled: `${opts.imePrijatelja} je naručio/la preko vašeg linka — vaš kod za ${opts.procenat}%`,
+    naslov: "Hvala na preporuci!",
+    sadrzaj,
+  });
+
+  const text = `Hvala na preporuci!
+
+${opts.imePrijatelja} je naručio/la preko vašeg linka. Vaš kod za ${opts.procenat}% popusta: ${opts.kod}
+
+Kod se automatski primjenjuje preko ovog linka:
+${link}
+
+Važi do ${datum}, za jednu narudžbu. Popust se ne odnosi na dostavu.`;
+
+  const { error } = await resend.emails.send({
+    from: OD_ADRESA,
+    to: opts.email,
+    replyTo: VLASNIK_EMAIL,
+    subject: `Vaš prijatelj je naručio — evo ${opts.procenat}% za vas`,
+    html,
+    text,
+  });
+
+  if (error) {
+    console.error(`Nagrada ${opts.kod} na ${opts.email} nije poslana:`, error);
+    return false;
+  }
+  return true;
+}
+
 /** Obavještenje vlasniku o novoj prijavi iz popupa ("mail koji nama dođe"). */
 export async function posaljiObavjestenjePrijava(opts: { email: string; kod: string }): Promise<void> {
   const resend = getResendKlijent();

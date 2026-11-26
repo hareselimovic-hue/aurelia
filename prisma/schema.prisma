@@ -33,6 +33,12 @@ model Narudzba {
   status        String    @default("nova")
   createdAt     DateTime  @default(now())
   poslanoAt     DateTime?
+  // "vraceno" status (paket odbijen/vraćen, korisnik 26.11.2026) — bez maila nakon isporuke i bez
+  // nagrade za preporuku.
+  vracenoAt     DateTime?
+  // Mail nakon isporuke (recenzija + link za prijatelje) — šalje dnevni cron 4 dana nakon "poslano".
+  recenzijaToken  String?   @unique
+  recenzijaMailAt DateTime?
 
   @@index([createdAt])
 }
@@ -57,6 +63,9 @@ model PromoKod {
   brojNarudzbe  String?
   // Podsjetnik 2 dana nakon dodjele ako kod nije iskorišten (24.11.2026) — šalje se samo jednom.
   podsjetnikPoslanAt DateTime?
+  // "popup" (popup/nagradna igra, jedan po emailu) | "preporuka" (nagrada kupcu kad prijatelj naruči).
+  vrsta         String    @default("popup")
+  vaziDo        DateTime?
 
   @@index([email])
 }
@@ -82,4 +91,45 @@ model Zaliha {
   slug          String   @id
   kolicina      Int      @default(0)
   azuriranoAt   DateTime @updatedAt
+}
+
+// Program preporuka (korisnik, 26.11.2026): svaki kupac dobija lični kod (link aurelia.ba/?promo=KOD).
+// Prijatelj (NOVI kupac) dobija 10% na prvu narudžbu; kupac za svakog prijatelja koji naruči (do 3)
+// dobija zaseban jednokratni kod za 10% (PromoKod vrsta "preporuka", 60 dana) i zaseban mail.
+model Preporuka {
+  kod       String   @id
+  email     String   @unique
+  ime       String
+  createdAt DateTime @default(now())
+}
+
+model PreporukaKoristenje {
+  id               String    @id @default(cuid())
+  preporukaKod     String
+  brojNarudzbe     String    @unique
+  emailPrijatelja  String
+  createdAt        DateTime  @default(now())
+  // Prijateljeva narudžba vraćena/odbijena → nema nagrade, mjesto se oslobađa.
+  ponistenoAt      DateTime?
+  nagradaKod       String?
+  nagradaPoslanaAt DateTime?
+
+  @@index([preporukaKod])
+}
+
+// Recenzije (korisnik, 26.11.2026): samo kupci preko linka iz maila nakon isporuke, jedna po
+// proizvodu u narudžbi. Prikazuju se na stranici proizvoda tek kad ih vlasnik odobri u adminu.
+model Recenzija {
+  id           String   @id @default(cuid())
+  brojNarudzbe String
+  slug         String
+  ocjena       Int
+  komentar     String?
+  ime          String
+  // "ceka" | "odobreno" | "odbijeno"
+  status       String   @default("ceka")
+  createdAt    DateTime @default(now())
+
+  @@unique([brojNarudzbe, slug])
+  @@index([slug, status])
 }

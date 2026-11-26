@@ -12,7 +12,7 @@ import { Label } from "@/components/ui/label";
 import { PROMO_STORAGE_KLJUC, PopustLink } from "@/components/popust-popup";
 import type { PromoOdgovor } from "@/app/api/narudzbe/types";
 
-export type PrimijenjenPromo = { kod: string; procenat: number };
+export type PrimijenjenPromo = { kod: string; procenat: number; opis?: string };
 
 export function zaboraviSacuvaniKod() {
   try {
@@ -55,7 +55,8 @@ export function PromoKod({
     provjeri(sacuvan)
       .then((rezultat) => {
         if (otkazano) return;
-        if (rezultat.ok) onChange({ kod: rezultat.kod, procenat: rezultat.procenat });
+        if (rezultat.ok)
+          onChange({ kod: rezultat.kod, procenat: rezultat.procenat, opis: rezultat.opis });
         else zaboraviSacuvaniKod();
       })
       .catch(() => {});
@@ -76,7 +77,7 @@ export function PromoKod({
     try {
       const rezultat = await provjeri(unos);
       if (rezultat.ok) {
-        onChange({ kod: rezultat.kod, procenat: rezultat.procenat });
+        onChange({ kod: rezultat.kod, procenat: rezultat.procenat, opis: rezultat.opis });
         setUnos("");
       } else {
         setGreska(rezultat.greska);
@@ -93,6 +94,9 @@ export function PromoKod({
       <div className="flex items-center justify-between gap-3 rounded-lg bg-secondary px-3 py-2 text-sm">
         <span className="text-secondary-foreground">
           Kod <strong className="font-medium">{primijenjen.kod}</strong> (−{primijenjen.procenat}%)
+          {primijenjen.opis && (
+            <span className="block text-xs text-muted-foreground">{primijenjen.opis}</span>
+          )}
         </span>
         <button
           type="button"

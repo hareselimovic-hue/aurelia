@@ -16,6 +16,7 @@ const TABOVI = [
     naziv: "Nagradna igra",
     href: "/admin/nagradna-igra/",
   },
+  { kljuc: "recenzije", naziv: "Recenzije", href: "/admin/recenzije/" },
 ] as const;
 
 export function AdminNav({

@@ -8,7 +8,7 @@ import { formatPrice } from "@/lib/format";
 import { prisma } from "@/lib/prisma";
 
 import { AdminNav } from "../admin-nav";
-import { oznaciPoslano } from "./actions";
+import { oznaciPoslano, oznaciVraceno } from "./actions";
 import { OdjaviSeDugme } from "./odjavi-se-dugme";
 
 export const dynamic = "force-dynamic";
@@ -23,6 +23,7 @@ const STATUS_FILTERI = [
   { vrijednost: "sve", naziv: "Sve" },
   { vrijednost: "nova", naziv: "Nova" },
   { vrijednost: "poslano", naziv: "Poslano" },
+  { vrijednost: "vraceno", naziv: "Vraćeno" },
 ] as const;
 
 const NACIN_FILTERI = [
@@ -48,7 +49,9 @@ type AdminNarudzbePageProps = {
 
 export default async function AdminNarudzbePage({ searchParams }: AdminNarudzbePageProps) {
   const params = await searchParams;
-  const status = params.status === "nova" || params.status === "poslano" ? params.status : "sve";
+  const status = params.status === "nova" || params.status === "poslano" || params.status === "vraceno"
+      ? params.status
+      : "sve";
   const placanje = NACIN_FILTERI.some((f) => f.vrijednost === params.placanje)
     ? (params.placanje as string)
     : "sve";
@@ -188,6 +191,8 @@ export default async function AdminNarudzbePage({ searchParams }: AdminNarudzbeP
                     </span>
                     {n.status === "poslano" ? (
                       <Badge variant="secondary">Poslano</Badge>
+                    ) : n.status === "vraceno" ? (
+                      <Badge variant="outline">Vraćeno</Badge>
                     ) : (
                       <Badge>Nova</Badge>
                     )}
@@ -208,11 +213,19 @@ export default async function AdminNarudzbePage({ searchParams }: AdminNarudzbeP
                       {formatPrice(Number(n.ukupnaCijena))}
                     </span>
                   </div>
-                  {n.status !== "poslano" && (
+                  {n.status === "nova" && (
                     <form action={oznaciPoslano} className="mt-3">
                       <input type="hidden" name="id" value={n.id} />
                       <Button type="submit" variant="outline" size="sm" className="w-full">
                         Označi poslano
+                      </Button>
+                    </form>
+                  )}
+                  {n.status === "poslano" && (
+                    <form action={oznaciVraceno} className="mt-3">
+                      <input type="hidden" name="id" value={n.id} />
+                      <Button type="submit" variant="ghost" size="sm" className="w-full text-muted-foreground">
+                        Paket vraćen / odbijen
                       </Button>
                     </form>
                   )}
@@ -261,16 +274,26 @@ export default async function AdminNarudzbePage({ searchParams }: AdminNarudzbeP
                       <td className="px-4 py-3">
                         {n.status === "poslano" ? (
                           <Badge variant="secondary">Poslano</Badge>
+                        ) : n.status === "vraceno" ? (
+                          <Badge variant="outline">Vraćeno</Badge>
                         ) : (
                           <Badge>Nova</Badge>
                         )}
                       </td>
                       <td className="px-4 py-3 text-right">
-                        {n.status !== "poslano" && (
+                        {n.status === "nova" && (
                           <form action={oznaciPoslano}>
                             <input type="hidden" name="id" value={n.id} />
                             <Button type="submit" variant="outline" size="sm">
                               Označi poslano
+                            </Button>
+                          </form>
+                        )}
+                        {n.status === "poslano" && (
+                          <form action={oznaciVraceno}>
+                            <input type="hidden" name="id" value={n.id} />
+                            <Button type="submit" variant="ghost" size="sm" className="text-muted-foreground">
+                              Vraćeno
                             </Button>
                           </form>
                         )}

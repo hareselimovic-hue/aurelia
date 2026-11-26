@@ -1,5 +1,5 @@
 {
   "crons": [
-    { "path": "/api/cron/podsjetnik-kod/", "schedule": "0 9 * * *" }
+    { "path": "/api/cron/dnevno/", "schedule": "0 9 * * *" }
   ]
 }

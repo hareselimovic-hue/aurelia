@@ -37,7 +37,7 @@ export type NarudzbaPayload = {
 };
 
 export type PromoOdgovor =
-  | { ok: true; kod: string; procenat: number }
+  | { ok: true; kod: string; procenat: number; opis?: string }
   | { ok: false; greska: string };
 
 export type PopustPrijavaOdgovor = { ok: true } | { ok: false; greska: string };

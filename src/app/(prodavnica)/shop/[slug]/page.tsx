@@ -23,11 +23,16 @@ import {
 import { DodajUKorpu } from "./dodaj-u-korpu";
 import { Galerija } from "./galerija";
 import { InfoKupovina } from "./info-kupovina";
+import { Recenzije, prosjekOcjena, ucitajRecenzije } from "./recenzije";
 
 // TODO: prava domena čeka korisnika (CLAUDE_aurelia.md §1 — "DOMENA: ___.ba" još nepopunjeno).
 // "aurelia.ba" je privremeni placeholder, usklađen s email domenom već korištenom u Footeru
 // (info@aurelia.ba) — zamijeniti na jednom mjestu kad korisnik potvrdi finalnu domenu.
 const SITE_URL = "https://aurelia.ba";
+
+// Recenzije iz baze (26.11.2026): stranica ostaje statična, osvježava se najkasnije svakih 10 min,
+// a odmah kad vlasnik odobri recenziju (revalidatePath u /admin/recenzije/).
+export const revalidate = 600;
 
 export function generateStaticParams() {
   return getAllProducts().map((proizvod) => ({ slug: proizvod.slug }));
@@ -100,12 +105,35 @@ export default async function ProizvodnaStranica({
     (s) => !/materijal|dimenzij|pranj/i.test(s.kljuc)
   );
 
+  const recenzije = await ucitajRecenzije(proizvod.slug);
+  // AggregateRating SAMO uz stvarne, odobrene recenzije kupaca (CLAUDE_aurelia.md §9).
+  const ocjenaSchema =
+    recenzije.length > 0
+      ? {
+          aggregateRating: {
+            "@type": "AggregateRating",
+            ratingValue: prosjekOcjena(recenzije),
+            reviewCount: recenzije.length,
+            bestRating: 5,
+            worstRating: 1,
+          },
+          review: recenzije.slice(0, 10).map((r) => ({
+            "@type": "Review",
+            author: { "@type": "Person", name: r.ime },
+            datePublished: r.createdAt.toISOString().slice(0, 10),
+            reviewRating: { "@type": "Rating", ratingValue: r.ocjena, bestRating: 5, worstRating: 1 },
+            ...(r.komentar ? { reviewBody: r.komentar } : {}),
+          })),
+        }
+      : {};
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
       {
         "@type": "Product",
         name: proizvod.naziv,
+        ...ocjenaSchema,
         sku: proizvod.slug,
         // Nema stvarnog GTIN-a (nisu brendirani, bar-kodirani proizvodi) — brand + sku je
         // Google-u validna kombinacija globalnog identifikatora umjesto GTIN-a (GSC poteškoća
@@ -189,7 +217,6 @@ export default async function ProizvodnaStranica({
           { "@type": "ListItem", position: 3, name: proizvod.naziv, item: canonical },
         ],
       },
-      // Namjerno BEZ AggregateRating — nema stvarnih recenzija (CLAUDE_aurelia.md §9).
     ],
   };
 
@@ -384,10 +411,10 @@ export default async function ProizvodnaStranica({
           </div>
         </div>
 
-        {/* 11 — recenzije (prazna komponenta, bez lažnih recenzija / AggregateRating) */}
-        <div className="mt-16">
+        {/* 11 — recenzije (samo odobrene recenzije stvarnih kupaca, ./recenzije.tsx) */}
+        <div className="mt-16" id="recenzije">
           <h2 className="font-heading text-2xl font-normal text-foreground">Recenzije</h2>
-          <p className="mt-3 text-sm text-muted-foreground">Uskoro prve recenzije.</p>
+          <Recenzije recenzije={recenzije} />
         </div>
 
         {/* 12 — slični proizvodi (4, ista kategorija) */}

@@ -41,7 +41,9 @@ const PRIJAVLJEN_DOGADJAJ = "aurelia:popust-prijavljen";
 // Checkout ima svoje polje za kod, a nagradna igra već daje isti kod — popup/natpis bi smetali.
 function bezPopupa(pathname: string | null): boolean {
   return Boolean(
-    pathname?.startsWith("/checkout") || pathname?.startsWith("/nagradna-igra"),
+    pathname?.startsWith("/checkout") ||
+      pathname?.startsWith("/nagradna-igra") ||
+      pathname?.startsWith("/recenzija"),
   );
 }
 

@@ -1,13 +1,17 @@
 // Promo kodovi (korisnik, 19.11.2026). Popust se računa SAMO na proizvode, ne na dostavu.
 // Dvije vrste kodova:
 //  1. OPSTI_KODOVI ispod — ručno upisani, važe neograničeno puta (npr. za Instagram objavu).
-//  2. Jednokratni kodovi iz popupa (tabela PromoKod) — jedan po emailu, važi jednom.
+//  2. Jednokratni kodovi (tabela PromoKod) — iz popupa/nagradne igre (jedan po emailu) i nagrade
+//     za preporuku (vrsta "preporuka", rok 60 dana). Važe jednom.
+//  3. Kodovi preporuke (tabela Preporuka, src/lib/preporuke.ts) — lični kod kupca, 10% za prijatelja
+//     na PRVU narudžbu; uslov "novi kupac" se provjerava tek u /api/narudzbe (tamo su email/telefon).
 // Samo za server (uvoze ga /api/promo, /api/narudzbe, /api/popust-prijava) — ne uvoziti u
 // "use client" komponente, inače opšti kodovi završe u javnom JS bundle-u.
 
 import { randomInt } from "node:crypto";
 
 import { prisma } from "@/lib/prisma";
+import { PREPORUKA_PROCENAT } from "@/lib/preporuke-konstante";
 
 // Novi opšti kod = nova linija (ključ VELIKIM slovima, vrijednost = procenat). Brisanje linije gasi kod.
 const OPSTI_KODOVI: Record<string, number> = {
@@ -21,7 +25,14 @@ export function normalizujKod(kod: string): string {
 }
 
 export type ProvjeraKoda =
-  | { ok: true; kod: string; procenat: number; jednokratni: boolean }
+  | {
+      ok: true;
+      kod: string;
+      procenat: number;
+      jednokratni: boolean;
+      /** Postavljeno samo za kod preporuke — email i ime kupca koji je poslao link. */
+      preporuka?: { email: string; ime: string };
+    }
   | { ok: false; greska: string };
 
 /** Provjera koda (bez trošenja). Velika/mala slova nisu bitna. */
@@ -34,10 +45,26 @@ export async function provjeriKod(unos: string): Promise<ProvjeraKoda> {
     return { ok: true, kod, procenat: opsti, jednokratni: false };
 
   const zapis = await prisma.promoKod.findUnique({ where: { kod } });
-  if (!zapis) return { ok: false, greska: "Promo kod nije važeći." };
-  if (zapis.iskoristenAt)
-    return { ok: false, greska: "Ovaj promo kod je već iskorišten." };
-  return { ok: true, kod, procenat: zapis.procenat, jednokratni: true };
+  if (zapis) {
+    if (zapis.iskoristenAt)
+      return { ok: false, greska: "Ovaj promo kod je već iskorišten." };
+    if (zapis.vaziDo && zapis.vaziDo < new Date())
+      return { ok: false, greska: "Ovaj promo kod je istekao." };
+    return { ok: true, kod, procenat: zapis.procenat, jednokratni: true };
+  }
+
+  const preporuka = await prisma.preporuka.findUnique({ where: { kod } });
+  if (preporuka) {
+    return {
+      ok: true,
+      kod,
+      procenat: PREPORUKA_PROCENAT,
+      jednokratni: false,
+      preporuka: { email: preporuka.email, ime: preporuka.ime },
+    };
+  }
+
+  return { ok: false, greska: "Promo kod nije važeći." };
 }
 
 /**
@@ -74,7 +101,8 @@ export type DodjelaKoda =
  * neiskorišteni kod; ako je email već iskoristio kod, novi se ne daje.
  */
 export async function dodijeliKodZaEmail(email: string): Promise<DodjelaKoda> {
-  const postojeci = await prisma.promoKod.findMany({ where: { email } });
+  // Samo popup/nagradna kodovi — nagrade za preporuku ne utiču na popup popust.
+  const postojeci = await prisma.promoKod.findMany({ where: { email, vrsta: "popup" } });
   if (postojeci.some((k) => k.iskoristenAt)) return { status: "iskoristen" };
   if (postojeci[0]) return { status: "postojeci", kod: postojeci[0].kod };
 

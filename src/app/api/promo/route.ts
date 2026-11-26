@@ -23,5 +23,8 @@ export async function POST(request: Request) {
     ok: true,
     kod: rezultat.kod,
     procenat: rezultat.procenat,
+    opis: rezultat.preporuka
+      ? `Poklon od: ${rezultat.preporuka.ime} — važi za prvu narudžbu`
+      : undefined,
   });
 }

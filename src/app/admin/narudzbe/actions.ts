@@ -57,3 +57,27 @@ export async function oznaciPoslano(formData: FormData) {
   revalidatePath("/admin/narudzbe");
   revalidatePath("/admin/zaliha");
 }
+
+// "Vraćeno" (korisnik, 26.11.2026): paket odbijen/vraćen → narudžba ne dobija mail nakon isporuke,
+// a ako je naručena preko preporuke, kupac koji je poslao link ne dobija nagradu (mjesto se
+// oslobađa). Zaliha se NE vraća automatski — ručno u /admin/zaliha/ ako je roba vraćena na stanje.
+export async function oznaciVraceno(formData: FormData) {
+  const id = formData.get("id");
+  if (typeof id !== "string" || !id) return;
+
+  const narudzba = await prisma.narudzba.findUnique({ where: { id } });
+  if (!narudzba || narudzba.status === "vraceno") return;
+
+  await prisma.$transaction([
+    prisma.narudzba.update({
+      where: { id },
+      data: { status: "vraceno", vracenoAt: new Date() },
+    }),
+    prisma.preporukaKoristenje.updateMany({
+      where: { brojNarudzbe: narudzba.brojNarudzbe, nagradaKod: null, ponistenoAt: null },
+      data: { ponistenoAt: new Date() },
+    }),
+  ]);
+
+  revalidatePath("/admin/narudzbe");
+}
