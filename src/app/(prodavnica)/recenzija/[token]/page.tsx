@@ -59,9 +59,10 @@ export default async function RecenzijaPage({
   return (
     <div className="mx-auto max-w-2xl px-4 py-12 sm:px-6 md:py-20">
       <p className="text-eyebrow text-primary">Narudžba {narudzba.brojNarudzbe}</p>
-      <h1 className="mt-3">Kako ste zadovoljni?</h1>
+      <h1 className="mt-3">Nadamo se da ste zadovoljni</h1>
       <p className="mt-4 text-muted-foreground">
-        Ocijenite ono što ste kupili — vaša recenzija pomaže drugim kupcima da odaberu. Prikazuje se
+        Ocijenite svaki proizvod koji ste kupili — recenzija ide na stranicu tog proizvoda i pomaže
+        drugim kupcima da odaberu. Prikazuje se
         na stranici proizvoda uz oznaku &bdquo;Provjerena kupovina&rdquo;.
       </p>
 

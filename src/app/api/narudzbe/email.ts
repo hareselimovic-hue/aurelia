@@ -627,15 +627,14 @@ export async function posaljiMailNakonIsporuke(opts: {
 
   const sadrzaj = `
     <h1 style="margin:0 0 8px;font-family:Georgia,'Times New Roman',serif;font-weight:normal;font-size:24px;color:${BOJA.tekst};">
-      ${esc(opts.ime)}, kako ste zadovoljni?
+      ${esc(opts.ime)}, nadamo se da ste zadovoljni
     </h1>
-    <p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:1.7;color:${BOJA.tekstMuted};">
-      Nadamo se da vam je narudžba stigla uredno i da uživate u njoj. Vaše mišljenje nam puno znači —
-      a i drugim kupcima pomaže da odaberu. Ocjena traje 30 sekundi.
+    <p style="margin:0 0 24px;font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:1.7;color:${BOJA.tekstMuted};">
+      Hvala što ste kupili kod nas — nadamo se da vam je narudžba stigla uredno i da uživate u njoj.
+      Kao zahvalu, imamo mali poklon koji možete podijeliti.
     </p>
-    ${dugme(opts.linkRecenzije, "Ostavite recenziju")}
 
-    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-top:36px;border-collapse:collapse;background-color:${BOJA.kutijaBg};border:1px solid ${BOJA.granica};border-radius:8px;">
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;background-color:${BOJA.kutijaBg};border:1px solid ${BOJA.granica};border-radius:8px;">
       <tr>
         <td style="padding:24px 22px;">
           <p style="margin:0 0 6px;font-family:Georgia,'Times New Roman',serif;font-size:19px;color:${BOJA.tekst};">
@@ -662,28 +661,38 @@ export async function posaljiMailNakonIsporuke(opts: {
         </td>
       </tr>
     </table>
+
+    <p style="margin:36px 0 0;font-family:Georgia,'Times New Roman',serif;font-size:19px;color:${BOJA.tekst};text-align:center;">
+      Ostavite recenziju
+    </p>
+    <p style="margin:6px 0 0;font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:1.7;color:${BOJA.tekstMuted};text-align:center;">
+      Vaše mišljenje nam puno znači, a drugim kupcima pomaže da odaberu. Traje 30 sekundi.
+    </p>
+    ${dugme(opts.linkRecenzije, "Ocijenite kupovinu")}
   `;
 
   const html = emailShell({
-    pretpregled: `Kako ste zadovoljni narudžbom? + ${opts.procenat}% za vaše prijatelje`,
-    naslov: "Kako ste zadovoljni?",
+    pretpregled: `Poklon za vaše prijatelje: ${opts.procenat}% popusta`,
+    naslov: "Nadamo se da ste zadovoljni",
     sadrzaj,
   });
 
-  const text = `${opts.ime}, kako ste zadovoljni?
+  const text = `${opts.ime}, nadamo se da ste zadovoljni
 
-Nadamo se da vam je narudžba stigla uredno. Ostavite recenziju (30 sekundi):
-${opts.linkRecenzije}
+Hvala što ste kupili kod nas. Kao zahvalu, imamo mali poklon koji možete podijeliti.
 
 Poklonite prijatelju ${opts.procenat}%
 Pošaljite svoj lični link prijateljima — oni dobijaju ${opts.procenat}% na prvu narudžbu, a vi za svakog ko naruči dobijate svoj kod za ${opts.procenat}% (do ${opts.maksPrijatelja} prijatelja):
-${opts.linkPreporuke}`;
+${opts.linkPreporuke}
+
+Ostavite recenziju (30 sekundi):
+${opts.linkRecenzije}`;
 
   const { error } = await resend.emails.send({
     from: OD_ADRESA,
     to: opts.email,
     replyTo: VLASNIK_EMAIL,
-    subject: "Kako ste zadovoljni narudžbom? — Aurelia",
+    subject: "Nadamo se da ste zadovoljni — i mali poklon za vaše prijatelje",
     html,
     text,
   });
