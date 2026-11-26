@@ -122,7 +122,8 @@ export const PROIZVODI: Proizvod[] = [
   {
     slug: "posteljina-od-damasta-uska-linija",
     naziv: "Posteljina od damasta — uska linija (Slifer + 1 jastučnica)",
-    cijena: 34.9,
+    // Cijena (korisnik, 26.11.2026): 34,90 → 39,90 KM (nabavna 18 KM, Word avgust 2026).
+    cijena: 39.9,
     materijal: "pamučni damast",
     dimenzije: ["140x200 cm"],
     boja: BOJA_PRIVREMENA,
@@ -304,11 +305,12 @@ export const PROIZVODI: Proizvod[] = [
     slug: "puni-set-posteljine-single",
     // Set proizvod (korisnik, 23.08.2026): 2× uska linija posteljina + 2× veliki peškir + 2× mali
     // peškir + stopa za noge. Čaršaf na gumu UKLONJEN iz seta (korisnik, 27.08.2026). Cijena = zbir
-    // pojedinačnih cijena (115,66 KM) uz 15% popusta = 98,31 KM. `cijenaStara` nosi zbir (postojeći
+    // pojedinačnih cijena (125,66 KM) uz 15% popusta = 106,81 KM. `cijenaStara` nosi zbir (postojeći
     // mehanizam za precrtanu cijenu, KarticaProizvoda već to renderuje), `bedz` nosi traku "Ušteda 15%".
+    // 26.11.2026: uska linija 34,90 → 39,90 pa set 115,66/98,31 → 125,66/106,81 (korisnik odobrio).
     naziv: "Puni set posteljine — Single krevet",
-    cijena: 98.31,
-    cijenaStara: 115.66,
+    cijena: 106.81,
+    cijenaStara: 125.66,
     bedz: "Ušteda 15%",
     // Zaliha (korisnik, 10.10.2026): set nema vlastiti red u zalihi — kad se pošalje, ovo su
     // stvarne komponente koje se skidaju (src/lib/zaliha.ts).
@@ -329,7 +331,7 @@ export const PROIZVODI: Proizvod[] = [
     opisKratki:
       "Kompletan set za dva Single kreveta po cijeni nižoj 15% od pojedinačne kupovine: 2 posteljine od damasta (Slifer + jastučnica), 2 velika i 2 mala peškira i stopa za noge. Sve što treba za opremanje kreveta i kupatila u jednoj narudžbi.",
     opisDugi:
-      "Ovaj set je sastavljen za sve koji odjednom opremaju dva Single kreveta — bilo da je riječ o gostinjskoj sobi, apartmanu za iznajmljivanje ili jednostavno želji da se ne naručuje deset puta zaredom. Sadrži dvije posteljine od pamučnog damasta (svaka Slifer 140×200 cm + 1 jastučnica), dva velika peškira 140×70 cm, dva mala peškira 85×45 cm i jednu stopu za noge 50×70 cm.\n\nKupljeno pojedinačno, ovih osam komada koštalo bi 115,66 KM — u ovom setu je 98,31 KM, 15% jeftinije. Materijal je isti kao i kod pojedinačnih artikala: pamučni damast za posteljine, 100% pamuk za peškire i stopu, pa nema kompromisa u kvalitetu zarad cijene. Posebno je praktičan za vlasnike apartmana i kratkoročni najam — jedna narudžba pokriva kompletnu smjenu tekstila za dva kreveta i kupatilo, umjesto sastavljanja iz više zasebnih artikala.",
+      "Ovaj set je sastavljen za sve koji odjednom opremaju dva Single kreveta — bilo da je riječ o gostinjskoj sobi, apartmanu za iznajmljivanje ili jednostavno želji da se ne naručuje deset puta zaredom. Sadrži dvije posteljine od pamučnog damasta (svaka Slifer 140×200 cm + 1 jastučnica), dva velika peškira 140×70 cm, dva mala peškira 85×45 cm i jednu stopu za noge 50×70 cm.\n\nKupljeno pojedinačno, ovih osam komada koštalo bi 125,66 KM — u ovom setu je 106,81 KM, 15% jeftinije. Materijal je isti kao i kod pojedinačnih artikala: pamučni damast za posteljine, 100% pamuk za peškire i stopu, pa nema kompromisa u kvalitetu zarad cijene. Posebno je praktičan za vlasnike apartmana i kratkoročni najam — jedna narudžba pokriva kompletnu smjenu tekstila za dva kreveta i kupatilo, umjesto sastavljanja iz više zasebnih artikala.",
     specifikacije: [
       { kljuc: "Materijal", vrijednost: "100% pamučni damast + 100% pamuk (peškiri/stopa)" },
       {
@@ -337,7 +339,7 @@ export const PROIZVODI: Proizvod[] = [
         vrijednost:
           "2× posteljina uska linija (Slifer 140×200 + jastučnica), 2× peškir 140×70, 2× peškir 85×45, stopa za noge 50×70",
       },
-      { kljuc: "Ušteda", vrijednost: "15% u odnosu na pojedinačnu kupovinu (115,66 → 98,31 KM)" },
+      { kljuc: "Ušteda", vrijednost: "15% u odnosu na pojedinačnu kupovinu (125,66 → 106,81 KM)" },
     ],
     slike: generisiSlike(
       "pamučni damast",
