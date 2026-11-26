@@ -45,7 +45,8 @@ function bezPopupa(pathname: string | null): boolean {
     pathname?.startsWith("/checkout") ||
       pathname?.startsWith("/nagradna-igra") ||
       pathname?.startsWith("/recenzija") ||
-      pathname?.startsWith("/podijeli"),
+      pathname?.startsWith("/podijeli") ||
+      pathname?.startsWith("/poklon"),
   );
 }
 

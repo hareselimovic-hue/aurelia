@@ -13,7 +13,7 @@ import { Input } from "@/components/ui/input";
 export const MOJ_KOD_KLJUC = "aurelia-moj-kod-preporuke";
 
 export function porukaZaPrijatelja(link: string, procenat: number): string {
-  return `Poklanjam ti ${procenat}% popusta na Aurelia posteljinu i peškire od 100% pamuka: ${link}`;
+  return `Poklanjam ti ${procenat}% na proizvode iz Aurelia asortimana: ${link}`;
 }
 
 export function PreporukaKutija({

@@ -12,8 +12,9 @@ export const PREPORUKA_CEKANJE_DANA = 7;
 /** Mail nakon isporuke (recenzija + link) ide ovoliko dana nakon "poslano". */
 export const MAIL_NAKON_SLANJA_DANA = 4;
 
+/** Link koji kupac šalje prijatelju — /poklon/KOD/ ima vlastiti naslov za pregled u Viberu/WhatsAppu. */
 export function linkPreporuke(kod: string): string {
-  return `https://aurelia.ba/?promo=${encodeURIComponent(kod)}`;
+  return `https://aurelia.ba/poklon/${encodeURIComponent(kod)}/`;
 }
 
 /** Stranica za dijeljenje (dugmad iz maila vode ovdje — Gmail blokira viber:// u mailu). */
