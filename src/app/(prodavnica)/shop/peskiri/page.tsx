@@ -14,6 +14,15 @@ import { VrstaFilter } from "../filters";
 
 const SITE_URL = "https://aurelia.ba";
 
+const LINK = "font-medium text-primary underline-offset-4 hover:underline";
+
+// Činjenična tabela (pravi <table>, kandidat za featured snippet) — dimenzije iz products.ts.
+const TABELA_PESKIRA = [
+  { artikal: "Peškir 140×70 cm", href: "/shop/peskir-140x70/", dimenzija: "140×70 cm", namjena: "Tijelo, poslije tuširanja ili kupanja" },
+  { artikal: "Peškir 85×45 cm", href: "/shop/peskir-85x45/", dimenzija: "85×45 cm", namjena: "Lice i ruke, uz umivaonik" },
+  { artikal: "Stopa za noge 50×70 cm", href: "/shop/stopa-za-noge/", dimenzija: "50×70 cm", namjena: "Pod ispred kade, tuša ili umivaonika" },
+];
+
 export const metadata: Metadata = {
   title: "Peškiri — 100% pamuk, sve veličine | Aurelia.ba",
   description:
@@ -154,6 +163,100 @@ export default function PeskiriPage() {
                 umivaonika i rješava mokar, hladan pod odmah poslije tuširanja. Svi artikli su od
                 100% pamuka i peru se na isti način kao i ostatak ponude: redovno pranje na
                 umjerenoj temperaturi čuva mekoću i upijenost duže vrijeme.
+              </p>
+            </div>
+            <div className="mt-6 overflow-x-auto rounded-lg border border-border">
+              <table className="w-full border-collapse text-left text-sm">
+                <thead>
+                  <tr className="border-b border-border bg-muted">
+                    <th scope="col" className="p-3 font-medium text-foreground">
+                      Artikal
+                    </th>
+                    <th scope="col" className="p-3 font-medium text-foreground">
+                      Dimenzija
+                    </th>
+                    <th scope="col" className="p-3 font-medium text-foreground">
+                      Namjena
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {TABELA_PESKIRA.map((red) => (
+                    <tr key={red.href} className="border-b border-border last:border-0">
+                      <td className="p-3 font-medium text-foreground">
+                        <Link href={red.href} className={LINK}>
+                          {red.artikal}
+                        </Link>
+                      </td>
+                      <td className="p-3 text-muted-foreground">{red.dimenzija}</td>
+                      <td className="p-3 text-muted-foreground">{red.namjena}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          {/* Prošireni SEO tekst ispod grida (SEO audit 27.11.2026: kategorija ~280 → ~600 riječi). */}
+          <div className="mt-8 rounded-xl bg-card p-6 ring-1 ring-border sm:p-8">
+            <p className="text-eyebrow text-primary">Kvalitet</p>
+            <h2 className="mt-2">Kako prepoznati dobar pamučni peškir</h2>
+            <div className="mt-4 max-w-3xl space-y-4">
+              <p className="text-base leading-relaxed text-foreground">
+                Peškir od 100% pamuka upija vodu, umjesto da je samo razmazuje po koži. Mješavine s
+                poliesterom znaju biti mekše na dodir u radnji, ali vlagu upijaju slabije.
+              </p>
+              <h3>Gustoća tkanja</h3>
+              <p className="text-base leading-relaxed text-foreground">
+                Kod gušće tkanog peškira na istoj površini ima više pamučnih petlji. Takav peškir je
+                teži u ruci, bolje upija i duže zadržava oblik.
+              </p>
+              <h3>Mekši poslije prvih pranja</h3>
+              <p className="text-base leading-relaxed text-foreground">
+                Nov pamučni peškir na početku može upijati nešto slabije, jer vlakno još nosi
+                ostatke iz proizvodnje. Nakon nekoliko pranja peškir postaje mekši i bolje upija.
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-8 rounded-xl bg-card p-6 ring-1 ring-border sm:p-8">
+            <p className="text-eyebrow text-primary">Održavanje</p>
+            <h2 className="mt-2">Pranje i održavanje peškira</h2>
+            <div className="mt-4 max-w-3xl space-y-4">
+              <p className="text-base leading-relaxed text-foreground">
+                Nove peškire operite prije prve upotrebe, odvojeno od tamnog veša. Temperaturu
+                pranja birajte prema deklaraciji na proizvodu i ne pretrpavajte mašinu, jer se
+                peškiri tada slabije isperu i ostaju tvrdi.
+              </p>
+              <p className="text-base leading-relaxed text-foreground">
+                Omekšivač koristite rijetko ili nikako. On ostavlja tanak sloj na vlaknima, pa
+                peškir djeluje mekše, ali upija lošije. Za mekoću je dovoljno peškir dobro istresti
+                prije sušenja. Sušenje na zraku produžava vijek tkanine, a ako koristite mašinu za
+                sušenje, birajte nižu temperaturu.
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-8 rounded-xl bg-card p-6 ring-1 ring-border sm:p-8">
+            <p className="text-eyebrow text-primary">Za izdavanje</p>
+            <h2 className="mt-2">Peškiri za apartmane i izdavanje</h2>
+            <div className="mt-4 max-w-3xl space-y-4">
+              <p className="text-base leading-relaxed text-foreground">
+                Gostu je po pravilu potreban jedan veliki i jedan mali peškir, a u kupatilu jedna
+                stopa za noge. Da smjene gostiju ne bi čekale na pranje, dobro je imati i rezervne
+                komplete: jedan je u upotrebi dok je drugi u pranju.
+              </p>
+              <p className="text-base leading-relaxed text-foreground">
+                Ako opremate apartman od nule, jednostavnije je uzeti{" "}
+                <Link href="/shop/puni-set-posteljine-single/" className={LINK}>
+                  Puni set posteljine — Single krevet
+                </Link>{" "}
+                ili{" "}
+                <Link href="/shop/puni-set-posteljine-bracni/" className={LINK}>
+                  Puni set posteljine — bračni krevet
+                </Link>
+                . Oba seta sadrže po dva velika i dva mala peškira i stopu za noge, uz posteljinu, i
+                15% su jeftiniji od pojedinačne kupovine.
               </p>
             </div>
           </div>
