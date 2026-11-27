@@ -12,7 +12,8 @@ const SITE_URL = "https://aurelia.ba";
 
 // Statičan datum (NE Date.now()/new Date() bez argumenta — build mora biti determinističan).
 // Ažurirati ručno kad se sadržaj sajta značajnije promijeni (novi proizvodi, redizajn).
-const POSLJEDNJA_IZMJENA = new Date("2026-08-23");
+// 27.11.2026: SEO audit — novi meta opisi proizvoda, prošireni tekst na peškirima/čaršafima.
+const POSLJEDNJA_IZMJENA = new Date("2026-11-27");
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticneRute = [
