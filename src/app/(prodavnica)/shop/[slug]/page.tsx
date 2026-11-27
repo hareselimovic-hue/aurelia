@@ -20,6 +20,7 @@ import {
   getProductBySlug,
   getProductsByCategory,
 } from "@/lib/products";
+import { skratiMetaOpis } from "@/lib/meta-opis";
 import { DodajUKorpu } from "./dodaj-u-korpu";
 import { Galerija } from "./galerija";
 import { InfoKupovina } from "./info-kupovina";
@@ -50,9 +51,12 @@ export async function generateMetadata({
 
   // Kad tekst nedostaje (opisKratki je "" / TODO), ne izmišljati marketinški tekst — strukturna
   // fraza sastavljena iz stvarnih atributa (aurelia-frontend.md "Kad tekst nedostaje").
-  const opis =
-    proizvod.opisKratki.trim() ||
-    `${proizvod.naziv} — ${proizvod.materijal}, ${proizvod.dimenzije.join(", ")}. Dostava po cijeloj BiH.`;
+  // metaOpis (ručno, ≤155) ima prednost; inače se opisKratki skraćuje (SEO audit 27.11.2026).
+  const opis = skratiMetaOpis(
+    proizvod.metaOpis?.trim() ||
+      proizvod.opisKratki.trim() ||
+      `${proizvod.naziv} — ${proizvod.materijal}, ${proizvod.dimenzije.join(", ")}. Dostava po cijeloj BiH.`
+  );
   const canonical = `${SITE_URL}/shop/${proizvod.slug}/`;
 
   return {

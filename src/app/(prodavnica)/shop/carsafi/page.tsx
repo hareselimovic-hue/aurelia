@@ -17,7 +17,7 @@ const SITE_URL = "https://aurelia.ba";
 export const metadata: Metadata = {
   title: "Čaršafi — damast glat hotelska izvedba i na gumu | Aurelia.ba",
   description:
-    "Čaršafi od glatkog damasta (TC250) za Single i bračni krevet, 150×240 i 220×240 cm, te čaršaf na gumu. Gusto tkanje, izdržljivo na česta pranja. Dostava po BiH.",
+    "Čaršafi od glatkog damasta TC250 za Single i bračni krevet, 150×240 i 220×240 cm, te čaršaf na gumu. Izdržljivi na česta pranja. Dostava po BiH.",
   alternates: {
     canonical: `${SITE_URL}/shop/carsafi/`,
   },

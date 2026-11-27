@@ -22,6 +22,9 @@ export type Proizvod = {
   dimenzije: string[]; // ["140x200 cm", "160x200 cm", "200x200 cm"]
   boja: string;
   opisKratki: string; // ~50 riječi, ide iznad preloma
+  /** Meta description za Google (SEO audit 27.11.2026): ručno pisan, max 155 znakova. Kad ga
+   *  nema, generateMetadata skraćuje `opisKratki` na cijelu rečenicu/riječ (src/lib/meta-opis.ts). */
+  metaOpis?: string;
   opisDugi: string; // 150-250 riječi, JEDINSTVEN za svaki proizvod
   specifikacije: { kljuc: string; vrijednost: string }[];
   slike: { url: string; alt: string }[]; // min 4, prva je glavna
@@ -167,6 +170,8 @@ export const PROIZVODI: Proizvod[] = [
     boja: BOJA_PRIVREMENA,
     opisKratki:
       "Bračni set posteljine od 100% pamučnog damasta sa suptilnim žakardnim uzorkom. Sadrži Slifer (navlaku za poplun) 200×200 cm i dvije jastučnice 50×70 cm — dovoljno za dvoje. Tkanina ima blagi prirodan sjaj i gustu strukturu koja ne gubi oblik ni nakon čestih pranja.",
+    metaOpis:
+      "Bračna posteljina od 100% pamučnog damasta: Slifer 200×200 i 2 jastučnice 50×70 cm. Ne gubi oblik ni nakon pranja. Dostava po cijeloj BiH.",
     opisDugi:
       "Bračna linija posteljine od damasta pravljena je za parove kojima jedna posteljina treba pokriti cijeli krevet bez kompromisa u veličini. Slifer, odnosno navlaka za poplun, ima dimenzije 200×200 cm — dovoljno platna da se poplun ne izvlači na ivicama ni nakon nemirnije noći. Uz njega dolaze dvije jastučnice od 50×70 cm, po jedna za svaku stranu kreveta, iste teksture i uzorka kao Slifer, pa cijeli set izgleda usklađeno na krevetu, ne kao sastavljen iz dijelova.\n\nMaterijal je 100% pamučni damast — žakardno tkanje kod kojeg se uzorak utkiva direktno u nit, a ne štampa naknadno na površinu, zbog čega se ne gubi ni nakon dugogodišnje upotrebe i čestog pranja. Tkanina ima gustu strukturu i blagi, prirodan sjaj koji je vidljiviji na većoj površini Slifera nego na manjim komadima, pa bračni set posebno dobro pokazuje kvalitet tkanja. Podnosi pranje do 95°C, što ostavlja prostor i za povremenu dezinfekciju posteljine, na primjer poslije bolesti u domaćinstvu.",
     specifikacije: [
@@ -218,6 +223,8 @@ export const PROIZVODI: Proizvod[] = [
     boja: "Bijela",
     opisKratki:
       "Kompletan hotelski set za bračni krevet 160×200 od glatkog bijelog damasta: Slifer 200×200 cm s preklopom, čaršaf 220×240 cm i dvije jastučnice 50×70 cm. Gustoća tkanja TC250, 180 g/m² — ista izvedba koju koriste hoteli.",
+    metaOpis:
+      "Hotelski set za bračni krevet od glatkog bijelog damasta TC250: Slifer 200×200, čaršaf 220×240 i 2 jastučnice. Dostava po BiH, plaćanje pouzećem.",
     opisDugi:
       "Ovo je posteljina u izvedbi koju hoteli biraju za svoje sobe: glatki bijeli damast, bez pruga i uzorka, s mekim, jedva primjetnim sjajem. Glat varijanta izgleda čisto i uredno na svakom krevetu i lako se kombinuje s bilo kojim enterijerom, a bijela boja ostaje svježa i poslije čestog pranja.\n\nSet je kompletan za bračni krevet dimenzija 160×200 cm. Slifer (navlaka za poplun) 200×200 cm ima preklop umjesto dugmadi ili rajsferšlusa, pa se poplun ubacuje brzo i ne izvlači se tokom noći. Čaršaf 220×240 cm ostavlja dovoljno platna da se uvuče ispod dušeka sa svih strana, a dvije jastučnice 50×70 cm su iste tkanine kao ostatak seta.\n\nTkanina ima gustoću TC250 i težinu 180 g/m² — dovoljno je čvrsta za svakodnevnu upotrebu i učestalo pranje, kakvo zahtijevaju apartmani i smještaj za izdavanje, a opet prijatna na dodir. Zato je ovaj set praktičan izbor i za vlasnike apartmana koji žele hotelski izgled kreveta, i za dom u kojem se posteljina često mijenja. Na rubu Slifera je ušivena Aurelia etiketa.",
     specifikacije: [
@@ -269,6 +276,8 @@ export const PROIZVODI: Proizvod[] = [
     boja: "Bijela",
     opisKratki:
       "Kompletan hotelski set za Single krevet 90×200 od glatkog bijelog damasta: Slifer 140×200 cm s preklopom, čaršaf 150×240 cm i jastučnica 50×70 cm. Gustoća tkanja TC250, 180 g/m² — hotelska izvedba za dom i apartmane.",
+    metaOpis:
+      "Hotelski set za Single krevet od glatkog bijelog damasta TC250: Slifer 140×200, čaršaf 150×240 i jastučnica. Dostava po BiH, plaćanje pouzećem.",
     opisDugi:
       "Single set iz hotelske linije glatkog damasta napravljen je za krevete širine 90 cm — dječije i gostinjske sobe, apartmane s odvojenim krevetima ili hostelske i hotelske sobe. Tkanina je bijela, bez pruga i uzorka, s mekim sjajem koji krevetu daje uredan, \"tek namješten\" izgled.\n\nSet sadrži sve što krevet treba. Slifer 140×200 cm je malo širi od samog kreveta, pa poplun ostaje pokriven i kad visi preko ivica, a preklop ga drži unutra bez dugmadi. Čaršaf 150×240 cm je dovoljno dug i širok da se uvuče ispod dušeka, a jastučnica 50×70 cm je od iste tkanine, pa cijeli krevet izgleda usklađeno.\n\nGustoća tkanja TC250 i težina 180 g/m² su standard za smještaj gdje se posteljina mijenja nakon svakog gosta — tkanina podnosi učestalo pranje i ne gubi oblik. Ako opremate sobu s dva odvojena kreveta, dva ovakva seta daju isti hotelski izgled kao bračna varijanta. Na rubu Slifera je ušivena Aurelia etiketa.",
     specifikacije: [
@@ -330,6 +339,8 @@ export const PROIZVODI: Proizvod[] = [
     boja: BOJA_PRIVREMENA,
     opisKratki:
       "Kompletan set za dva Single kreveta po cijeni nižoj 15% od pojedinačne kupovine: 2 posteljine od damasta (Slifer + jastučnica), 2 velika i 2 mala peškira i stopa za noge. Sve što treba za opremanje kreveta i kupatila u jednoj narudžbi.",
+    metaOpis:
+      "Set za dva Single kreveta 15% jeftiniji: 2 posteljine od damasta, 4 pamučna peškira i stopa za noge. Idealno za apartmane. Dostava po cijeloj BiH.",
     opisDugi:
       "Ovaj set je sastavljen za sve koji odjednom opremaju dva Single kreveta — bilo da je riječ o gostinjskoj sobi, apartmanu za iznajmljivanje ili jednostavno želji da se ne naručuje deset puta zaredom. Sadrži dvije posteljine od pamučnog damasta (svaka Slifer 140×200 cm + 1 jastučnica), dva velika peškira 140×70 cm, dva mala peškira 85×45 cm i jednu stopu za noge 50×70 cm.\n\nKupljeno pojedinačno, ovih osam komada koštalo bi 125,66 KM — u ovom setu je 106,81 KM, 15% jeftinije. Materijal je isti kao i kod pojedinačnih artikala: pamučni damast za posteljine, 100% pamuk za peškire i stopu, pa nema kompromisa u kvalitetu zarad cijene. Posebno je praktičan za vlasnike apartmana i kratkoročni najam — jedna narudžba pokriva kompletnu smjenu tekstila za dva kreveta i kupatilo, umjesto sastavljanja iz više zasebnih artikala.",
     specifikacije: [
@@ -384,6 +395,8 @@ export const PROIZVODI: Proizvod[] = [
     boja: BOJA_PRIVREMENA,
     opisKratki:
       "Kompletan set za bračni krevet po cijeni nižoj 15% od pojedinačne kupovine: bračna posteljina od damasta (Slifer + 2 jastučnice), čaršaf na gumu, 2 velika i 2 mala peškira i stopa za noge. Jedna narudžba za cijelu spavaću sobu i kupatilo.",
+    metaOpis:
+      "Set za bračni krevet 15% jeftiniji: posteljina od damasta, čaršaf na gumu, 4 pamučna peškira i stopa za noge. Idealno za apartmane. Dostava po BiH.",
     opisDugi:
       "Set je sastavljen za bračni krevet i kupatilo uz njega, bez potrebe da se svaki komad naručuje posebno. Sadrži bračnu posteljinu od pamučnog damasta (Slifer 200×200 cm + 2 jastučnice 50×70 cm), čaršaf na gumu 220×240 cm koji drži dušek prekriven cijelu noć, dva velika peškira 140×70 cm, dva mala peškira 85×45 cm i jednu stopu za noge 50×70 cm.\n\nPojedinačno, ovih sedam komada koštalo bi 143,76 KM — u setu je 122,20 KM, 15% jeftinije. Isti materijal kao i zasebni artikli: pamučni damast za posteljinu, 100% pamuk za ostatak seta. Ovakav set je posebno koristan vlasnicima apartmana i kratkoročnog najma koji opremaju bračnu spavaću sobu odjednom — pokriva krevet, čaršaf i kupatilski tekstil u jednoj narudžbi, spreman za useljenje ili prvog gosta.",
     specifikacije: [
@@ -417,6 +430,8 @@ export const PROIZVODI: Proizvod[] = [
     boja: BOJA_PRIVREMENA,
     opisKratki:
       "Veći peškir od 100% pamuka, dimenzija 140×70 cm — dovoljno platna da se omota oko tijela poslije tuširanja ili kupanja. Gusto tkanje dobro upija vlagu i brzo se suši, a nakon nekoliko pranja postaje još mekši na dodir.",
+    metaOpis:
+      "Veliki peškir 140×70 cm od 100% pamuka: gusto tkanje, dobro upija i brzo se suši, mekši je sa svakim pranjem. Dostava po BiH, plaćanje pouzećem.",
     opisDugi:
       "Peškir 140×70 cm je veći format iz naše pamučne linije, napravljen za upotrebu poslije tuširanja ili kupanja — dovoljno velik da se njime omota tijelo, ne samo obriše. Tkan je od 100% pamuka gušće strukture, što znači bolju upijenost vlage u odnosu na tanje, jeftinije peškire koji vlagu samo razmazuju po površini.\n\nPamučno vlakno u ovoj gramaturi drži oblik i poslije čestog pranja, pa se peškir ne razvlači niti gubi debljinu kroz vrijeme kao sintetičke ili mješovite tkanine. Jedan peškir ove veličine obično je dovoljan po osobi za tuširanje, dok manji format bolje pokriva pranje lica i ruku tokom dana. Preporučujemo sušenje na zraku radi dužeg vijeka trajanja tkanine, iako podnosi i mašinsko sušenje na nižoj temperaturi.",
     specifikacije: [
@@ -440,6 +455,8 @@ export const PROIZVODI: Proizvod[] = [
     boja: BOJA_PRIVREMENA,
     opisKratki:
       "Manji peškir od 100% pamuka, 85×45 cm, idealan za pranje lica i ruku ili uz umivaonik. Kompaktna veličina znači brže sušenje i lakše svakodnevno pranje. Ista gusta pamučna tkanina kao i veći peškir iz naše ponude, samo u praktičnijem formatu za čestu upotrebu.",
+    metaOpis:
+      "Mali peškir 85×45 cm od 100% pamuka za lice i ruke. Gusto tkanje, dobra upijenost i brzo sušenje. Dostava po cijeloj BiH, plaćanje pouzećem.",
     opisDugi:
       "Peškir 85×45 cm je manji, praktičniji format namijenjen svakodnevnoj upotrebi uz umivaonik — za pranje lica, ruku ili kao dodatak većem peškiru za tijelo. Zbog manje površine suši se brže od velikih peškira, što je važno u kupatilima gdje visi na jednoj vješalici uz još nekoliko komada.\n\nIzrađen je od istog 100% pamuka gušće strukture kao i ostatak naše peškir linije, pa i pored manjih dimenzija zadržava dobru upijenost i mekoću na dodir. Kompaktna veličina ga čini pogodnim i za putovanja ili za držanje u kuhinji, ne samo u kupatilu. Kao i kod ostalih pamučnih artikala u ponudi, boja i tekstura se najbolje čuvaju pranjem na umjerenoj temperaturi, a povremeno pranje na višoj temperaturi koristi za temeljitije čišćenje.",
     specifikacije: [
@@ -464,6 +481,8 @@ export const PROIZVODI: Proizvod[] = [
     boja: BOJA_PRIVREMENA,
     opisKratki:
       "Mekana pamučna stopa za noge, 50×70 cm, za ispred kade, tuš kabine ili umivaonika. Gusto tkanje upija vodu s tabana i brzo se suši, a debljina daje ugodan, mekan oslonac na hladnom podu kupatila.",
+    metaOpis:
+      "Pamučna stopa za noge 50×70 cm za ispred kade ili tuša. Upija vodu, brzo se suši i mekana je pod nogama. Dostava po cijeloj BiH, plaćanje pouzećem.",
     opisDugi:
       "Stopa za noge je praktičan dodatak kupatilu koji rješava mokar i hladan pod odmah poslije tuširanja ili kupanja — postavlja se ispred kade, tuš kabine ili umivaonika. Izrađena je od 100% pamuka, iste porodice materijala kao i peškiri u našoj ponudi, pa upija vlagu umjesto da je razmazuje po podu.\n\nGusto tkanje daje stopi dovoljno debljine da bude ugodna za bosu nogu, a istovremeno se brzo suši između upotreba, što je važno u manjim kupatilima bez dobre ventilacije. Dimenzija 50×70 cm pokriva prostor ispred većine kada i tuš kabina bez da zauzima previše poda. Pere se na isti način kao i ostali pamučni tekstil u ponudi — redovno pranje na umjerenoj temperaturi čuva mekoću i upijenost duže vrijeme.",
     specifikacije: [
@@ -490,6 +509,8 @@ export const PROIZVODI: Proizvod[] = [
     boja: "Bijela",
     opisKratki:
       "Bijeli čaršaf od glatkog damasta u hotelskoj izvedbi, 150×240 cm, za Single krevet 90×200. Ravni kroj bez gume, gustoća tkanja TC250 i 180 g/m² — isti čaršaf koji dolazi u našem Single setu posteljine od damasta glat.",
+    metaOpis:
+      "Bijeli čaršaf 150×240 cm za Single krevet 90×200, od glatkog damasta TC250 u hotelskoj izvedbi. Izdržljiv na česta pranja. Dostava po cijeloj BiH.",
     opisDugi:
       "Čaršaf 150×240 cm je ravni čaršaf od glatkog bijelog damasta, napravljen za Single krevete dimenzija 90×200 cm. Dovoljno je širok i dug da se uvuče ispod dušeka sa svih strana, pa krevet ostaje zategnut i uredan cijelu noć. Tkanina je bez pruga i uzorka, s mekim, jedva primjetnim sjajem — izgled koji hoteli biraju za svoje sobe.\n\nRiječ je o istom čaršafu koji dolazi u našem Single setu posteljine od damasta glat, pa se lako dokupljuje kao rezerva ili za drugi krevet u istoj sobi. Gustoća tkanja TC250 i težina 180 g/m² su standard za smještaj u kojem se posteljina mijenja nakon svakog gosta: tkanina podnosi učestalo pranje, ne gubi oblik i bijela boja ostaje svježa. Zato je praktičan izbor i za vlasnike apartmana i za dom u kojem se posteljina često mijenja.",
     specifikacije: [
@@ -518,6 +539,8 @@ export const PROIZVODI: Proizvod[] = [
     boja: "Bijela",
     opisKratki:
       "Bijeli čaršaf od glatkog damasta u hotelskoj izvedbi, 220×240 cm, za bračni krevet 160×200. Ravni kroj bez gume, gustoća tkanja TC250 i 180 g/m² — isti čaršaf koji dolazi u našem bračnom setu posteljine od damasta glat.",
+    metaOpis:
+      "Bijeli čaršaf 220×240 cm za bračni krevet 160×200, od glatkog damasta TC250 u hotelskoj izvedbi. Izdržljiv na česta pranja. Dostava po cijeloj BiH.",
     opisDugi:
       "Čaršaf 220×240 cm je ravni čaršaf od glatkog bijelog damasta za bračne krevete 160×200 cm. Ostavlja dovoljno platna da se uvuče ispod dušeka sa svih strana, pa se ne izvlači ni nakon nemirnije noći. Tkanina je bez pruga i uzorka, s mekim, jedva primjetnim sjajem, pa krevet izgleda čisto i uredno, kao u hotelskoj sobi.\n\nOvo je isti čaršaf koji dolazi u našem bračnom setu posteljine od damasta glat, pa se lako dokupljuje kao rezerva ili zamjena. Gustoća tkanja TC250 i težina 180 g/m² daju tkaninu dovoljno čvrstu za učestalo pranje, kakvo zahtijevaju apartmani i smještaj za izdavanje, a opet prijatnu na dodir. Ako vam je važnije da se čaršaf uopšte ne pomjera, u ponudi je i čaršaf na gumu za bračni krevet.",
     specifikacije: [
@@ -544,6 +567,8 @@ export const PROIZVODI: Proizvod[] = [
     boja: "Bijela",
     opisKratki:
       "Čaršaf na gumu za bračni krevet, 220×240 cm, od 100% pamuka. Elastični rub oko cijelog oboda drži čaršaf zategnutim preko dušeka cijelu noć, bez pomjeranja i nabora. Praktičniji za svakodnevno namještanje kreveta od ravnog čaršafa.",
+    metaOpis:
+      "Čaršaf na gumu za bračni krevet, 220×240 cm, od 100% pamuka. Elastični rub ga drži zategnutim cijelu noć, bez nabora. Dostava po cijeloj BiH.",
     opisDugi:
       "Čaršaf na gumu za bračni krevet rješava ono što je kod ravnih čaršafa najveća gnjavaža — pomjeranje tokom noći. Elastični rub našiven je oko cijelog oboda čaršafa, oblikovan da obuhvati uglove dušeka i drži platno zategnutim koliko god se okretali u snu.\n\nDimenzija 220×240 cm namijenjena je bračnim dušecima do oko 200 cm širine, a elastika daje dodatnih nekoliko centimetara prostora za deblje dušeke koje ravni čaršaf teže pokrije. Materijal je 100% pamuk, isti kao kod ostalih čaršafa u ponudi, pa nema razlike u udobnosti ili prozračnosti u odnosu na ravnu verziju — razlika je isključivo u kroju i praktičnosti namještanja. Zahvaljujući oblikovanim uglovima, stavljanje i skidanje čaršafa traje kraće nego kod ravnog čaršafa, što ovu varijantu čini praktičnim izborom za domaćinstva koja često mijenjaju posteljinu ili imaju djecu.",
     specifikacije: [
